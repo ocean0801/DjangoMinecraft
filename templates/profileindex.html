@@ -1,4 +1,39 @@
-{% if latest_question_list %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/>
+    <title>プロファイル選択</title>
+    <style>
+        #sidebar {
+        float:right;
+        text-align: left;
+        background-color: gray;
+        color:black;
+        width:30%;
+        height: 90%;
+      }
+      #content {
+        float:left;
+        width:65%;
+      }
+      #header {
+        float:top;
+        text-align: center;
+        height: 10%;
+      }
+      tt {
+        background-color: black;
+        color: white;
+      }
+    </style>
+</head>
+<body>
+<div id="header">
+    <h2>プロファイル選択</h2>
+</div>
+<div id="content">
+    {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
         <li><p><a href="/mine/profile/{{ question.id }}/">{{ question.profile_name }}</a></p>:<p>{{ question.script }}</h3></li>
@@ -7,4 +42,16 @@
 {% else %}
     <p>Profile</p>
 {% endif %}
-{{ debug }}　 
+{{ debug }}
+</div>
+<div id="sidebar">
+    <h2>リンク</h2>
+    <a href="help.html"><p>Help</p></a>
+    <a href="/mine/query"><p>Query</p></a>
+    <a href="/mine/line"><p>URL変換</p></a>
+    <a href="/accounts/login"><p>ログイン</p></a>
+    <a href="/accounts/logout"><p>ログアウト</p></a>
+    <a href="/mine/script"><p>スクリプトの実行</p></a>
+    <a href="/mine/code"><p>コードの設定</p></a>
+</div>
+</body>

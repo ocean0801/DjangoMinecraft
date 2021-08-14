@@ -260,7 +260,7 @@ def profile(request, ids):
     if scripts.rq == "2":
         text = 'Query Full Stats'
         try:
-            with Client_q(scripts.server_ip, int(scripts.query_pordt)) as client:
+            with Client_q(scripts.server_ip, int(scripts.query_port)) as client:
                 full_stats= client.stats(full=True)
                 re = "状態を取得しています"
                 come = "状態の取得に失敗しました"
