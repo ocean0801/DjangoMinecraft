@@ -6,171 +6,20 @@ from mcipc.query import Client as Client_q
 from .models import Script, Code, Config, Profile
 from django.template import loader
 from django.contrib.auth.decorators import login_required
+#from tools import *
+#Toolsの定義
+def logtext(req,text):
+    ipadd = req.META.get('REMOTE_ADDR')
+    return text+"の実行に成功しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
+def logging(text):
+    with open("log.txt","a",encoding="UTF-8") as f:
+        f.write(text+"\n")
+#定義終了
 ip = '127.0.0.1'
 port =  25575
 def index(request):
     return render(request, 'index.html')
 
-#def stop(request):
-#    with Client('127.0.0.1', 25575, passwd='minecraft') as client:
-#        client.stop()
-#    return HttpResponse('Server stopped!')
-'''
-def kill(request, type):
-    with Client('127.0.0.1', 25575, passwd='minecraft') as client:
-        client.kill(type)
-    return HttpResponse('/kill '+type)\\
-    
-
-def kill(request, type):
-    try:
-        with Client(ip, port, passwd='minecraft') as client:
-            re = client.kill(type)
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-    text = '/kill '+type
-    context = {'command': text,'ip':ip,'port':port,'return':re,"comment":come,"error":error,"he":he}
-    return render(request,'temp.html',context)
-
-def give(request, type, item):
-    with Client('127.0.0.1', 25575, passwd='minecraft') as client:
-        client.give(type,item)
-    return HttpResponse('/give '+type+' '+item)
-
-
-def give2(request, type, item, i):
-    with Client('127.0.0.1', 25575, passwd='minecraft') as client:
-        client.give(type,item,i)
-    return HttpResponse('/give '+type+' '+item+' '+i)
-
-def give(request, type, item):
-    try:
-        with Client(ip, port, passwd='minecraft') as client:
-            re = client.give(type,item)
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-    text = '/give '+type+' '+item
-    context = {'command': text,'ip':ip,'port':port,'return':re,"comment":come,"error":error,"he":he}
-    return render(request,'temp.html',context)
-
-def give2(request, type, item, i):
-    try:
-        with Client(ip, port, passwd='minecraft') as client:
-            re = client.give(type,item,i)
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-    text = '/give '+type+' '+item + ' ' +str(i)
-    context = {'command': text,'ip':ip,'port':port,'return':re,"comment":come,"error":error,"he":he}
-    return render(request,'temp.html',context)
-
-#def effect(request, com,type):
-#    with Client('127.0.0.1', 25575, passwd='minecraft') as client:
-#        client.effect.clear(type)
-#    return HttpResponse('/effect '+com+' '+type)
-
-def effect2(request,com,type, ef):
-    with Client('127.0.0.1', 25575, passwd='minecraft') as client:
-        if com == 'give':
-            client.effect.give(type,ef)
-        elif com == 'clear':
-            client.effect.clear(type,ef)
-    return HttpResponse('/effect '+com+' '+type+' '+ef)
-
-
-def effect3(request, com,type, ef,time,power):
-    with Client('127.0.0.1', 25575, passwd='minecraft') as client:
-        client.effect(com,type,ef,i)
-    return HttpResponse('/effect '+com+' '+type+' '+ef+' '+time+' '+power)
-
-def effect2(request,com,type,ef):
-    try:
-        with Client(ip, port, passwd='minecraft') as client:
-            if com == 'give':
-                re = client.effect.give(type,ef)
-            #re = client.effect.clear(type)
-            elif com == 'clear':
-                client.effect.clear(type,ef)
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-    text = '/effect '+com+' '+type+' '+ ef
-    context = {'command': text,'ip':ip,'port':port,'return':re,"comment":come,"error":error,"he":he}
-    return render(request,'temp.html',context)
-
-def effect(request,com,type):
-    try:
-        with Client(ip, port, passwd='minecraft') as client:
-            re = client.effect.clear(type)
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-        log_t = '/effect '+com+' '+type
-        with open('log.log',"a") as log:
-            log.write(log_t+come)
-    text = '/effect '+com+' '+type
-    context = {'command': text,'ip':ip,'port':port,'return':re,"comment":come,"error":error,"he":he}
-    return render(request,'temp.html',context)
-
-def stop(request):
-    try:
-        with Client(ip, port, passwd='minecraft') as client:
-            re = client.stop()
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-    text = '/stop'
-    context = {'command': text,'ip':ip,'port':port,'return':re,"comment":come,"error":error,"he":he}
-    return render(request,'temp.html',context)
-
-def stop(request):
-    try:
-        with Client(ip, port, passwd='minecraft') as client:
-            re = client.stop()
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-    text = '/stop'
-    context = {'command': text,'ip':ip,'port':port,'return':re,"comment":come,"error":error,"he":he}
-    return render(request,'temp.html',context)
-'''
 def cline(request):
     con = {'command':request.POST["com"]}
     print(request.POST)
@@ -240,8 +89,7 @@ def test2(request,type):
         error = str(e)
         he = str(e)
         text2 = text+"の実行に失敗しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
-    with open("log.txt","a",encoding="UTF-8") as f:
-        f.write(text2+"\n")
+    logging(text2)
     context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
                'ru':request.user, 'cu':configs.user}
     return render(request,'config.html',context)
@@ -264,16 +112,15 @@ def test3(request,type,type2):
             come = "を実行しました"
             error = ""
             he = "なし"
-            text2 = text+"の実行に成功しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
+            text2 = logtext(request,text)
     except ConnectionRefusedError as e:
         re = "[Error] Server not found"
         come = "の実行に失敗しました"
         error = str(e)
         he = str(e)
-        text2 = text+"の実行に失敗しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
+        text2 = logtext(request,text)
     
-    with open("log.txt","a",encoding="UTF-8") as f:
-        f.write(text2+"\n")
+    logging(text2)
     context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error,":error,"he":he, \
                'ru':request.user, 'cu':configs.user}
     return render(request,'config.html',context)
@@ -295,15 +142,14 @@ def test4(request,type,type2,type3):
             come = "を実行しました"
             error = ""
             he = "なし"
-            text2 = text+"の実行に成功しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
+            text2 = logtext(request,text)
     except ConnectionRefusedError as e:
         re = "[Error] Server not found"
         come = "の実行に失敗しました"
         error = str(e)
         he = str(e)
-        text2 = text+"の実行に失敗しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
-    with open("log.txt","a",encoding="UTF-8") as f:
-        f.write(text2+"\n")
+        text2 = logtext(request,text)
+    logging(text2)
     context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
                'ru':request.user, 'cu':configs.user}
     return render(request,'config.html',context)
@@ -325,15 +171,14 @@ def test5(request,type,type2,type3,type4):
             come = "を実行しました"
             error = ""
             he = "なし"
-            text2 = text+"の実行に成功しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
+            text2 = logtext(request,text)
     except ConnectionRefusedError as e:
         re = "[Error] Server not found"
         come = "の実行に失敗しました"
         error = str(e)
         he = str(e)
-        text2 = text+"の実行に失敗しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
-    with open("log.txt","a",encoding="UTF-8") as f:
-        f.write(text2+"\n")
+        text2 = logtext(request,text)
+    logging(text2)
     context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
                'ru':request.user, 'cu':configs.user}
     return render(request,'config.html',context)
@@ -355,13 +200,13 @@ def server_op(request,type,type2):
             come = "を実行しました"
             error = ""
             he = "なし"
-            text2 = text+"の実行に成功しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
+            text2 = logtext(request,text)
     except ConnectionRefusedError as e:
         re = "[Error] Server not found"
         come = "の実行に失敗しました"
         error = str(e)
         he = str(e)
-        text2 = text+"の実行に失敗しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
+        text2 = logtext(request,text)
     with open("log.txt","a",encoding="UTF-8") as f:
         f.write(text2+"\n")
     context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
