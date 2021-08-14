@@ -1,0 +1,10 @@
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><p><a href="/mine/profile/{{ question.id }}/">{{ question.profile_name }}</a></p>:<p>{{ question.script }}</h3></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Profile</p>
+{% endif %}
+{{ debug }}　 
