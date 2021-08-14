@@ -43,8 +43,8 @@
  メモリ4Gを割り当てて起動。<br>
  serverフォルダの下にtemplatesフォルダを置いてください。
  ## filetree
- 参考までに。
- .
+ 参考までに。<br>
+ .<br>
 ├── DjangoMinecraft<br>
 │   ├── LICENSE<br>
 │   ├── README.md<br>
