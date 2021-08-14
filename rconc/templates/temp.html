@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <title>Command Log</title>
+    <style>
+      #side {
+        float:right;
+        text-align: left;
+        background-color: gray;
+        color:black;
+        width:30%;
+        height: 90%;
+      }
+      #con {
+        float:left;
+        width:65%;
+      }
+      #head {
+        float:top;
+        text-align: center;
+        height: 10%;
+      }
+    </style>  
+  </head>
+  <body>
+      <div id="head">
+        <h1>test</h1>
+      </div>
+      <div id="side">
+        <h2>リンク</h2>
+        <a href="help.html"><p>Help</p></a>
+        <a href="/mine/query"><p>Query</p></a>
+        <a href="/mine/line"><p>URL変換</p></a>
+    </div>
+      <div id="con">
+      <h2>概要</h2>
+      <p>IP:{{ ip }},Port:{{ port }}のMinecraftサーバーで</p>
+      <p>{{ command }}</p>
+      <p>{{ comment }}</p>
+      <div style="color: red;">
+      <p>{{ error }}</p>
+      </div>
+      <h3>Log:</h3>
+      <div style="background-color: black;color: white;">
+      <tt>>>> {{ command }}</tt><br>
+      <tt>{{ return }}</tt>
+      </div>
+      <h3>結果</h3>
+      <table border="1">
+        <tr bgcolor="gray">
+          <th>名前</th>
+          <th>項目</th>
+        </tr>
+        <tr>
+          <th>IPアドレス</th>
+          <th>{{ ip }}</th>
+        </tr>
+        <tr>
+          <th>ポート番号</th>
+          <th>{{ port }}</th>
+        </tr>
+        <tr>
+          <th>コマンド</th>
+          <th>{{ command }}</th>
+        </tr>
+        <tr>
+          <th>結果</th>
+          <th>{{ return }}</th>
+        </tr>
+        <tr>
+          <th>エラー</th>
+          <th>{{ he }}</th>
+        </tr>
+      </table>
+      </div>
+  </body>
+</html>

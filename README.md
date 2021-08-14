@@ -27,6 +27,68 @@
  ## Toolsフォルダー
  ### port_check.py
  グローバルIPとlocalhostでsocketモジュールで通信してポートをの状況をチェックします。
+ ## ShellScripts
+ ### run.sh
+ サーバーの実行。
+ ### migrun.sh
+ マイグレーションファイルの作成→適用→サーバーの実行。
+ ### mig.sh
+ マイグレーションファイルの作成→適用
+ ### codes.sh
+ codeの常駐ファイルの実行。(codesを使うときは必須。)
+ ### all.sh
+ マイグレーションファイルの作成→適用→サーバーの実行&codeの常駐ファイルの実行。
+ ### serverall.sh
+ マイグレーションファイルの作成→適用→サーバーの実行&codeの常駐ファイルの実行&このサーバーと同じフォルダのserverフォルダにあるserver.jarを
+ メモリ4Gを割り当てて起動。<br>
+ serverフォルダの下にtemplatesフォルダを置いてください。
+ ## filetree
+ 参考までに。
+ .
+├── DjangoMinecraft<br>
+│   ├── LICENSE<br>
+│   ├── README.md<br>
+│   ├── __pycache__<br>
+│   ├── code1.py<br>
+│   ├── code2.py<br>
+│   ├── code2.txt<br>
+│   ├── db.sqlite3<br>
+│   ├── log.txt<br>
+│   ├── manage.py<br>
+│   ├── mysite<br>
+│   ├── rconc<br>
+│   ├── shellscripts<br>
+│   ├── templates<br>
+│   └── tools<br>
+└── server<br>
+    ├── BuildData<br>
+    ├── BuildTools.jar<br>
+    ├── BuildTools.log.txt<br>
+    ├── Bukkit<br>
+    ├── CraftBukkit<br>
+    ├── Spigot<br>
+    ├── apache-maven-3.6.0<br>
+    ├── banned-ips.json<br>
+    ├── banned-players.json<br>
+    ├── bukkit.yml<br>
+    ├── commands.yml<br>
+    ├── eula.txt<br>
+    ├── help.yml<br>
+    ├── log.txt<br>
+    ├── logs<br>
+    ├── ops.json<br>
+    ├── permissions.yml<br>
+    ├── plugins<br>
+    ├── server.jar<br>
+    ├── server.properties<br>
+    ├── spigot.yml<br>
+    ├── templates #⇦これ<br>
+    ├── usercache.json<br>
+    ├── whitelist.json<br>
+    ├── work<br>
+    ├── world<br>
+    ├── world_nether<br>
+    └── world_the_end<br>
 ## 終わりに
  非常にバグが多いです。そして自分のサーバーを動かすためにつくったりしたので、これとMinecraftサーバーを実行するPCを同じにすることを推奨します。
  あと非常に当まわりな実装方法を採用しているため、コードがとても汚いです。

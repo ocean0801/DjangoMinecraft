@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/>
+    <title>Query</title>
+    <style>
+        #sidebar {
+        float:right;
+        text-align: left;
+        background-color: gray;
+        color:black;
+        width:30%;
+        height: 90%;
+      }
+      #content {
+        float:left;
+        width:65%;
+      }
+      #header {
+        float:top;
+        text-align: center;
+        height: 10%;
+      }
+      tt {
+        background-color: black;
+        color: white;
+      }
+    </style>
+</head>
+<body>
+<div id="header">
+    <h2>サーバーの情報取得</h2>
+</div>
+<div id="content">
+    <h2>概要</h2>
+      <p>IP:{{ ip }},Port:{{ port }}のMinecraftサーバーで</p>
+      <p>{{ query }}</p>
+      <div style="color: red;">
+      <p>{{ error }}</p>
+      </div>
+      <div style="background-color: black;color: white;">
+      </div>
+      <h3>結果</h3>
+      <table border="1">
+        <tr bgcolor="gray">
+          <th>名前</th>
+          <th>項目</th>
+        </tr>
+        <tr>
+          <th>IPアドレス</th>
+          <th>{{ ip }}</th>
+        </tr>
+        <tr>
+          <th>ポート番号</th>
+          <th>{{ port }}</th>
+        </tr>
+        <tr>
+          <th>プレイヤー</th>
+          <th>{{ player }}</th>
+        </tr>
+        <tr>
+          <th>セッションID</th>
+          <th>{{ session }}</th>
+        </tr>
+        <tr>
+          <th>説明</th>
+          <th>{{ host }}</th>
+        </tr>
+        <tr>
+          <th>バージョン</th>
+          <th>{{ version }}</th>
+        </tr>
+        <tr>
+          <th>マップ</th>
+          <th>{{ map }}</th>
+        </tr>
+        <tr>
+          <th>シード値</th>
+          <th>{{ seed }}</th>
+        </tr>
+        <tr>
+          <th>プレイヤーの人数</th>
+          <th>{{ num }}</th>
+        </tr>
+        <tr>
+          <th>プレーヤー最大人数</th>
+          <th>{{ num_max }}</th>
+        </tr>
+        <tr>
+          <th>ポート</th>
+          <th>{{ port }}</th>
+        </tr>
+        <tr>
+          <th>ホストのIP</th>
+          <th>{{ ip_host }}</th>
+        </tr>
+        <tr>
+          <th>Error</th>
+          <th style="color: red;">{{ error_t }}</th>
+        </tr>
+      </table>
+</div>
+<div id="sidebar">
+    <h2>リンク</h2>
+    <a href="help.html"><p>Help</p></a>
+    <a href="/mine/query"><p>Query</p></a>
+    <a href="/mine/line"><p>URL変換</p></a>
+    <a href="/accounts/login"><p>ログイン</p></a>
+    <a href="/accounts/logout"><p>ログアウト</p></a>
+    <a href="/mine/script"><p>スクリプトの実行</p></a>
+    <a href="/mine/code"><p>コードの設定</p></a>
+</div>
+</body>

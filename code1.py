@@ -1,6 +1,5 @@
 from mcipc.rcon.je import Client
 import time
-from rconc.models import Code
 function = ""
 ip = "127.0.0.1"
 port = 25575
@@ -12,10 +11,12 @@ while True:
         sleeptime = float(lines[2])
     if lines[0] == "1\n":
         #print("t")
-        function = Code.code
+        function = lines[1]
         funcs_list = function.split("/")
         function = funcs_list[1]
-        
+        func_du = function.split(" ")
+        func_du[-1] = func_du[-1].split("\n")
+        func_du[-1] = func_du[-1][0]
         with Client(ip, port, passwd='minecraft') as client:
             re = client.run(*func_du)
     '''print(funcs_list)
