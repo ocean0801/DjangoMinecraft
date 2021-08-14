@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="utf-8"/>
-    <title>コード選択</title>
+    <title>プロファイル実行</title>
     <style>
         #sidebar {
         float:right;
@@ -30,19 +29,13 @@
 </head>
 <body>
 <div id="header">
-    <h2>コード選択</h2>
+    <h2>プロファイル実行</h2>
 </div>
 <div id="content">
-    {% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="/mine/code/{{ question.id }}/">{{ question.script_name }}</a>:<p>{{ question.code }}</p></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Code</p>
-{% endif %}
-{{ debug }}
+    <p>サイトに書かれているプロファイルを実行します</p>
+    <h2>{{ script }}</h2>
+    <p>{{ script_field }}</p>
+    <tt>{{ re }}</tt>
 </div>
 <div id="sidebar">
     <h2>リンク</h2>
