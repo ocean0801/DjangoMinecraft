@@ -1,7 +1,9 @@
 # DjnagoMinecraftRcon
  DjangoからMinecraftを制御します。mcipc必須。
+ ~~~~
     pip3 install mcipc
- でやってください。[公式サイト](https://pypi.org/project/mcipc/) [公式ドキュメント](https://mcipc.readthedocs.io/en/latest/)
+ ~~~~
+ でやってください。<br>[公式サイト](https://pypi.org/project/mcipc/) [公式ドキュメント](https://mcipc.readthedocs.io/en/latest/)
 # 使い方
  run.shを起動してください。
 ## Models
@@ -15,14 +17,14 @@
 ## SampleUserたち
  プロジェクトの過程で三つのユーザーができました。
  ### Admin
-  権限:スーパーユーザー。
+  権限:スーパーユーザー。<br>
   pass:awajitest
  ### openuser
-  権限:なし。
+  権限:なし。<br>
   pass:testtest
  ### Coder
-  権限:スタッフ権限。
-  pass:testcode
+  権限:スタッフ権限。<br>
+  pass:testcode<br>
   Codeだけを編集できます。
  ## Toolsフォルダー
  ### port_check.py
@@ -44,52 +46,35 @@
  serverフォルダの下にtemplatesフォルダを置いてください。
  ## filetree
  参考までに。<br>
- .<br>
-├── DjangoMinecraft<br>
-│   ├── LICENSE<br>
-│   ├── README.md<br>
-│   ├── __pycache__<br>
-│   ├── code1.py<br>
-│   ├── code2.py<br>
-│   ├── code2.txt<br>
-│   ├── db.sqlite3<br>
-│   ├── log.txt<br>
-│   ├── manage.py<br>
-│   ├── mysite<br>
-│   ├── rconc<br>
-│   ├── shellscripts<br>
-│   ├── templates<br>
-│   └── tools<br>
-└── server<br>
-    ├── BuildData<br>
-    ├── BuildTools.jar<br>
-    ├── BuildTools.log.txt<br>
-    ├── Bukkit<br>
-    ├── CraftBukkit<br>
-    ├── Spigot<br>
-    ├── apache-maven-3.6.0<br>
-    ├── banned-ips.json<br>
-    ├── banned-players.json<br>
-    ├── bukkit.yml<br>
-    ├── commands.yml<br>
-    ├── eula.txt<br>
-    ├── help.yml<br>
-    ├── log.txt<br>
-    ├── logs<br>
-    ├── ops.json<br>
-    ├── permissions.yml<br>
-    ├── plugins<br>
-    ├── server.jar<br>
-    ├── server.properties<br>
-    ├── spigot.yml<br>
-    ├── templates #⇦これ<br>
-    ├── usercache.json<br>
-    ├── whitelist.json<br>
-    ├── work<br>
-    ├── world<br>
-    ├── world_nether<br>
-    └── world_the_end<br>
+~~~~
+DjangoMinecraft<br>
+-LICENSE<br>
+-README.md<br>
+-\_\_pycache__<br>
+-code1.py<br>
+-code2.py<br>
+-code2.txt<br>
+-db.sqlite3<br>
+-log.txt<br>
+-manage.py<br>
+-mysite<br>
+-rconc<br>
+-shellscripts<br>
+-templates<br>
+-tools<br>
+server<br>
+(略)
+-ops.json<br>
+-permissions.yml<br>
+-plugins<br>
+-server.jar<br>
+-server.properties<br>
+-spigot.yml<br>
+-templates⇦これ<br>
+(略)
+~~~~
 ## 終わりに
  非常にバグが多いです。そして自分のサーバーを動かすためにつくったりしたので、これとMinecraftサーバーを実行するPCを同じにすることを推奨します。
  あと非常に当まわりな実装方法を採用しているため、コードがとても汚いです。
- Minecraftサーバーに人がいないとNoPlayerエラー返ってきますがtry文を書いていないので無視してくだされ。
+ ~~Minecraftサーバーに人がいないとNoPlayerエラー返ってきますがtry文を書いていないので無視してくだされ。~~
+ なくなりました。

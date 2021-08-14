@@ -6,6 +6,7 @@ from mcipc.query import Client as Client_q
 from .models import Script, Code, Config, Profile
 from django.template import loader
 from django.contrib.auth.decorators import login_required
+import mcipc
 #from tools import *
 #Toolsの定義
 def logtext(req,text,st):
@@ -44,24 +45,23 @@ def query(request):
             he = "成功しました"
         with Client(ip, port, passwd='minecraft') as client:
             seed = client.seed
-        context = {'seed':seed,'query':re,'command': text,'ip':ip,'port':25565,'session':full_stats.session_id,"player":full_stats.players,"host":full_stats.host_name,"version":full_stats.version,"map":full_stats.map,"num":full_stats.num_players,"num_max":full_stats.max_players,"port":full_stats.host_port,"ip_host":full_stats.host_ip}
-
+        #context = {'query':come,'command': text,'ip':ip,'port':25565,'error':error,'error_t':""}
     except ConnectionRefusedError as e:
         re = "[Error] Server not found"
         come = "状態の取得に失敗しました"
         error = str(e)
         he = str(e)
         seed =""
-        context = {'query':re,'command': text,'ip':ip,'port':25565,'error':error,'error_t':"ConnectionRefusedError"}
+        #context = {'query':come,'command': text,'ip':ip,'port':25565,'error':error,'error_t':"ConnectionRefusedError"}
     except ConnectionResetError as e:
         re = "[Error] Server not found"
         come = "状態の取得に失敗しました"
         error = str(e)
         he = str(e)
         seed =""
-        context = {'query':come,'command': text,'ip':ip,'port':25565,'error':error,'error_t':"ConnectionResetError"}
+        #context = {'query':come,'command': text,'ip':ip,'port':25565,'error':error,'error_t':"ConnectionResetError"}
     text = 'Query Full Stats'
-    #context = {'seed':seed,'query':re,'command': text,'ip':ip,'port':25565,'session':full_stats.session_id,"player":full_stats.players,"host":full_stats.host_name,"version":full_stats.version,"map":full_stats.map,"num":full_stats.num_players,"num_max":full_stats.max_players,"port":full_stats.host_port,"ip_host":full_stats.host_ip}
+    context = {'seed':seed,'query':re,'command': text,'ip':ip,'port':25565,'session':full_stats.session_id,"player":full_stats.players,"host":full_stats.host_name,"version":full_stats.version,"map":full_stats.map,"num":full_stats.num_players,"num_max":full_stats.max_players,"port":full_stats.host_port,"ip_host":full_stats.host_ip}
     
     with open("log.txt","a",encoding="UTF-8") as f:
         f.write(text+come+"\n")
@@ -85,15 +85,24 @@ def test2(request,type):
             error = ""
             he = "なし"
             text2 = logtext(request,text,"成功")
+            context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user}
     except ConnectionRefusedError as e:
         re = "[Error] Server not found"
         come = "の実行に失敗しました"
         error = str(e)
         he = str(e)
         text2 = logtext(request,text,"失敗")
+        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user}
+    except mcipc.rcon.errors.NoPlayerFound as e:
+        re = "[Error] Player not found"
+        come = "の実行に失敗しました"
+        error = "プレイヤーが存在しません。"
+        he = "プレイヤーが存在しません。"
+        text2 = logtext(request,text,"失敗")
+        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user}
     logging(text2)
-    context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
-               'ru':request.user, 'cu':configs.user}
+    #context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
+    #           'ru':request.user, 'cu':configs.user}
     return render(request,'config.html',context)
 @login_required(login_url='/accounts/login/')
 def test3(request,type,type2):
@@ -115,16 +124,27 @@ def test3(request,type,type2):
             error = ""
             he = "なし"
             text2 = logtext(request,text,"成功")
+            context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he,'ru':request.user, 'cu':configs.user}
+
     except ConnectionRefusedError as e:
         re = "[Error] Server not found"
         come = "の実行に失敗しました"
         error = str(e)
         he = str(e)
         text2 = logtext(request,text,"失敗")
-    
+        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he,'ru':request.user, 'cu':configs.user}
+
+    except mcipc.rcon.errors.NoPlayerFound as e:
+        re = "[Error] Player not found"
+        come = "の実行に失敗しました"
+        error = "プレイヤーが存在しません。"
+        he = "プレイヤーが存在しません。"
+        text2 = logtext(request,text,"失敗")
+        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he,'ru':request.user, 'cu':configs.user}
+
     logging(text2)
-    context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error,":error,"he":he, \
-               'ru':request.user, 'cu':configs.user}
+    #context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error,":error,"he":he, \
+    #           'ru':request.user, 'cu':configs.user}
     return render(request,'config.html',context)
 @login_required(login_url='/accounts/login/')
 def test4(request,type,type2,type3):
@@ -145,15 +165,25 @@ def test4(request,type,type2,type3):
             error = ""
             he = "なし"
             text2 = logtext(request,text,"成功")
+        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user}
     except ConnectionRefusedError as e:
         re = "[Error] Server not found"
         come = "の実行に失敗しました"
         error = str(e)
         he = str(e)
         text2 = logtext(request,text,"失敗")
+        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user}
+
+    except mcipc.rcon.errors.NoPlayerFound as e:
+        re = "[Error] Player not found"
+        come = "の実行に失敗しました"
+        error = "プレイヤーが存在しません。"
+        he = "プレイヤーが存在しません。"
+        text2 = logtext(request,text,"失敗")
+        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user}
     logging(text2)
-    context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
-               'ru':request.user, 'cu':configs.user}
+    #context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
+    #           'ru':request.user, 'cu':configs.user}
     return render(request,'config.html',context)
 @login_required(login_url='/accounts/login/')
 def test5(request,type,type2,type3,type4):
@@ -174,15 +204,27 @@ def test5(request,type,type2,type3,type4):
             error = ""
             he = "なし"
             text2 = logtext(request,text,"成功")
+            context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user}
+
     except ConnectionRefusedError as e:
         re = "[Error] Server not found"
         come = "の実行に失敗しました"
         error = str(e)
         he = str(e)
         text2 = logtext(request,text,"失敗")
+        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user}
+
+    except mcipc.rcon.errors.NoPlayerFound as e:
+        re = "[Error] Player not found"
+        come = "の実行に失敗しました"
+        error = "プレイヤーが存在しません。"
+        he = "プレイヤーが存在しません。"
+        text2 = logtext(request,text,"失敗")
+        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user}
+    
     logging(text2)
-    context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
-               'ru':request.user, 'cu':configs.user}
+    #context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
+    #           'ru':request.user, 'cu':configs.user}
     return render(request,'config.html',context)
 @login_required(login_url='/accounts/login/')
 def server_op(request,type,type2):
