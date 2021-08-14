@@ -1,6 +1,6 @@
 # DjnagoMinecraftRcon
  DjangoからMinecraftを制御します。mcipc必須。
-    pip3 install mcipc
+pip3 install mcipc
  でやってください。[公式サイト](https://pypi.org/project/mcipc/) [公式ドキュメント](https://mcipc.readthedocs.io/en/latest/)
 # 使い方
  run.shを起動してください。
