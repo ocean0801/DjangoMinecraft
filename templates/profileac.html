@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="utf-8"/>
-    <title>プロファイル選択</title>
+    <title>プロフィール</title>
     <style>
         #sidebar {
         float:right;
@@ -26,23 +25,47 @@
         background-color: black;
         color: white;
       }
+      .balloonoya {
+  position   : relative;
+}
+.balloonoya:hover .balloon {
+  display: inline;
+}
+.balloon {
+  position   : absolute;
+  display: none;
+  padding: 2px;
+  background-color: rgba(255, 255, 255, 1.00);       /* 背景色（透明度） */
+  width:300px;
+  left : -1%;
+  font-size: 80%;
+}
+.balloon:after{
+  border-left: 12px solid rgba(102, 102, 255, 0.00);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  right: -12px;
+  top: 5%;
+  content: "";
+  position: absolute;
+}
     </style>
 </head>
 <body>
 <div id="header">
-    <h2>プロファイル選択</h2>
+    <h2>プロフィール</h2>
 </div>
 <div id="content">
-    {% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><p><a href="/mine/profile/{{ question.id }}/">{{ question.profile_name }}</a></p>:<p>{{ question.script }}</h3></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Profile</p>
-{% endif %}
-{{ debug }}
+    <p>サーバーへようこそ！{{ user_name }}。</p>
+    <p>紐付けされているConfig:</p>
+    <h2>{{ config_name }}</h2>
+    <p>サーバーのIP:{{ ip }}</p>
+    <p>RCONクライアントのポート番号:{{ rcon_port }}</p>
+    <p>QUERYクライアントのポート番号:{{ query_port }}</p>
+    <div class="balloonoya">マウスを乗せてパスワード表示
+    <span class="balloon">{{ passw }}</span>
+    </div>
+
 </div>
 <div id="sidebar">
     <h2>リンク</h2>

@@ -16,16 +16,16 @@
  これを設定しないと/mine/com下のものが使えません。
 ## SampleUserたち
  プロジェクトの過程で三つのユーザーができました。
- ### Admin
+ ### admin
   権限:スーパーユーザー。<br>
   pass:awajitest
  ### openuser
   権限:なし。<br>
   pass:testtest
- ### Coder
+ ### coder
   権限:スタッフ権限。<br>
   pass:testcode<br>
-  Codeだけを編集できます。
+  Scriptだけを編集できます。
  ## Toolsフォルダー
  ### port_check.py
  グローバルIPとlocalhostでsocketモジュールで通信してポートをの状況をチェックします。
