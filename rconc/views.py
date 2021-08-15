@@ -3,7 +3,7 @@ import datetime
 from mcipc.rcon.je import Biome, Client
 from django.http import HttpResponse
 from mcipc.query import Client as Client_q
-from .models import Script, Code, Config, Profile, User
+from .models import Script, Code, Config, Profile, User, Command_log
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 import mcipc
@@ -391,3 +391,52 @@ def profileac(request):
             'rcon_port':'None','query_port':'None','passw':'None'})
 
 #,"user_name":request.user
+#\
+
+def console(request):
+    maxint= Config.objects.count()
+    configs = None
+    num = 0
+    for i in range(1,maxint+1):
+        configs = Config.objects.get(id=int(i))
+        if configs.user == request.user:
+            num = i
+            break
+    re = ""
+    text = ""
+    if request.method == "POST":
+        text = request.POST.get('command')
+    if not text:
+        pass
+    else:
+        funcs_list = text.split("/")
+        for i in range(len(funcs_list)-1):
+            func_du = funcs_list[int(i)+1].split(" ")
+        
+        try:
+            with Client(configs.server_ip, int(configs.rcon_port), passwd=configs.passw) as client:
+                re = client.run(*func_du)
+        except ConnectionRefusedError as e:
+            text2 = logtext(request,text,"失敗")
+            re = 'ServerNotFoundError'
+        except mcipc.rcon.errors.NoPlayerFound as e:
+            text2 = logtext(request,text,"失敗")
+            re = 'NoPlayerFoundError'
+        with open("log.txt","a",encoding="UTF-8") as f:
+            f.write(text2+"\n")
+        command = Command_log(command_text=text,return_text=re,user=request.user)
+        command.save()
+    latest_question_list = Command_log.objects.all()
+    template = loader.get_template('console2.html')
+    test = list()
+    for i in range(len(latest_question_list)):
+        if latest_question_list[i].user == request.user:
+            test.append(latest_question_list[i])
+    test.reverse()
+    context = {
+        'latest_question_list': test,"user_name":request.user
+    }
+    return HttpResponse(template.render(context, request))
+'''
+def console_submit(request):
+'''

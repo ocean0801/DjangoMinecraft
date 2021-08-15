@@ -16,15 +16,13 @@
       #content {
         float:left;
         width:65%;
+        background-color: black;
+        color: white;
       }
       #header {
         float:top;
         text-align: center;
         height: 10%;
-      }
-      tt {
-        background-color: black;
-        color: white;
       }
     </style>
 </head>
@@ -33,10 +31,15 @@
     <h2>スクリプト選択</h2>
 </div>
 <div id="content">
-    {% if latest_question_list %}
     <ul>
+    <form method="post" action="{% url 'submit' %}">
+    {% csrf_token %}
+    コマンド:<input type="text" name="command">
+    <input type="submit" value="送信">
+    </form>
+    {% if latest_question_list %}
     {% for question in latest_question_list %}
-        <li><a href="/mine/script/{{ question.id }}/">{{ question.script_name }}</a>:<p>{{ question.script }}</p></li>
+        <li>>>> {{ question.command_text }}</li><br>{{ question.return_text }}<br>
     {% endfor %}
     </ul>
   {% else %}
