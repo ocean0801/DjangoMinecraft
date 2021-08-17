@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">    
     <meta charset="utf-8"/>
     <title>スクリプト選択</title>
     <style>
@@ -18,6 +19,8 @@
         width:65%;
         background-color: black;
         color: white;
+        font-family: "Press Start 2P";
+        font-size: 12px;
       }
       #header {
         float:top;
@@ -34,12 +37,11 @@
     <ul>
     <form method="post" action="{% url 'submit' %}">
     {% csrf_token %}
-    コマンド:<input type="text" name="command">
-    <input type="submit" value="送信">
+    <p>Command:<input id="box" type="text" value="" name="command" style="background-color: black;color:white;font-family: 'Press Start 2P';"></p>
     </form>
     {% if latest_question_list %}
     {% for question in latest_question_list %}
-        <li>>>> {{ question.command_text }}</li><br>{{ question.return_text }}<br>
+        <li>>>> {{ question.command_text }}</li>{{ question.return_text }}<br>
     {% endfor %}
     </ul>
   {% else %}
@@ -50,7 +52,7 @@
 <div id="sidebar">
     <h2>リンク</h2>
     <a href="help.html"><p>Help</p></a>
-    <a href="/mine/query"><p>Query</p></a>
+    <a href="/mine/query"><p>Query </p></a>
     <a href="/mine/line"><p>URL変換</p></a>
     <a href="/accounts/login"><p>ログイン</p></a>
     <a href="/accounts/logout"><p>ログアウト</p></a>
@@ -59,4 +61,7 @@
     <h2>状態</h2>
     <p>ログインしているユーザー:{{ user_name }}</p>
 </div>
+<script>
+document.getElementById("box").focus();
+</script>
 </body>

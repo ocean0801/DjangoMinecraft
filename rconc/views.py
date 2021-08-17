@@ -416,12 +416,16 @@ def console(request):
         try:
             with Client(configs.server_ip, int(configs.rcon_port), passwd=configs.passw) as client:
                 re = client.run(*func_du)
+                text2 = logtext(request,text,"成功")
         except ConnectionRefusedError as e:
             text2 = logtext(request,text,"失敗")
             re = 'ServerNotFoundError'
         except mcipc.rcon.errors.NoPlayerFound as e:
             text2 = logtext(request,text,"失敗")
             re = 'NoPlayerFoundError'
+        except UnboundLocalError:
+            text2 = logtext(request,text,"失敗")
+            re = 'SyntaxError'
         with open("log.txt","a",encoding="UTF-8") as f:
             f.write(text2+"\n")
         command = Command_log(command_text=text,return_text=re,user=request.user)
@@ -434,9 +438,6 @@ def console(request):
             test.append(latest_question_list[i])
     test.reverse()
     context = {
-        'latest_question_list': test,"user_name":request.user
+        'latest_question_list': test[0:4],"user_name":request.user
     }
     return HttpResponse(template.render(context, request))
-'''
-def console_submit(request):
-'''
