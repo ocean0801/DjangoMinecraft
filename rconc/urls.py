@@ -11,7 +11,6 @@ urlpatterns = [
     path('profile/', views.profileindex, name='script'),
     path('code/<int:ids>/', views.code, name='script'),
     path('code/', views.codeindex, name='script'),
-    path('test/<str:type>/<str:type2>',views.server_op),
     path('console/',views.console,name='submit'),
     path('config/',views.config_page,name='submit2'),
     
