@@ -1,12 +1,11 @@
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">    
+<head>  
     <meta charset="utf-8"/>
-    <title>コンソールクライアント</title>
+    <title>スクリプト選択</title>
     <style>
-        #sidebar {
+    #sidebar {
         float:right;
         text-align: left;
         background-color: gray;
@@ -17,9 +16,6 @@
       #content {
         float:left;
         width:65%;
-        background-color: black;
-        color: white;
-        font-family: "Press Start 2P";
         font-size: 12px;
       }
       #header {
@@ -31,22 +27,20 @@
 </head>
 <body>
 <div id="header">
-    <h2>コンソールクライアント</h2>
+    <h2>スクリプト選択</h2>
 </div>
 <div id="content">
-    <ul>
-    <form method="post" action="{% url 'submit' %}">
+    <form method="post" action="{% url 'submit2' %}">
     {% csrf_token %}
-    <p>Command:<input id="box" type="text" value="" name="command" style="background-color: black;color:white;font-family: 'Press Start 2P';"></p>
+    <h2>Server config</h2>
+    <h3>Server Overview</h3>
+    <p>Server Name:<input id="box1" type="text" value="" name="name"></p>
+    <h3>Server Data</h3>
+    <p>Server IP:<input id="box2" type="text" value="" name="ip"></p>
+    <p>Server Query Port:<input id="box3" type="text" value="" name="qport"></p>
+    <p>Server Rcon Port:<input id="box4" type="text" value="" name="rport"></p>
+    <input id="box4" type="submit" value="Save">
     </form>
-    {% if latest_question_list %}
-    {% for question in latest_question_list %}
-        <li>>>> {{ question.command_text }}</li>{{ question.return_text }}<br>-- {{ question.time }}<br><br>
-    {% endfor %}
-    </ul>
-  {% else %}
-    <p>Code</p>
-{% endif %}
 {{ debug }}
 </div>
 <div id="sidebar">
@@ -63,6 +57,6 @@
     <p>ログインしているユーザー:{{ user_name }}</p>
 </div>
 <script>
-document.getElementById("box").focus();
+document.getElementById("box1").focus();
 </script>
 </body>

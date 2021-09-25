@@ -394,14 +394,23 @@ def profileac(request):
 #\
 
 def console(request):
-    maxint= Config.objects.count()
+    #maxint= Config.objects.count()
     configs = None
     num = 0
+    configs_list = Config.objects.all()
+    for configs in configs_list:
+        if configs.user == request.user:
+            break
+    '''
     for i in range(1,maxint+1):
-        configs = Config.objects.get(id=int(i))
+        try:
+            configs = Config.objects.get(id=int(i))
+        except Config.DoesNotExist:
+            pass
         if configs.user == request.user:
             num = i
             break
+    '''
     re = ""
     text = ""
     if request.method == "POST":
@@ -428,16 +437,50 @@ def console(request):
             re = 'SyntaxError'
         with open("log.txt","a",encoding="UTF-8") as f:
             f.write(text2+"\n")
-        command = Command_log(command_text=text,return_text=re,user=request.user)
+        command = Command_log(command_text=text,return_text=re,user=request.user,time=datetime.datetime.now())
         command.save()
     latest_question_list = Command_log.objects.all()
     template = loader.get_template('console2.html')
     test = list()
+    #適合するユーザーの履歴を取得
     for i in range(len(latest_question_list)):
         if latest_question_list[i].user == request.user:
             test.append(latest_question_list[i])
     test.reverse()
+    for i in latest_question_list:
+        i.time = str(i.time).replace("年","/")
+        i.time = str(i.time).replace("月","/")
+        i.time = str(i.time).replace("日","")
+        i.time = str(i.time).replace("+"," ")
     context = {
         'latest_question_list': test[0:4],"user_name":request.user
     }
     return HttpResponse(template.render(context, request))
+
+def config_page(request):
+    #maxint= Config.objects.count()
+    name = ""
+    if request.method == "POST":
+        name = request.POST.get('name')
+        ip = request.POST.get('ip')
+        qport = request.POST.get('qport')
+        rport = request.POST.get('rport')
+    if not name:
+        pass
+    else:
+        configs_list = Config.objects.all()
+        for configs in configs_list:
+            if configs.user == request.user:
+                break
+        configs.delete()
+        config_data = Config(server_name=name,user=request.user,server_ip=ip,rcon_port=rport,query_port=qport)
+        config_data.save()
+    context = {'user_name':request.user}
+    template = loader.get_template('config_page.html')
+    return HttpResponse(template.render(context,request))
+
+def help(request):
+    context = {'user_name':request.user}
+    template = loader.get_template('helppage.html')
+    return HttpResponse(template.render(context,request))
+#helppage.html

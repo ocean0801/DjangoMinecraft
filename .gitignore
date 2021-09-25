@@ -115,3 +115,4 @@ dmypy.json
 log.txt
 rconc/#inc.cpp
 *.cpp
+.DS_Store

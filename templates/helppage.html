@@ -1,12 +1,11 @@
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">    
+<head>  
     <meta charset="utf-8"/>
-    <title>コンソールクライアント</title>
+    <title>HelpPage</title>
     <style>
-        #sidebar {
+    #sidebar {
         float:right;
         text-align: left;
         background-color: gray;
@@ -17,9 +16,6 @@
       #content {
         float:left;
         width:65%;
-        background-color: black;
-        color: white;
-        font-family: "Press Start 2P";
         font-size: 12px;
       }
       #header {
@@ -31,22 +27,10 @@
 </head>
 <body>
 <div id="header">
-    <h2>コンソールクライアント</h2>
+    <h2>HelpPage</h2>
 </div>
 <div id="content">
-    <ul>
-    <form method="post" action="{% url 'submit' %}">
-    {% csrf_token %}
-    <p>Command:<input id="box" type="text" value="" name="command" style="background-color: black;color:white;font-family: 'Press Start 2P';"></p>
-    </form>
-    {% if latest_question_list %}
-    {% for question in latest_question_list %}
-        <li>>>> {{ question.command_text }}</li>{{ question.return_text }}<br>-- {{ question.time }}<br><br>
-    {% endfor %}
-    </ul>
-  {% else %}
-    <p>Code</p>
-{% endif %}
+    <h3>へるぷぺぇじ</h3>
 {{ debug }}
 </div>
 <div id="sidebar">
@@ -63,6 +47,6 @@
     <p>ログインしているユーザー:{{ user_name }}</p>
 </div>
 <script>
-document.getElementById("box").focus();
+document.getElementById("box1").focus();
 </script>
 </body>
