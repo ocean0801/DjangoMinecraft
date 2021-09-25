@@ -45,3 +45,10 @@ class Profile(models.Model):
     script = models.TextField(blank=True)
     def __str__(self):
         return self.profile_name
+class Command_log(models.Model):
+    command_text = models.CharField("実行したコマンド",max_length=100)
+    return_text = models.CharField("実行結果",max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #timestamp = models.DateTimeField()
+    def __str__(self):
+        return self.command_text

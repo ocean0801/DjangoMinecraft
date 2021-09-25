@@ -7,6 +7,7 @@ from .models import Script, Code, Config, Profile
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 import mcipc
+from django.utils import timezone
 #from tools import *
 #Toolsの定義
 def logtext(req,text,st):
