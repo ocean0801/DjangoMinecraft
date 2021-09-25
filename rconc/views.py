@@ -458,7 +458,6 @@ def console(request):
     return HttpResponse(template.render(context, request))
 
 def config_page(request):
-    #maxint= Config.objects.count()
     name = ""
     if request.method == "POST":
         name = request.POST.get('name')
@@ -483,4 +482,3 @@ def help(request):
     context = {'user_name':request.user}
     template = loader.get_template('helppage.html')
     return HttpResponse(template.render(context,request))
-#helppage.html
