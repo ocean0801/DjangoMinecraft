@@ -39,7 +39,7 @@
         <li><a href="/mine/script/{{ question.id }}/">{{ question.script_name }}</a>:<p>{{ question.script }}</p></li>
     {% endfor %}
     </ul>
-{% else %}
+  {% else %}
     <p>Code</p>
 {% endif %}
 {{ debug }}
@@ -53,5 +53,7 @@
     <a href="/accounts/logout"><p>ログアウト</p></a>
     <a href="/mine/script"><p>スクリプトの実行</p></a>
     <a href="/mine/code"><p>コードの設定</p></a>
+    <h2>状態</h2>
+    <p>ログインしているユーザー:{{ user_name }}</p>
 </div>
 </body>

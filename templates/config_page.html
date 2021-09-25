@@ -1,11 +1,11 @@
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
+<head>  
     <meta charset="utf-8"/>
-    <title>プロファイル選択</title>
+    <title>スクリプト選択</title>
     <style>
-        #sidebar {
+    #sidebar {
         float:right;
         text-align: left;
         background-color: gray;
@@ -16,44 +16,47 @@
       #content {
         float:left;
         width:65%;
+        font-size: 12px;
       }
       #header {
         float:top;
         text-align: center;
         height: 10%;
       }
-      tt {
-        background-color: black;
-        color: white;
-      }
     </style>
 </head>
 <body>
 <div id="header">
-    <h2>プロファイル選択</h2>
+    <h2>スクリプト選択</h2>
 </div>
 <div id="content">
-    {% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><p><a href="/mine/profile/{{ question.id }}/">{{ question.profile_name }}</a></p>:<p>{{ question.script }}</h3></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Profile</p>
-{% endif %}
+    <form method="post" action="{% url 'submit2' %}">
+    {% csrf_token %}
+    <h2>Server config</h2>
+    <h3>Server Overview</h3>
+    <p>Server Name:<input id="box1" type="text" value="" name="name"></p>
+    <h3>Server Data</h3>
+    <p>Server IP:<input id="box2" type="text" value="" name="ip"></p>
+    <p>Server Query Port:<input id="box3" type="text" value="" name="qport"></p>
+    <p>Server Rcon Port:<input id="box4" type="text" value="" name="rport"></p>
+    <input id="box4" type="submit" value="Save">
+    </form>
 {{ debug }}
 </div>
 <div id="sidebar">
     <h2>リンク</h2>
-    <a href="help.html"><p>Help</p></a>
-    <a href="/mine/query"><p>Query</p></a>
+    <a href="/mine/help"><p>Help</p></a>
+    <a href="/mine/query"><p>Query </p></a>
     <a href="/mine/line"><p>URL変換</p></a>
     <a href="/accounts/login"><p>ログイン</p></a>
     <a href="/accounts/logout"><p>ログアウト</p></a>
     <a href="/mine/script"><p>スクリプトの実行</p></a>
     <a href="/mine/code"><p>コードの設定</p></a>
+    <a href="/mine/console"><p>コンソールクライアント</p></a>
     <h2>状態</h2>
     <p>ログインしているユーザー:{{ user_name }}</p>
 </div>
+<script>
+document.getElementById("box1").focus();
+</script>
 </body>

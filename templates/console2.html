@@ -2,8 +2,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">    
     <meta charset="utf-8"/>
-    <title>プロファイル選択</title>
+    <title>コンソールクライアント</title>
     <style>
         #sidebar {
         float:right;
@@ -16,44 +17,52 @@
       #content {
         float:left;
         width:65%;
+        background-color: black;
+        color: white;
+        font-family: "Press Start 2P";
+        font-size: 12px;
       }
       #header {
         float:top;
         text-align: center;
         height: 10%;
       }
-      tt {
-        background-color: black;
-        color: white;
-      }
     </style>
 </head>
 <body>
 <div id="header">
-    <h2>プロファイル選択</h2>
+    <h2>コンソールクライアント</h2>
 </div>
 <div id="content">
-    {% if latest_question_list %}
     <ul>
+    <form method="post" action="{% url 'submit' %}">
+    {% csrf_token %}
+    <p>Command:<input id="box" type="text" value="" name="command" style="background-color: black;color:white;font-family: 'Press Start 2P';"></p>
+    </form>
+    {% if latest_question_list %}
     {% for question in latest_question_list %}
-        <li><p><a href="/mine/profile/{{ question.id }}/">{{ question.profile_name }}</a></p>:<p>{{ question.script }}</h3></li>
+        <li>>>> {{ question.command_text }}</li>{{ question.return_text }}<br>-- {{ question.time }}<br><br>
     {% endfor %}
     </ul>
-{% else %}
-    <p>Profile</p>
+  {% else %}
+    <p>Code</p>
 {% endif %}
 {{ debug }}
 </div>
 <div id="sidebar">
     <h2>リンク</h2>
-    <a href="help.html"><p>Help</p></a>
-    <a href="/mine/query"><p>Query</p></a>
+    <a href="/mine/help"><p>Help</p></a>
+    <a href="/mine/query"><p>Query </p></a>
     <a href="/mine/line"><p>URL変換</p></a>
     <a href="/accounts/login"><p>ログイン</p></a>
     <a href="/accounts/logout"><p>ログアウト</p></a>
     <a href="/mine/script"><p>スクリプトの実行</p></a>
     <a href="/mine/code"><p>コードの設定</p></a>
+    <a href="/mine/console"><p>コンソールクライアント</p></a>
     <h2>状態</h2>
     <p>ログインしているユーザー:{{ user_name }}</p>
 </div>
+<script>
+document.getElementById("box").focus();
+</script>
 </body>

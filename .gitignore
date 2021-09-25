@@ -113,9 +113,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 log.txt
-.DS_Store
-rconc/tintin.cpp
-rconc/otintin.cpp
 rconc/#inc.cpp
-.DS_Store
+*.cpp
 .DS_Store
