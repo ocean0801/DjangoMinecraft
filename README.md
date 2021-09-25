@@ -1,9 +1,10 @@
 # DjnagoMinecraftRcon
  DjangoからMinecraftを制御します。mcipc必須。
  ~~~~
-    pip3 install mcipc
+ pip3 install mcipc
  ~~~~
- でやってください。<br>[公式サイト](https://pypi.org/project/mcipc/) [公式ドキュメント](https://mcipc.readthedocs.io/en/latest/)
+ インストールしてください。<br>[公式サイト](https://pypi.org/project/mcipc/) [公式ドキュメント](https://mcipc.readthedocs.io/en/latest/)
+
 # 使い方
  run.shを起動してください。
 ## Models
@@ -16,16 +17,16 @@
  これを設定しないと/mine/com下のものが使えません。
 ## SampleUserたち
  プロジェクトの過程で三つのユーザーができました。
- ### admin
+ ### Admin
   権限:スーパーユーザー。<br>
   pass:awajitest
  ### openuser
   権限:なし。<br>
   pass:testtest
- ### coder
+ ### Coder
   権限:スタッフ権限。<br>
   pass:testcode<br>
-  Scriptだけを編集できます。
+  Codeだけを編集できます。
  ## Toolsフォルダー
  ### port_check.py
  グローバルIPとlocalhostでsocketモジュールで通信してポートをの状況をチェックします。
