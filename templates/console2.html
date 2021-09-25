@@ -41,7 +41,7 @@
     </form>
     {% if latest_question_list %}
     {% for question in latest_question_list %}
-        <li>>>> {{ question.command_text }}</li>{{ question.return_text }}<br>-- {{ question.time }}<br><br>
+        <li>>>> {{ question.command_text }}</li>{{ question.return_text }}<br><br>-- {{ question.time }}<br><br>
     {% endfor %}
     </ul>
   {% else %}
