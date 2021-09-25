@@ -1,9 +1,11 @@
-from django.shortcuts import get_object_or_404, render
 import datetime
 from mcipc.rcon.je import Biome, Client
-from django.http import HttpResponse
 from mcipc.query import Client as Client_q
+
 from .models import Script, Code, Config, Profile, User, Command_log
+
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 import mcipc
@@ -29,17 +31,16 @@ def query(request):
     maxint= Config.objects.count()
     configs = None
     num = 0
-    for i in range(1,maxint+1):
-        configs = Config.objects.get(id=int(i))
+    configs_list = Config.objects.all()
+    for configs in configs_list:
         if configs.user == request.user:
-            num = i
             break
     text = 'Query Full Stats'
     try:
         with Client_q(configs.server_ip, int(configs.query_port)) as client:
             full_stats= client.stats(full=True)
             re = "状態を取得しています"
-            come = "状態の取得に失敗しました"
+            come = "状態の取得に成功しました"
             error = ""
             he = "成功しました"
         with Client(ip, port, passwd='minecraft') as client:
@@ -66,197 +67,7 @@ def query(request):
         f.write(text+come+"\n")
     return render(request,'query.html',context)
 @login_required(login_url='/accounts/login/')
-def test2(request,type):
-    maxint= Config.objects.count()
-    configs = None
-    num = 0
-    for i in range(1,maxint+1):
-        configs = Config.objects.get(id=int(i))
-        if configs.user == request.user:
-            num = i
-            break
-    text = "/"+type
-    ipadd = request.META.get('REMOTE_ADDR')
-    try:
-        with Client(configs.server_ip, int(configs.rcon_port), passwd=configs.passw) as client:
-            re = client.run(str(type))
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-            text2 = logtext(request,text,"成功")
-            context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-        text2 = logtext(request,text,"失敗")
-        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
-    except mcipc.rcon.errors.NoPlayerFound as e:
-        re = "[Error] Player not found"
-        come = "の実行に失敗しました"
-        error = "プレイヤーが存在しません。"
-        he = "プレイヤーが存在しません。"
-        text2 = logtext(request,text,"失敗")
-        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
-    logging(text2)
-    #context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
-    #           'ru':request.user, 'cu':configs.user}
-    return render(request,'config.html',context)
-@login_required(login_url='/accounts/login/')
-def test3(request,type,type2):
-    maxint= Config.objects.count()
-    configs = None
-    num = 0
-    for i in range(1,maxint+1):
-        configs = Config.objects.get(id=int(i))
-        if configs.user == request.user:
-            num = i
-            break
-    text = "/"+type+" "+type2
-    come = ""
-    ipadd = request.META.get('REMOTE_ADDR')
-    try:
-        with Client(configs.server_ip, int(configs.rcon_port), passwd=configs.passw) as client:
-            re = client.run(str(type),str(type2))
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-            text2 = logtext(request,text,"成功")
-            context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
 
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-        text2 = logtext(request,text,"失敗")
-        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
-
-    except mcipc.rcon.errors.NoPlayerFound as e:
-        re = "[Error] Player not found"
-        come = "の実行に失敗しました"
-        error = "プレイヤーが存在しません。"
-        he = "プレイヤーが存在しません。"
-        text2 = logtext(request,text,"失敗")
-        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
-
-    logging(text2)
-    #context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error,":error,"he":he, \
-    #           'ru':request.user, 'cu':configs.user}
-    return render(request,'config.html',context)
-@login_required(login_url='/accounts/login/')
-def test4(request,type,type2,type3):
-    maxint= Config.objects.count()
-    configs = None
-    num = 0
-    for i in range(1,maxint+1):
-        configs = Config.objects.get(id=int(i))
-        if configs.user == request.user:
-            num = i
-            break
-    text = "/"+type+" "+type2+" "+type3
-    ipadd = request.META.get('REMOTE_ADDR')
-    try:
-        with Client(configs.server_ip, int(configs.rcon_port), passwd=configs.passw) as client:
-            re = client.run(str(type),str(type2),str(type3))
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-            text2 = logtext(request,text,"成功")
-        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-        text2 = logtext(request,text,"失敗")
-        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
-
-    except mcipc.rcon.errors.NoPlayerFound as e:
-        re = "[Error] Player not found"
-        come = "の実行に失敗しました"
-        error = "プレイヤーが存在しません。"
-        he = "プレイヤーが存在しません。"
-        text2 = logtext(request,text,"失敗")
-        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
-    logging(text2)
-    #context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
-    #           'ru':request.user, 'cu':configs.user}
-    return render(request,'config.html',context)
-@login_required(login_url='/accounts/login/')
-def test5(request,type,type2,type3,type4):
-    maxint= Config.objects.count()
-    configs = None
-    num = 0
-    for i in range(1,maxint+1):
-        configs = Config.objects.get(id=int(i))
-        if configs.user == request.user:
-            num = i
-            break
-    text = "/"+type+" "+type2+" "+type3+" "+type4
-    ipadd = request.META.get('REMOTE_ADDR')
-    try:
-        with Client(configs.server_ip, int(configs.rcon_port), passwd=configs.passw) as client:
-            re = client.run(str(type),str(type2),str(type3),str(type4))
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-            text2 = logtext(request,text,"成功")
-            context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
-
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-        text2 = logtext(request,text,"失敗")
-        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
-
-    except mcipc.rcon.errors.NoPlayerFound as e:
-        re = "[Error] Player not found"
-        come = "の実行に失敗しました"
-        error = "プレイヤーが存在しません。"
-        he = "プレイヤーが存在しません。"
-        text2 = logtext(request,text,"失敗")
-        context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"comment":come,"error":error,"he":he,'ru':request.user, 'cu':configs.user,"user_name":request.user}
-    
-    logging(text2)
-    #context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
-    #           'ru':request.user, 'cu':configs.user}
-    return render(request,'config.html',context)
-@login_required(login_url='/accounts/login/')
-def server_op(request,type,type2):
-    maxint= Config.objects.count()
-    configs = None
-    num = 0
-    for i in range(1,maxint+1):
-        configs = Config.objects.get(id=int(i))
-        if configs.user == request.user:
-            num = i
-            break
-    text = "/"+type+" "+type2
-    ipadd = request.META.get('REMOTE_ADDR') 
-    try:
-        with Client(configs.server_ip, int(configs.rcon_port), passwd=configs.passw) as client:
-            re = client.run(str(type),str(type2))
-            come = "を実行しました"
-            error = ""
-            he = "なし"
-            text2 = logtext(request,text,"成功")
-    except ConnectionRefusedError as e:
-        re = "[Error] Server not found"
-        come = "の実行に失敗しました"
-        error = str(e)
-        he = str(e)
-        text2 = logtext(request,text,"失敗")
-    with open("log.txt","a",encoding="UTF-8") as f:
-        f.write(text2+"\n")
-    context = {'command': text,'ip':configs.server_ip,'port':configs.rcon_port,'return':re,"come":come,"error,":error,"he":he, \
-               'ru':request.user, 'cu':configs.user,"user_name":request.user}
-    return render(request,'config.html',context)
-def hennkann(request):
-    return render(request,'hennkann.html')
 
 def script(request, ids):
     scripts = Script.objects.get(id=ids)

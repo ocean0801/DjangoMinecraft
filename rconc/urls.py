@@ -5,11 +5,6 @@ from . import views
 
 urlpatterns = [
     path('query', views.query),
-    path('com/<str:type>', views.test2),
-    path('com/<str:type>/<str:type2>', views.test3),
-    path('com/<str:type>/<str:type2>/<str:type3>', views.test4),
-    path('com/<str:type>/<str:type2>/<str:type3>/<str:type4>', views.test5),
-    path('line/', views.hennkann, name='cline'),
     path('script/<int:ids>/', views.script, name='script'),
     path('script/', views.scriptindex, name='script'),
     path('profile/<int:ids>/', views.profile, name='script'),
