@@ -188,10 +188,9 @@ def profileac(request):
     configs = None
     num = 0
     create_flag = False
-    for i in range(1,maxint+1):
-        configs = Config.objects.get(id=int(i))
+    configs_list = Config.objects.all()
+    for configs in configs_list:
         if configs.user == request.user:
-            create_flag = True
             break
     if create_flag:
         return render(request, 'profileac.html',{'user_name':request.user,'config_name':configs.server_name,'ip':configs.server_ip,\
