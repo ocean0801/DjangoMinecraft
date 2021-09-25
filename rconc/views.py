@@ -7,7 +7,6 @@ from .models import Script, Code, Config, Profile, User, Command_log
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 import mcipc
-#from tools import *
 #Toolsの定義
 def logtext(req,text,st):
     ipadd = req.META.get('REMOTE_ADDR')
@@ -390,11 +389,8 @@ def profileac(request):
         return render(request, 'profileac.html',{'user_name':request.user,'config_name':'None','ip':'None',\
             'rcon_port':'None','query_port':'None','passw':'None'})
 
-#,"user_name":request.user
-#\
 
 def console(request):
-    #maxint= Config.objects.count()
     configs = None
     num = 0
     configs_list = Config.objects.all()
@@ -458,7 +454,6 @@ def console(request):
     return HttpResponse(template.render(context, request))
 
 def config_page(request):
-    #maxint= Config.objects.count()
     name = ""
     if request.method == "POST":
         name = request.POST.get('name')
@@ -483,4 +478,3 @@ def help(request):
     context = {'user_name':request.user}
     template = loader.get_template('helppage.html')
     return HttpResponse(template.render(context,request))
-#helppage.html
