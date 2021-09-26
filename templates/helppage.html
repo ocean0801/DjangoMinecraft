@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>  
     <meta charset="utf-8"/>
     <title>HelpPage</title>
     <style>
-    #sidebar {
+      #sidebar {
         float:right;
         text-align: left;
         background-color: gray;
@@ -31,13 +30,13 @@
 </div>
 <div id="content">
     <h3>へるぷぺぇじ</h3>
+    
 {{ debug }}
 </div>
 <div id="sidebar">
     <h2>リンク</h2>
     <a href="/mine/help"><p>Help</p></a>
     <a href="/mine/query"><p>Query </p></a>
-    <a href="/mine/line"><p>URL変換</p></a>
     <a href="/accounts/login"><p>ログイン</p></a>
     <a href="/accounts/logout"><p>ログアウト</p></a>
     <a href="/mine/script"><p>スクリプトの実行</p></a>
@@ -45,6 +44,7 @@
     <a href="/mine/console"><p>コンソールクライアント</p></a>
     <h2>状態</h2>
     <p>ログインしているユーザー:{{ user_name }}</p>
+    <a href="/mine/profile"><p>ぷろふぃる</p></a>
 </div>
 <script>
 document.getElementById("box1").focus();

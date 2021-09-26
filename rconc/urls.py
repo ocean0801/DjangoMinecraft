@@ -5,22 +5,12 @@ from . import views
 
 urlpatterns = [
     path('query', views.query),
-    path('com/<str:type>', views.test2),
-    path('com/<str:type>/<str:type2>', views.test3),
-    path('com/<str:type>/<str:type2>/<str:type3>', views.test4),
-    path('com/<str:type>/<str:type2>/<str:type3>/<str:type4>', views.test5),
-    path('line/', views.hennkann, name='cline'),
     path('script/<int:ids>/', views.script, name='script'),
     path('script/', views.scriptindex, name='script'),
-    path('profile/<int:ids>/', views.profile, name='script'),
-    path('profile/', views.profileindex, name='script'),
+    path('profile/', views.profileac, name='script'),
     path('code/<int:ids>/', views.code, name='script'),
     path('code/', views.codeindex, name='script'),
-    path('test/<str:type>/<str:type2>',views.server_op),
     path('console/',views.console,name='submit'),
     path('config/',views.config_page,name='submit2'),
-    
     path('help/',views.help,name='help'),
-
 ]
-
