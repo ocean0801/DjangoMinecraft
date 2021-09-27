@@ -1,19 +1,24 @@
 import datetime
-from mcipc.rcon.je import Biome, Client
+
+from mcipc.rcon.je import Client
 from mcipc.query import Client as Client_q
+import mcipc
 
-from .models import Script, Code, Config, Profile, User, Command_log
+from .models import Script, Config, Command_log
 
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
-import mcipc
 #Toolsの定義
 def logtext(req,text,st):
+    "IPアドレスを記録しつつログの文字を作る。"
     ipadd = req.META.get('REMOTE_ADDR')
     return text+"の実行に"+st+"しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
 def logging(text):
+    """
+    ログをとるための関数。
+    """
     with open("log.txt","a",encoding="UTF-8") as f:
         f.write(text+"\n")
 def get_conf(request):
@@ -27,10 +32,6 @@ def get_conf(request):
 def index(request):
     return render(request, 'index.html')
 
-def cline(request):
-    con = {'command':request.POST["com"]}
-    print(request.POST)
-    return render(request,'console.html',con)
 @login_required(login_url='/accounts/login/')
 def query(request):
     configs = get_conf(request)
@@ -41,32 +42,27 @@ def query(request):
             re = "状態を取得しています"
             come = "状態の取得に成功しました"
             error = ""
-            he = "成功しました"
         with Client(configs.server_ip, int(configs.rcon_port), passwd='minecraft') as client:
             seed = client.seed
     except ConnectionRefusedError as e:
         re = "[Error] Server not found"
         come = "状態の取得に失敗しました"
         error = str(e)
-        he = str(e)
         seed =""
     except ConnectionResetError as e:
         re = "[Error] Server not found"
         come = "状態の取得に失敗しました"
         error = str(e)
-        he = str(e)
         seed =""
     text = 'Query Full Stats'
     try:
         context = {'seed':seed,'query':re,'command': text,'ip':configs.server_ip,'port':25565,'session':full_stats.session_id,"player":full_stats.players,"host":full_stats.host_name,"version":full_stats.version,"map":full_stats.map,"num":full_stats.num_players,"num_max":full_stats.max_players,"port":full_stats.host_port,"ip_host":full_stats.host_ip,"user_name":request.user}
     except UnboundLocalError:
         context = {'query':come,'command': text,'ip':configs.server_ip,'port':25565,'error':error,'error_t':"ConnectionRefusedError"}
-    with open("log.txt","a",encoding="UTF-8") as f:
-        f.write(text+come+"\n")
+    logging(text+come)
     return render(request,'query.html',context)
+
 @login_required(login_url='/accounts/login/')
-
-
 def script(request, ids):
     configs = get_conf(request)
     scripts = Script.objects.get(id=ids)
@@ -83,25 +79,9 @@ def script(request, ids):
                 text2 = scripts.script_name+"のスクリプトの実行に成功しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
         except ConnectionRefusedError as e:
             text2 = scripts.script_name+"のスクリプトの実行に失敗しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
-    with open("log.txt","a",encoding="UTF-8") as f:
-        f.write(text2+"\n")
+    logging(text2)
     return render(request, 'script.html', {'script_field': funcs,'script':scripts,'debug':len(funcs_list),'re':re,"user_name":request.user})
-def code(request, ids):
-    scripts = Code.objects.get(id=ids)
-    funcs = scripts.code
-    stats = scripts.selecter
-    every = scripts.condition
-    funcs_list = funcs.split("/")
-    if stats == "1":
-        stats_ = "active"
-    else:
-        stats_ = "inactive"
-        
-    re ="コード "+scripts.script_name+" の設定を "+stats_+" にしました。"+"中身のコードは "+funcs+"　で、 "+every+" 秒おきに実行します。"
-    ipadd = request.META.get('REMOTE_ADDR')
-    with open("code"+str(ids)+".txt","w",encoding="UTF-8") as f:
-        f.write(stats+"\n"+funcs+"\n"+every)
-    return render(request, 'code.html', {'script_field': funcs,'script':scripts,'debug':len(funcs_list),'re':re,"user_name":request.user})
+
 @login_required(login_url='/accounts/login/')
 def scriptindex(request):
     latest_question_list = Script.objects.all()
@@ -113,16 +93,7 @@ def scriptindex(request):
         'latest_question_list': latest_question_list,"user_name":request.user
     }
     return HttpResponse(template.render(context, request))
-def codeindex(request):
-    latest_question_list = Code.objects.all()
-    template = loader.get_template('codeindex.html')
-    test = list()
-    for i in range(len(latest_question_list)):
-        test.append(latest_question_list[i])
-    context = {
-        'latest_question_list': latest_question_list,"user_name":request.user
-    }
-    return HttpResponse(template.render(context, request))
+
 @login_required(login_url='/accounts/login/')
 def profileac(request):
     configs = get_conf(request)
@@ -132,7 +103,7 @@ def profileac(request):
 def console(request):
     configs = get_conf(request)
 
-    re = ""
+    return_text = ""
     text = ""
     if request.method == "POST":
         text = request.POST.get('command')
@@ -140,10 +111,13 @@ def console(request):
         pass
     else:
         chat_flag = False #チャットであるかのフラグ
+        query_flag = False #チャットであるかのフラグ
+        if text == "/query":
+            query_flag = True
         if not text[0] == "/":
             func_du = ["say"]
             func_du.append(text)
-            re = "say "+text
+            return_text = "/say "+text
             chat_flag = True
         funcs_list = text.split("/")
         for i in range(len(funcs_list)-1):
@@ -151,24 +125,26 @@ def console(request):
         
         try:
             with Client(configs.server_ip, int(configs.rcon_port), passwd=configs.passw) as client:
-                if not chat_flag:
-                    re = client.run(*func_du)
-                else:
+                if chat_flag:
                     client.run(*func_du)
+                elif query_flag:
+                    full_stats , seed = query_full(request)
+                    return_text = full_stats
+                else:
+                    return_text = client.run(*func_du)
 
                 text2 = logtext(request,text,"成功")
         except ConnectionRefusedError as e:
             text2 = logtext(request,text,"失敗")
-            re = 'ServerNotFoundError'
+            return_text = 'ServerNotFoundError'
         except mcipc.rcon.errors.NoPlayerFound as e:
             text2 = logtext(request,text,"失敗")
-            re = 'NoPlayerFoundError'
+            return_text = 'NoPlayerFoundError'
         except UnboundLocalError:
             text2 = logtext(request,text,"失敗")
-            re = 'SyntaxError'
-        with open("log.txt","a",encoding="UTF-8") as f:
-            f.write(text2+"\n")
-        command = Command_log(command_text=text,return_text=re,user=request.user,time=datetime.datetime.now())
+            return_text = 'SyntaxError'
+        logging(text2)
+        command = Command_log(command_text=text,return_text=return_text,user=request.user,time=datetime.datetime.now())
         command.save()
     latest_question_list = Command_log.objects.all()
     template = loader.get_template('console2.html')
@@ -184,9 +160,17 @@ def console(request):
         i.time = str(i.time).replace("日","")
         i.time = str(i.time).replace("+"," ")
     context = {
-        'latest_question_list': test[0:4],"user_name":request.user
+        'latest_question_list': test[0:5],"user_name":request.user
     }
     return HttpResponse(template.render(context, request))
+def query_full(req):
+    "Queryを飛ばすだけの関数。"
+    configs = get_conf(req)
+    with Client_q(configs.server_ip, int(configs.query_port)) as client:
+        full_stats= client.stats(full=True)
+    with Client(configs.server_ip, int(configs.rcon_port), passwd='minecraft') as client:
+        seed = client.seed
+    return full_stats, seed
 @login_required(login_url='/accounts/login/')
 def config_page(request):
     name = ""
@@ -195,7 +179,8 @@ def config_page(request):
         ip = request.POST.get('ip')
         qport = request.POST.get('qport')
         rport = request.POST.get('rport')
-    if not name:
+        passw = request.POST.get('passw')
+    if not name and not ip and not qport and not rport and not passw:
         pass
     else:
         configs_list = Config.objects.all()
@@ -203,7 +188,7 @@ def config_page(request):
             if configs.user == request.user:
                 break
         configs.delete()
-        config_data = Config(server_name=name,user=request.user,server_ip=ip,rcon_port=rport,query_port=qport)
+        config_data = Config(server_name=name,user=request.user,server_ip=ip,rcon_port=rport,query_port=qport,passw=passw)
         config_data.save()
     context = {'user_name':request.user}
     template = loader.get_template('config_page.html')

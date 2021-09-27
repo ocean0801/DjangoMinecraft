@@ -8,18 +8,6 @@ class Script(models.Model):
     def __str__(self):
         return self.script_name
 
-class Code(models.Model):
-    choise_ = (
-        ("1","Active"),
-        ("2","Inactive"),
-    )
-    script_name = models.CharField("コードの名前",max_length=200)
-    selecter = models.CharField("状態",max_length=1,choices=choise_,default="2")
-    condition = models.CharField("実行間隔",max_length=10,default="1")
-    code = models.TextField("コード")
-    def __str__(self):
-        return self.script_name
-
 class Config(models.Model):
     server_name = models.CharField("サーバーの名前",max_length=20,default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
