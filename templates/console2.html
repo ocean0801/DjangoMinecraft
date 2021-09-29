@@ -41,16 +41,24 @@
     </form>
     {% if latest_question_list %}
     {% for question in latest_question_list %}
+      {% if question.q_flag %}
+        <li>>>> {{ question.command_text }}</li>
+        {% for question in question.return_text %}
+          {{ question }}<br>
+        {% endfor %}
+      {% else %}
         <li>>>> {{ question.command_text }}</li>{{ question.return_text }}<br><br>-- {{ question.time }}<br><br>
+      {% endif %}
     {% endfor %}
     </ul>
   {% else %}
-    <p>Code</p>
+    <p>まだログがないようです。</p>
 {% endif %}
-{{ debug }}
+
 </div>
 <div id="sidebar">
     <h2>リンク</h2>
+    {{ debug }}
     <a href="/mine/help"><p>Help</p></a>
     <a href="/mine/query"><p>Query </p></a>
     <a href="/accounts/login"><p>ログイン</p></a>

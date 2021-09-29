@@ -35,8 +35,9 @@ class Profile(models.Model):
         return self.profile_name
 class Command_log(models.Model):
     command_text = models.CharField("実行したコマンド",max_length=100)
-    return_text = models.CharField("実行結果",max_length=100)
+    return_text = models.TextField("実行結果",max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateTimeField(blank=True,null=True)
+    q_flag = models.BooleanField(verbose_name="",default=False)
     def __str__(self):
         return self.command_text

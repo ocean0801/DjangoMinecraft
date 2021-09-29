@@ -96,11 +96,19 @@ def scriptindex(request):
 
 @login_required(login_url='/accounts/login/')
 def profileac(request):
+    'アカウントのプロフィール'
     configs = get_conf(request)
     return render(request, 'profileac.html',{'user_name':request.user,'config_name':configs.server_name,'ip':configs.server_ip,'rcon_port':configs.rcon_port,'query_port':configs.query_port,'passw':configs.passw})
-
+spaces = 36
+test_list = ""
+def list_print(list_type,data):
+    global test_list
+    space = 12 - len(list_type)
+    list_type = list_type + '　' * space
+    test_list = test_list + list_type + data + "%kai"
 @login_required(login_url='/accounts/login/')
 def console(request):
+    global test_list
     configs = get_conf(request)
 
     return_text = ""
@@ -111,7 +119,7 @@ def console(request):
         pass
     else:
         chat_flag = False #チャットであるかのフラグ
-        query_flag = False #チャットであるかのフラグ
+        query_flag = False #クエリであるかのフラグ
         if text == "/query":
             query_flag = True
         if not text[0] == "/":
@@ -129,7 +137,21 @@ def console(request):
                     client.run(*func_du)
                 elif query_flag:
                     full_stats , seed = query_full(request)
-                    return_text = full_stats
+                    test_list = test_list + 'Server Full Stats@%s' % datetime.datetime.now() + "%kai%kai"
+                    list_print('element','data')
+                    test_list = test_list + '-'* spaces + "%kai"
+                    list_print('type',str(full_stats.type))
+                    list_print('session_id',str(full_stats.session_id))
+                    list_print('motd',str(full_stats.host_name))
+                    list_print('game_type',str(full_stats.game_type))
+                    list_print('game_id',str(full_stats.game_id))
+                    list_print('version',str(full_stats.version))
+                    list_print('plugins',str(full_stats.plugins))
+                    list_print('map',str(full_stats.map))
+                    list_print('players',str(full_stats.num_players)+'/'+str(full_stats.max_players)+' '+str(full_stats.players))
+                    list_print('host',str(full_stats.host_ip)+'@'+str(full_stats.host_port))
+                    list_print('seed',str(seed))
+                    return_text = test_list
                 else:
                     return_text = client.run(*func_du)
 
@@ -144,7 +166,7 @@ def console(request):
             text2 = logtext(request,text,"失敗")
             return_text = 'SyntaxError'
         logging(text2)
-        command = Command_log(command_text=text,return_text=return_text,user=request.user,time=datetime.datetime.now())
+        command = Command_log(command_text=text,return_text=return_text,user=request.user,time=datetime.datetime.now(),q_flag=query_flag)
         command.save()
     latest_question_list = Command_log.objects.all()
     template = loader.get_template('console2.html')
@@ -154,13 +176,25 @@ def console(request):
         if latest_question_list[i].user == request.user:
             test.append(latest_question_list[i])
     test.reverse()
+    #日付表記の変更
     for i in latest_question_list:
         i.time = str(i.time).replace("年","/")
         i.time = str(i.time).replace("月","/")
         i.time = str(i.time).replace("日","")
         i.time = str(i.time).replace("+"," ")
+        i.time = str(i.time).replace("00:00","")
+    #%kaiでの改行処理
+    for i in latest_question_list:
+        if i.q_flag:
+            text = i.return_text 
+            i.return_text = text.split("%kai")
+            '''
+    for i in latest_question_list:
+        text = i.return_text 
+        i.return_text = text.split("§6")
+        '''
     context = {
-        'latest_question_list': test[0:5],"user_name":request.user
+        'latest_question_list': test[0:5],"user_name":request.user,"debug":""
     }
     return HttpResponse(template.render(context, request))
 def query_full(req):
@@ -197,4 +231,9 @@ def config_page(request):
 def help(request):
     context = {'user_name':request.user}
     template = loader.get_template('helppage.html')
+    return HttpResponse(template.render(context,request))
+
+def kaigoyu(request):
+    context = {'kaigyou':["test1","test2","test3","test4"]}
+    template = loader.get_template('kaigyou.html')
     return HttpResponse(template.render(context,request))

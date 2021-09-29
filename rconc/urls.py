@@ -11,4 +11,5 @@ urlpatterns = [
     path('console/',views.console,name='submit'),
     path('config/',views.config_page,name='submit2'),
     path('help/',views.help,name='help'),
+    path('test/',views.kaigoyu)
 ]
