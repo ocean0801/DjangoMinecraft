@@ -212,7 +212,7 @@ def console(request):
         i.return_text = text.split("§6")
         '''
     context = {
-        'latest_question_list': test[0:5],"user_name":request.user,"debug":""
+        'latest_question_list': test[0:5],"user_name":request.user,"debug":"","logined":request.user.is_authenticated
     }
     return HttpResponse(template.render(context, request))
 def query_full(req):
@@ -260,4 +260,11 @@ def help(request):
 def kaigoyu(request):
     context = {'kaigyou':["test1","test2","test3","test4"]}
     template = loader.get_template('kaigyou.html')
+    return HttpResponse(template.render(context,request))
+
+def index(request):
+    context = {
+        "user_name":request.user,"logined":request.user.is_authenticated
+    }
+    template = loader.get_template('index.html')
     return HttpResponse(template.render(context,request))

@@ -5,10 +5,30 @@
     <meta charset="utf-8"/>
     <title>設定</title>
     <link href="/static/style.css" rel="stylesheet">
+    <style>
+        #box5{
+            border: 1px solid #333;
+            padding:10px;
+            background: #f2f2f2;
+            display: inline-block;
+            font-weight: bold;
+            transition: .10s;
+            margin: 10px;
+        }
+        #box5:hover{
+            background: #26D0C9;
+        }
+        h3 {
+        border-bottom: 2px solid #dee7ec;
+        }
+    </style>
 </head>
 <body>
-<div id="header">
-    <h2>設定</h2>
+    <div id="header">
+        <dev id="header-logo"><h2><a href="/mine/" style="color:white;">Home</a></h2></dev>
+      <dev id="header-list">
+      <a href="/mine/profile" style="color:white;">{{ request.user }}</a> / 
+      <a href="/accounts/logout" style="color:white;">ログアウト</a>
 </div>
 <div id="content">
     <form method="post" action="{% url 'submit2' %}">
@@ -20,8 +40,8 @@
     <p>Server IP:<input id="box2" type="text" value="{{ ip }}" name="ip"></p>
     <p>Server Query Port:<input id="box3" type="text" value="{{ qport }}" name="qport"></p>
     <p>Server Rcon Port:<input id="box4" type="text" value="{{ rport }}" name="rport"></p>
-    <p>Server Rcon Passward:<input id="box4" type="text" value="{{ passw }}" name="passw"></p>
-    <input style="width:200px;margin-top:10px;margin-bottom:30px;padding:20px;font-size:18px;border:1px solid #dee7ec;" id="box4" type="submit" value="Save">
+    <p>Server Rcon Passward:<input id="box4" type="password" value="{{ passw }}" name="passw"></p>
+    <input style="width:200px;padding:20px;font-size:18px;border:1px solid #dee7ec;" id="box5" type="submit" value="Save">
     </form>
 {{ debug }}
 </div>
@@ -32,11 +52,8 @@
   <a href="/accounts/login"><p>ログイン</p></a>
   <a href="/accounts/logout"><p>ログアウト</p></a>
   <a href="/mine/script"><p>スクリプトの実行</p></a>
-  <a href="/mine/code"><p>コードの設定</p></a>
+  <a href="/mine/config"><p>設定</p></a>
   <a href="/mine/console"><p>コンソールクライアント</p></a>
-  <h2>状態</h2>
-  <p>ログインしているユーザー:{{ user_name }}</p>
-  <a href="/mine/profile"><p>ぷろふぃる</p></a>
 </div>
 <script>
 document.getElementById("box1").focus();

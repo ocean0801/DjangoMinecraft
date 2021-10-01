@@ -28,8 +28,7 @@ body{
   }
   #header {
     font-family: "Avenir Next";
-    float:top;
-    height:60px;
+    height:40px;
     width:100%;
     padding:10px 20px 10px 20px;
     position: fixed;
@@ -38,4 +37,19 @@ body{
     top:0px;
     right:0px;
     left:0px;
+    float: left;
+    padding:15px;
+  }
+  #header-list {
+    font-family: "Avenir Next";
+    float: right;
+    padding:15px;
+    text-align: center;
+
+  }
+  #header-logo {
+    font-family: "Avenir Next";
+    float: left;
+    text-align: center;
+
   }

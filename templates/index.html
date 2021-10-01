@@ -1,0 +1,52 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <link href="/static/style.css" rel="stylesheet">
+    <meta charset="utf-8"/>
+    <title>DjangoMicraft!</title>
+    <style>
+        h1 {
+        border-bottom: 2px solid gray;
+        }
+    </style>
+</head>
+<body>
+<div id="header">
+  <dev id="header-logo"><h2><a href="/mine/" style="color:white;">Home</a></h2></dev>
+<dev id="header-list">
+<a href="/mine/profile" style="color:white;">{{ request.user }}</a> / 
+<a href="/accounts/logout" style="color:white;">ログアウト</a>
+
+</div>
+<div id="content">
+    <h1 id="djnagominecraftrcon">DjnagoMinecraftRcon</h1>
+    <p> DjangoからMinecraftを制御します。</p>
+    <h1 id="機能">機能</h1>
+    <h2 id="コンソール--mineconsole">コンソール @ <a href="/mine/console" style="color:white;">/mine/console</a></h2>
+    <p> /をつけて入力でコマンドを実行します。
+     /をつけないとチャットになります。</p>
+    <h2 id="query--minequery">Query @ <a href="/mine/query" style="color:white;">/mine/query</a></h2>
+    <p> Queryを飛ばします。</p>
+    <h2 id="stats--minestats近日実装">Stats @ /mine/stats(近日実装)</h2>
+    <p> サーバーの統計を出します。</p>
+    <h2 id="config--mineconfig">Config @ <a href="/mine/config" style="color:white;">/mine/config</a></h2>
+    <p> サーバーの設定を保存します。</p>
+    <h1>Licence</h1>
+    <p>Created by <a href="https://github.com/ocean0801" style="color:white;">ocean0801</a></p>
+    <p>Contribution by MoonsApps,Google.com</p>
+</div>
+<div id="sidebar">
+    <h2>リンク</h2>
+    {{ debug }}
+    <ul>
+    <li><a href="/mine/help"><p>Help</p></a></li>
+    <li><a href="/mine/query"><p>Query </p></a></li>
+    <li><a href="/accounts/login"><p>ログイン</p></a></li>
+    <li><a href="/accounts/logout"><p>ログアウト</p></a></li>
+    <li><a href="/mine/script"><p>スクリプトの実行</p></a></li>
+    <li><a href="/mine/config"><p>設定</p></a></li>
+    <li><a href="/mine/console"><p>コンソールクライアント</p></a></li>
+    </ul>
+</div>
+</body>
