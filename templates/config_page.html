@@ -3,44 +3,25 @@
 <html lang="ja">
 <head>  
     <meta charset="utf-8"/>
-    <title>スクリプト選択</title>
-    <style>
-    #sidebar {
-        float:right;
-        text-align: left;
-        background-color: gray;
-        color:black;
-        width:30%;
-        height: 90%;
-      }
-      #content {
-        float:left;
-        width:65%;
-        font-size: 12px;
-      }
-      #header {
-        float:top;
-        text-align: center;
-        height: 10%;
-      }
-    </style>
+    <title>設定</title>
+    <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
 <div id="header">
-    <h2>スクリプト選択</h2>
+    <h2>設定</h2>
 </div>
 <div id="content">
     <form method="post" action="{% url 'submit2' %}">
     {% csrf_token %}
     <h2>Server config</h2>
     <h3>Server Overview</h3>
-    <p>Server Name:<input id="box1" type="text" value="" name="name"></p>
+    <p>Server Name:<input id="box1" type="text" value="{{ name }}" name="name"></p>
     <h3>Server Data</h3>
-    <p>Server IP:<input id="box2" type="text" value="" name="ip"></p>
-    <p>Server Query Port:<input id="box3" type="text" value="" name="qport"></p>
-    <p>Server Rcon Port:<input id="box4" type="text" value="" name="rport"></p>
-    <p>Server Rcon Passward:<input id="box4" type="text" value="" name="passw"></p>
-    <input id="box4" type="submit" value="Save">
+    <p>Server IP:<input id="box2" type="text" value="{{ ip }}" name="ip"></p>
+    <p>Server Query Port:<input id="box3" type="text" value="{{ qport }}" name="qport"></p>
+    <p>Server Rcon Port:<input id="box4" type="text" value="{{ rport }}" name="rport"></p>
+    <p>Server Rcon Passward:<input id="box4" type="text" value="{{ passw }}" name="passw"></p>
+    <input style="width:200px;margin-top:10px;margin-bottom:30px;padding:20px;font-size:18px;border:1px solid #dee7ec;" id="box4" type="submit" value="Save">
     </form>
 {{ debug }}
 </div>

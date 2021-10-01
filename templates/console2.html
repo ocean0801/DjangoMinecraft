@@ -1,37 +1,15 @@
-
+{% load static%}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">    
+    <link href="/static/style.css" rel="stylesheet">
     <meta charset="utf-8"/>
     <title>コンソールクライアント</title>
-    <style>
-        #sidebar {
-        float:right;
-        text-align: left;
-        background-color: gray;
-        color:black;
-        width:30%;
-        height: 90%;
-      }
-      #content {
-        float:left;
-        width:65%;
-        background-color: black;
-        color: white;
-        font-family: "Press Start 2P";
-        font-size: 12px;
-      }
-      #header {
-        float:top;
-        text-align: center;
-        height: 10%;
-      }
-    </style>
 </head>
 <body>
 <div id="header">
-    <h2>コンソールクライアント</h2>
+    <h2><a href="/" style="color:white;">Home</a></h2>
 </div>
 <div id="content">
     <ul>
@@ -59,13 +37,15 @@
 <div id="sidebar">
     <h2>リンク</h2>
     {{ debug }}
-    <a href="/mine/help"><p>Help</p></a>
-    <a href="/mine/query"><p>Query </p></a>
-    <a href="/accounts/login"><p>ログイン</p></a>
-    <a href="/accounts/logout"><p>ログアウト</p></a>
-    <a href="/mine/script"><p>スクリプトの実行</p></a>
-    <a href="/mine/code"><p>コードの設定</p></a>
-    <a href="/mine/console"><p>コンソールクライアント</p></a>
+    <ul>
+    <li><a href="/mine/help"><p>Help</p></a></li>
+    <li><a href="/mine/query"><p>Query </p></a></li>
+    <li><a href="/accounts/login"><p>ログイン</p></a></li>
+    <li><a href="/accounts/logout"><p>ログアウト</p></a></li>
+    <li><a href="/mine/script"><p>スクリプトの実行</p></a></li>
+    <li><a href="/mine/config"><p>設定</p></a></li>
+    <li><a href="/mine/console"><p>コンソールクライアント</p></a></li>
+    </ul>
     <h2>状態</h2>
     <p>ログインしているユーザー:{{ user_name }}</p>
     <a href="/mine/profile"><p>ぷろふぃる</p></a>

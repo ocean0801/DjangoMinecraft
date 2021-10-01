@@ -1,0 +1,41 @@
+body{
+    background-image:url("/static/main2.png");
+    background-repeat: no-repeat;
+    background-color:gray;
+  }
+  #sidebar {
+    font-family: "Avenir Next";
+    float:right;
+    text-align: left;
+    color:black;
+    width:400px;
+    height: 600px;
+    position: fixed;
+    right:10px;
+    top:100px;
+  }
+  #content {
+    float:left;
+    background-color: black;
+    color: white;
+    font-family: "Press Start 2P";
+    font-size: 12px;
+    position:absolute;
+    top:100px;
+    right:420px;
+    left:10px;
+    opacity: 0.9;
+  }
+  #header {
+    font-family: "Avenir Next";
+    float:top;
+    height:60px;
+    width:100%;
+    padding:10px 20px 10px 20px;
+    position: fixed;
+    background-color: #26d0c9;
+    z-index: 10;
+    top:0px;
+    right:0px;
+    left:0px;
+  }

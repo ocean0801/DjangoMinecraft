@@ -120,13 +120,19 @@ def console(request):
     else:
         chat_flag = False #チャットであるかのフラグ
         query_flag = False #クエリであるかのフラグ
+        config_flag = False #クエリであるかのフラグ
+        kai_flag = False #改行を行う表であるかのフラグ
         if text == "/query":
             query_flag = True
-        if not text[0] == "/":
+            kai_flag = True
+        elif not text[0] == "/":
             func_du = ["say"]
             func_du.append(text)
             return_text = "/say "+text
             chat_flag = True
+        elif text == "/config":
+            config_flag = True
+            kai_flag = True
         funcs_list = text.split("/")
         for i in range(len(funcs_list)-1):
             func_du = funcs_list[int(i)+1].split(" ")
@@ -152,6 +158,15 @@ def console(request):
                     list_print('host',str(full_stats.host_ip)+'@'+str(full_stats.host_port))
                     list_print('seed',str(seed))
                     return_text = test_list
+                elif config_flag:
+                    test_list = test_list + 'My config get@%s' % datetime.datetime.now() + "%kai%kai"
+                    list_print('element','data')
+                    test_list = test_list + '-'* spaces + "%kai"
+                    list_print('name',str(configs.server_name))
+                    list_print('host',str(configs.server_ip))
+                    list_print('rcon',str(configs.server_ip)+"@"+str(configs.rcon_port))
+                    list_print('query',str(configs.server_ip)+"@"+str(configs.query_port))
+                    return_text = test_list
                 else:
                     return_text = client.run(*func_du)
 
@@ -165,8 +180,11 @@ def console(request):
         except UnboundLocalError:
             text2 = logtext(request,text,"失敗")
             return_text = 'SyntaxError'
+        except mcipc.rcon.errors.UnknownCommand:
+            text2 = logtext(request,text,"失敗")
+            return_text = 'UnknownCommand'
         logging(text2)
-        command = Command_log(command_text=text,return_text=return_text,user=request.user,time=datetime.datetime.now(),q_flag=query_flag)
+        command = Command_log(command_text=text,return_text=return_text,user=request.user,time=datetime.datetime.now(),q_flag=kai_flag)
         command.save()
     latest_question_list = Command_log.objects.all()
     template = loader.get_template('console2.html')
@@ -207,24 +225,30 @@ def query_full(req):
     return full_stats, seed
 @login_required(login_url='/accounts/login/')
 def config_page(request):
+    configs = get_conf(request)
     name = ""
+    name_c = configs.server_name
+    ip_c = configs.server_ip
+    qport_c = configs.query_port
+    rport_c = configs.rcon_port
+    passw_c = configs.passw
     if request.method == "POST":
         name = request.POST.get('name')
         ip = request.POST.get('ip')
         qport = request.POST.get('qport')
         rport = request.POST.get('rport')
         passw = request.POST.get('passw')
-    if not name and not ip and not qport and not rport and not passw:
-        pass
-    else:
-        configs_list = Config.objects.all()
-        for configs in configs_list:
-            if configs.user == request.user:
-                break
-        configs.delete()
-        config_data = Config(server_name=name,user=request.user,server_ip=ip,rcon_port=rport,query_port=qport,passw=passw)
-        config_data.save()
-    context = {'user_name':request.user}
+        if not name and not ip and not qport and not rport and not passw:
+            pass
+        else:
+            configs_list = Config.objects.all()
+            for configs in configs_list:
+                if configs.user == request.user:
+                    break
+            configs.delete()
+            config_data = Config(server_name=name,user=request.user,server_ip=ip,rcon_port=rport,query_port=qport,passw=passw)
+            config_data.save()
+    context = {'user_name':request.user,'name':name_c,"ip":ip_c,"qport":qport_c,"rport":rport_c,"passw":passw_c}
     template = loader.get_template('config_page.html')
     return HttpResponse(template.render(context,request))
 
