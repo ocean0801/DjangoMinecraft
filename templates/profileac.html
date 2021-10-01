@@ -3,53 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>プロフィール</title>
-    <style>
-        #sidebar {
-        float:right;
-        text-align: left;
-        background-color: gray;
-        color:black;
-        width:30%;
-        height: 90%;
-      }
-      #content {
-        float:left;
-        width:65%;
-      }
-      #header {
-        float:top;
-        text-align: center;
-        height: 10%;
-      }
-      tt {
-        background-color: black;
-        color: white;
-      }
-      .balloonoya {
-  position   : relative;
-}
-.balloonoya:hover .balloon {
-  display: inline;
-}
-.balloon {
-  position   : absolute;
-  display: none;
-  padding: 2px;
-  background-color: rgba(255, 255, 255, 1.00);       /* 背景色（透明度） */
-  width:300px;
-  left : -1%;
-  font-size: 80%;
-}
-.balloon:after{
-  border-left: 12px solid rgba(102, 102, 255, 0.00);
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  right: -12px;
-  top: 5%;
-  content: "";
-  position: absolute;
-}
-    </style>
+    <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
 <div id="header">
@@ -62,9 +16,7 @@
     <p>サーバーのIP:{{ ip }}</p>
     <p>RCONクライアントのポート番号:{{ rcon_port }}</p>
     <p>QUERYクライアントのポート番号:{{ query_port }}</p>
-    <div class="balloonoya">マウスを乗せてパスワード表示
-    <span class="balloon">{{ passw }}</span>
-    </div>
+    <span onmouseover="this.innerText='{{ passw }}'" onmouseout="this.innerText='マウスを載せてパスワードを表示'">マウスを載せてパスワードを表示</span>
 
 </div>
 <div id="sidebar">
@@ -74,7 +26,7 @@
   <a href="/accounts/login"><p>ログイン</p></a>
   <a href="/accounts/logout"><p>ログアウト</p></a>
   <a href="/mine/script"><p>スクリプトの実行</p></a>
-  <a href="/mine/code"><p>コードの設定</p></a>
+  <a href="/mine/config"><p>設定</p></a>
   <a href="/mine/console"><p>コンソールクライアント</p></a>
   <h2>状態</h2>
   <p>ログインしているユーザー:{{ user_name }}</p>

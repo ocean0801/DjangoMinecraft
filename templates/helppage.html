@@ -3,26 +3,7 @@
 <head>  
     <meta charset="utf-8"/>
     <title>HelpPage</title>
-    <style>
-      #sidebar {
-        float:right;
-        text-align: left;
-        background-color: gray;
-        color:black;
-        width:30%;
-        height: 90%;
-      }
-      #content {
-        float:left;
-        width:65%;
-        font-size: 12px;
-      }
-      #header {
-        float:top;
-        text-align: center;
-        height: 10%;
-      }
-    </style>
+    <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
 <div id="header">
@@ -42,9 +23,6 @@
     <a href="/mine/script"><p>スクリプトの実行</p></a>
     <a href="/mine/code"><p>コードの設定</p></a>
     <a href="/mine/console"><p>コンソールクライアント</p></a>
-    <h2>状態</h2>
-    <p>ログインしているユーザー:{{ user_name }}</p>
-    <a href="/mine/profile"><p>ぷろふぃる</p></a>
 </div>
 <script>
 document.getElementById("box1").focus();

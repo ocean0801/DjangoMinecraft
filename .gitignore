@@ -116,3 +116,5 @@ log.txt
 rconc/#inc.cpp
 *.cpp
 .DS_Store
+rconc/.DS_Store
+templates/.DS_Store

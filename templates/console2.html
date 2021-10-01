@@ -1,37 +1,19 @@
-
+{% load static%}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">    
+    <link href="/static/style.css" rel="stylesheet">
     <meta charset="utf-8"/>
     <title>コンソールクライアント</title>
-    <style>
-        #sidebar {
-        float:right;
-        text-align: left;
-        background-color: gray;
-        color:black;
-        width:30%;
-        height: 90%;
-      }
-      #content {
-        float:left;
-        width:65%;
-        background-color: black;
-        color: white;
-        font-family: "Press Start 2P";
-        font-size: 12px;
-      }
-      #header {
-        float:top;
-        text-align: center;
-        height: 10%;
-      }
-    </style>
 </head>
 <body>
 <div id="header">
-    <h2>コンソールクライアント</h2>
+  <dev id="header-logo"><h2><a href="/mine/" style="color:white;">Home</a></h2></dev>
+<dev id="header-list">
+<a href="/mine/profile" style="color:white;">{{ request.user }}</a> / 
+<a href="/accounts/logout" style="color:white;">ログアウト</a>
+
 </div>
 <div id="content">
     <ul>
@@ -41,26 +23,33 @@
     </form>
     {% if latest_question_list %}
     {% for question in latest_question_list %}
+      {% if question.q_flag %}
+        <li>>>> {{ question.command_text }}</li>
+        {% for question in question.return_text %}
+          {{ question }}<br>
+        {% endfor %}
+      {% else %}
         <li>>>> {{ question.command_text }}</li>{{ question.return_text }}<br><br>-- {{ question.time }}<br><br>
+      {% endif %}
     {% endfor %}
     </ul>
   {% else %}
-    <p>Code</p>
+    <p>まだログがないようです。</p>
 {% endif %}
-{{ debug }}
+
 </div>
 <div id="sidebar">
     <h2>リンク</h2>
-    <a href="/mine/help"><p>Help</p></a>
-    <a href="/mine/query"><p>Query </p></a>
-    <a href="/accounts/login"><p>ログイン</p></a>
-    <a href="/accounts/logout"><p>ログアウト</p></a>
-    <a href="/mine/script"><p>スクリプトの実行</p></a>
-    <a href="/mine/code"><p>コードの設定</p></a>
-    <a href="/mine/console"><p>コンソールクライアント</p></a>
-    <h2>状態</h2>
-    <p>ログインしているユーザー:{{ user_name }}</p>
-    <a href="/mine/profile"><p>ぷろふぃる</p></a>
+    {{ debug }}
+    <ul>
+    <li><a href="/mine/help"><p>Help</p></a></li>
+    <li><a href="/mine/query"><p>Query </p></a></li>
+    <li><a href="/accounts/login"><p>ログイン</p></a></li>
+    <li><a href="/accounts/logout"><p>ログアウト</p></a></li>
+    <li><a href="/mine/script"><p>スクリプトの実行</p></a></li>
+    <li><a href="/mine/config"><p>設定</p></a></li>
+    <li><a href="/mine/console"><p>コンソールクライアント</p></a></li>
+    </ul>
 </div>
 <script>
 document.getElementById("box").focus();

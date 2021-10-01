@@ -8,18 +8,6 @@ class Script(models.Model):
     def __str__(self):
         return self.script_name
 
-class Code(models.Model):
-    choise_ = (
-        ("1","Active"),
-        ("2","Inactive"),
-    )
-    script_name = models.CharField("コードの名前",max_length=200)
-    selecter = models.CharField("状態",max_length=1,choices=choise_,default="2")
-    condition = models.CharField("実行間隔",max_length=10,default="1")
-    code = models.TextField("コード")
-    def __str__(self):
-        return self.script_name
-
 class Config(models.Model):
     server_name = models.CharField("サーバーの名前",max_length=20,default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -47,8 +35,9 @@ class Profile(models.Model):
         return self.profile_name
 class Command_log(models.Model):
     command_text = models.CharField("実行したコマンド",max_length=100)
-    return_text = models.CharField("実行結果",max_length=100)
+    return_text = models.TextField("実行結果",max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateTimeField(blank=True,null=True)
+    q_flag = models.BooleanField(verbose_name="",default=False)
     def __str__(self):
         return self.command_text
