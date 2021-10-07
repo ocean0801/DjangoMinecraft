@@ -210,14 +210,13 @@ def console(request):
             i.return_text = text.split("%kai")
     for i in latest_question_list:
         if i.chat_flag:
-            print(i.return_text)
             text = i.return_text
             i.return_text = text.replace("§0","</span><span style='color:#000000;'>")
             i.return_text = i.return_text.replace("§1","</span><span style='color:#0000AA;'>")
-            i.return_text = i.return_text.replace("§2","</span><span style='color:#0000AA;'>")
-            i.return_text = i.return_text.replace("§3","</span><span style='color:#00AA00;'>")
-            i.return_text = i.return_text.replace("§4","</span><span style='color:#00AAAA;'>")
-            i.return_text = i.return_text.replace("§5","</span><span style='color:#AA0000;'>")
+            i.return_text = i.return_text.replace("§2","</span><span style='color:#00AA00;'>")
+            i.return_text = i.return_text.replace("§3","</span><span style='color:#00AAAA;'>")
+            i.return_text = i.return_text.replace("§4","</span><span style='color:#AA0000;'>")
+            i.return_text = i.return_text.replace("§5","</span><span style='color:#AA00AA;'>")
             i.return_text = i.return_text.replace("§6","</span><span style='color:#FFAA00;'>")
             i.return_text = i.return_text.replace("§7","</span><span style='color:#AAAAAA;'>")
             i.return_text = i.return_text.replace("§8","</span><span style='color:#555555;'>")
