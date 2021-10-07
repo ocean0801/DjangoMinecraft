@@ -133,6 +133,8 @@ def console(request):
         elif text == "/config":
             config_flag = True
             kai_flag = True
+        elif text == "/help":
+            kai_flag = True
         funcs_list = text.split("/")
         for i in range(len(funcs_list)-1):
             func_du = funcs_list[int(i)+1].split(" ")
@@ -141,6 +143,7 @@ def console(request):
             with Client(configs.server_ip, int(configs.rcon_port), passwd=configs.passw) as client:
                 if chat_flag:
                     client.run(*func_du)
+
                 elif query_flag:
                     full_stats , seed = query_full(request)
                     test_list = test_list + 'Server Full Stats@%s' % datetime.datetime.now() + "%kai%kai"
@@ -169,7 +172,6 @@ def console(request):
                     return_text = test_list
                 else:
                     return_text = client.run(*func_du)
-
                 text2 = logtext(request,text,"成功")
         except ConnectionRefusedError as e:
             text2 = logtext(request,text,"失敗")
@@ -184,7 +186,7 @@ def console(request):
             text2 = logtext(request,text,"失敗")
             return_text = 'UnknownCommand'
         logging(text2)
-        command = Command_log(command_text=text,return_text=return_text,user=request.user,time=datetime.datetime.now(),q_flag=kai_flag)
+        command = Command_log(command_text=text,return_text=return_text,user=request.user,time=datetime.datetime.now(),q_flag=kai_flag,chat_flag=chat_flag)
         command.save()
     latest_question_list = Command_log.objects.all()
     template = loader.get_template('console2.html')
@@ -206,7 +208,28 @@ def console(request):
         if i.q_flag:
             text = i.return_text 
             i.return_text = text.split("%kai")
-            '''
+    for i in latest_question_list:
+        if i.chat_flag:
+            print(i.return_text)
+            text = i.return_text
+            i.return_text = text.replace("§0","</span><span style='color:#000000;'>")
+            i.return_text = i.return_text.replace("§1","</span><span style='color:#0000AA;'>")
+            i.return_text = i.return_text.replace("§2","</span><span style='color:#0000AA;'>")
+            i.return_text = i.return_text.replace("§3","</span><span style='color:#00AA00;'>")
+            i.return_text = i.return_text.replace("§4","</span><span style='color:#00AAAA;'>")
+            i.return_text = i.return_text.replace("§5","</span><span style='color:#AA0000;'>")
+            i.return_text = i.return_text.replace("§6","</span><span style='color:#FFAA00;'>")
+            i.return_text = i.return_text.replace("§7","</span><span style='color:#AAAAAA;'>")
+            i.return_text = i.return_text.replace("§8","</span><span style='color:#555555;'>")
+            i.return_text = i.return_text.replace("§9","</span><span style='color:#5555FF;'>")
+            i.return_text = i.return_text.replace("§a","</span><span style='color:#55FF55;'>")
+            i.return_text = i.return_text.replace("§b","</span><span style='color:#55FFFF;'>")
+            i.return_text = i.return_text.replace("§c","</span><span style='color:#FF5555;'>")
+            i.return_text = i.return_text.replace("§d","</span><span style='color:#FF55FF;'>")
+            i.return_text = i.return_text.replace("§e","</span><span style='color:#FFFF55;'>")
+            i.return_text = i.return_text.replace("§f","</span><span style='color:#FFFFFF;'>")
+            i.return_text = i.return_text+"</span></span>"
+    '''
     for i in latest_question_list:
         text = i.return_text 
         i.return_text = text.split("§6")
@@ -267,4 +290,11 @@ def index(request):
         "user_name":request.user,"logined":request.user.is_authenticated
     }
     template = loader.get_template('index.html')
+    return HttpResponse(template.render(context,request))
+
+def test(request):
+    context = {
+        "debug":"<span style='color:red;'>まっかっか？</span>"
+    }
+    template = loader.get_template('testpage.html')
     return HttpResponse(template.render(context,request))

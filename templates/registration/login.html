@@ -47,13 +47,5 @@
 <input type="hidden" name="next" value="{{ next }}">
 </form>
 </div>
-<div id="sidebar">
-  <h2>リンク</h2>
-  <a href="/mine/help"><p>Help</p></a>
-  <a href="/mine/query"><p>Query </p></a>
-  <a href="/mine/line"><p>URL変換</p></a>
-  <a href="/mine/script"><p>スクリプトの実行</p></a>
-  <a href="/mine/config"><p>コードの設定</p></a>
-  <a href="/mine/console"><p>コンソールクライアント</p></a>
-</div>
+{% include "sidebar.html" %}
 </body>

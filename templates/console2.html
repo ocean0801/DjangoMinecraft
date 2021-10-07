@@ -29,7 +29,7 @@
           {{ question }}<br>
         {% endfor %}
       {% else %}
-        <li>>>> {{ question.command_text }}</li>{{ question.return_text }}<br><br>-- {{ question.time }}<br><br>
+        <li>>>> {{ question.command_text }}</li>{{ question.return_text | safe }}<br><br>-- {{ question.time }}<br><br>
       {% endif %}
     {% endfor %}
     </ul>
@@ -38,15 +38,7 @@
 {% endif %}
 
 </div>
-<div id="sidebar">
-    <h2>リンク</h2>
-    {{ debug }}
-<a href="/mine/help"><p>Help</p></a>
-  <a href="/mine/query"><p>Query </p></a>
-  <a href="/mine/script"><p>スクリプトの実行</p></a>
-  <a href="/mine/config"><p>設定</p></a>
-  <a href="/mine/console"><p>コンソールクライアント</p></a>
-</div>
+{% include "sidebar.html" %}
 <script>
 document.getElementById("box").focus();
 </script>
