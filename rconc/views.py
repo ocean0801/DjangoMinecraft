@@ -2,7 +2,7 @@ import datetime
 
 from mcipc.rcon.je import Client
 from mcipc.query import Client as Client_q
-import mcipc
+from mcipc.rcon.errors import *
 
 from .models import Script, Config, Command_log
 
@@ -176,15 +176,24 @@ def console(request):
         except ConnectionRefusedError as e:
             text2 = logtext(request,text,"失敗")
             return_text = 'ServerNotFoundError'
-        except mcipc.rcon.errors.NoPlayerFound as e:
+        except ConnectionResetError as e:
+            text2 = logtext(request,text,"失敗")
+            return_text = 'ServerNotFoundError'
+        except NoPlayerFound as e:
             text2 = logtext(request,text,"失敗")
             return_text = 'NoPlayerFoundError'
         except UnboundLocalError:
             text2 = logtext(request,text,"失敗")
             return_text = 'SyntaxError'
-        except mcipc.rcon.errors.UnknownCommand:
+        except UnknownCommand:
             text2 = logtext(request,text,"失敗")
-            return_text = 'UnknownCommand'
+            return_text = 'Unknown or incomplete command'
+        except InvalidArgument:
+            text2 = logtext(request,text,"失敗")
+            return_text = 'InvalidArgument'
+        except LocationNotFound:
+            text2 = logtext(request,text,"失敗")
+            return_text = 'Location could not be found.'
         logging(text2)
         command = Command_log(command_text=text,return_text=return_text,user=request.user,time=datetime.datetime.now(),q_flag=kai_flag,chat_flag=chat_flag)
         command.save()
