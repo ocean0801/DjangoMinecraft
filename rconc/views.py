@@ -6,10 +6,11 @@ from mcipc.rcon.errors import *
 
 from .models import Script, Config, Command_log
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
+
 #Toolsの定義
 def logtext(req,text,st):
     "IPアドレスを記録しつつログの文字を作る。"
@@ -69,19 +70,79 @@ def script(request, ids):
     funcs = scripts.script
     funcs_list = funcs.split("/")
     re ="/ "
-    ipadd = request.META.get('REMOTE_ADDR')
+    text2 = ""
     for i in range(len(funcs_list)-1):
         func_du = funcs_list[int(i)+1].split(" ")
+        text = scripts.script_name
         try:
             with Client(configs.server_ip, int(configs.rcon_port), passwd=configs.passw) as client:
                 re = re+client.run(*func_du)
                 re = re+" / "
-                text2 = scripts.script_name+"のスクリプトの実行に成功しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
+                text2 = logtext(request,text,"失敗")
         except ConnectionRefusedError as e:
-            text2 = scripts.script_name+"のスクリプトの実行に失敗しました。-%s" % datetime.datetime.now() + " on IP" + ipadd
+            text2 = logtext(request,text,"失敗")
+            re = re + 'ServerNotFoundError / '
+        except ConnectionResetError as e:
+            text2 = logtext(request,text,"失敗")
+            re = re + 'ServerNotFoundError / '
+        except NoPlayerFound as e:
+            text2 = logtext(request,text,"失敗")
+            re = re + 'NoPlayerFoundError / '
+        except UnboundLocalError:
+            text2 = logtext(request,text,"失敗")
+            re = re + 'SyntaxError / '
+        except UnknownCommand:
+            text2 = logtext(request,text,"失敗")
+            re = re + 'Unknown or incomplete command / '
+        except InvalidArgument:
+            text2 = logtext(request,text,"失敗")
+            re = re + 'InvalidArgument / '
+        except LocationNotFound:
+            text2 = logtext(request,text,"失敗")
+            re = re + 'Location could not be found. / '
     logging(text2)
     return render(request, 'script.html', {'script_field': funcs,'script':scripts,'debug':len(funcs_list),'re':re,"user_name":request.user})
+@login_required(login_url='/accounts/login/')
+def script_page(request):
+    name = ""
+    if request.method == "POST":
+        name = request.POST.get('name')
+        command = request.POST.get('com')
+        if not name:
+            pass
+        else:
+            config_data = Script(script_name=name,script=command)
+            config_data.save()
+            return redirect('/mine/script')
+    context = {'user_name':request.user}
+    template = loader.get_template('script_page.html')
+    return HttpResponse(template.render(context,request))
 
+@login_required(login_url='/accounts/login/')
+def script_do(request,id,type):
+    if type == "delete":
+        scripts = Script.objects.get(id=id)
+        scripts.delete()
+    return redirect('/mine/script')
+def script_edit(request,id):
+    name = ""
+    scripts = Script.objects.get(id=id)
+    if request.method == "POST":
+        name = request.POST.get('name')
+        command = request.POST.get('com')
+        if not name:
+            pass
+        else:
+            print("POST")
+            config_data = Script.objects.get(id=id)
+            config_data.script_name = name
+            config_data.script = command
+            print(command)
+            config_data.save()
+            return redirect('/mine/script')
+    context = {'user_name':request.user,"name":scripts.script_name,"scripts":scripts.script,"id":id}
+    template = loader.get_template('script_page2.html')
+    return HttpResponse(template.render(context,request))
 @login_required(login_url='/accounts/login/')
 def scriptindex(request):
     latest_question_list = Script.objects.all()
@@ -122,6 +183,8 @@ def console(request):
         query_flag = False #クエリであるかのフラグ
         config_flag = False #クエリであるかのフラグ
         kai_flag = False #改行を行う表であるかのフラグ
+        script_falg = False
+        list_flag = False
         if text == "/query":
             query_flag = True
             kai_flag = True
@@ -135,6 +198,13 @@ def console(request):
             kai_flag = True
         elif text == "/help":
             kai_flag = True
+        elif text[0:7] == "/script":
+            script_falg = True
+            try:
+                ids = int((text.split(" "))[1])
+            except ValueError:
+                script_falg = False
+                list_flag = True
         funcs_list = text.split("/")
         for i in range(len(funcs_list)-1):
             func_du = funcs_list[int(i)+1].split(" ")
@@ -170,6 +240,47 @@ def console(request):
                     list_print('rcon',str(configs.server_ip)+"@"+str(configs.rcon_port))
                     list_print('query',str(configs.server_ip)+"@"+str(configs.query_port))
                     return_text = test_list
+                elif script_falg:
+                    configs = get_conf(request)
+                    scripts = Script.objects.get(id=ids)
+                    funcs = scripts.script
+                    funcs_list = funcs.split("/")
+                    re ="/ "
+                    text2 = ""
+                    for i in range(len(funcs_list)-1):
+                        func_du = funcs_list[int(i)+1].split(" ")
+                        text = scripts.script_name
+                        try:
+                            re = re+client.run(*func_du)
+                        except ConnectionRefusedError as e:
+                            text2 = logtext(request,text,"失敗")
+                            re = re + 'ServerNotFoundError / '
+                        except ConnectionResetError as e:
+                            text2 = logtext(request,text,"失敗")
+                            re = re + 'ServerNotFoundError / '
+                        except NoPlayerFound as e:
+                            text2 = logtext(request,text,"失敗")
+                            re = re + 'NoPlayerFoundError / '
+                        except UnboundLocalError:
+                            text2 = logtext(request,text,"失敗")
+                            re = re + 'SyntaxError / '
+                        except UnknownCommand:
+                            text2 = logtext(request,text,"失敗")
+                            re = re + 'Unknown or incomplete command / '
+                        except InvalidArgument:
+                            text2 = logtext(request,text,"失敗")
+                            re = re + 'InvalidArgument / '
+                        except LocationNotFound:
+                            text2 = logtext(request,text,"失敗")
+                            re = re + 'Location could not be found. / '
+                        re = re+" / "
+                        text2 = logtext(request,text,"失敗")
+                    return_text = re
+                elif list_flag:
+                    scripts = Script.objects.all()
+                    for i in scripts:
+                        return_text = return_text + i.script_name+":"+str(i.id)+"%kai"
+                    kai_flag = True
                 else:
                     return_text = client.run(*func_du)
                 text2 = logtext(request,text,"成功")
@@ -237,11 +348,6 @@ def console(request):
             i.return_text = i.return_text.replace("§e","</span><span style='color:#FFFF55;'>")
             i.return_text = i.return_text.replace("§f","</span><span style='color:#FFFFFF;'>")
             i.return_text = i.return_text+"</span></span>"
-    '''
-    for i in latest_question_list:
-        text = i.return_text 
-        i.return_text = text.split("§6")
-        '''
     context = {
         'latest_question_list': test[0:5],"user_name":request.user,"debug":"","logined":request.user.is_authenticated
     }
@@ -282,6 +388,7 @@ def config_page(request):
     context = {'user_name':request.user,'name':name_c,"ip":ip_c,"qport":qport_c,"rport":rport_c,"passw":passw_c}
     template = loader.get_template('config_page.html')
     return HttpResponse(template.render(context,request))
+
 
 def help(request):
     context = {'user_name':request.user}

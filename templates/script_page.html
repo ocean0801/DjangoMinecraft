@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>  
+    <meta charset="utf-8"/>
+    <title>設定</title>
+    <link href="/static/style.css" rel="stylesheet">
+    <style>
+        #box5{
+            border: 1px solid #333;
+            padding:10px;
+            background: #f2f2f2;
+            display: inline-block;
+            font-weight: bold;
+            transition: .10s;
+            margin: 10px;
+        }
+        #box5:hover{
+            background: #26D0C9;
+        }
+        h3 {
+        border-bottom: 2px solid #dee7ec;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <dev id="header-logo"><h2><a href="/mine/" style="color:white;">Home</a></h2></dev>
+      <dev id="header-list">
+      <a href="/mine/profile" style="color:white;">{{ request.user }}</a> / 
+      <a href="/accounts/logout" style="color:white;">ログアウト</a>
+</div>
+<div id="content">
+    <form method="post" action="{% url 'submit3' %}">
+    {% csrf_token %}
+    <h2>Create script</h2>
+    <h3>Setting</h3>
+    <p>Name:<input id="box1" type="text" name="name" value="{{ name }}"></p>
+    Script:<textarea name="com" style="height: 300px;width:400px;" value="{{ scripts }}"></textarea><br>
+    <input style="width:100px;padding:20px;font-size:18px;border:1px solid #dee7ec;" id="box5" type="submit" value="Save">
+    </form>
+{{ debug }}
+</div>
+{% include "sidebar.html" %}
+<script>
+document.getElementById("box1").focus();
+</script>
+</body>
