@@ -27,7 +27,8 @@ def get_conf(request):
     configs_list = Config.objects.all()
     for configs in configs_list:
         if configs.user == request.user:
-            break
+            if configs.active:
+                break
     return configs
 #定義終了
 def index(request):
