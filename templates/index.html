@@ -15,9 +15,13 @@
 <div id="header">
   <dev id="header-logo"><h2><a href="/mine/" style="color:white;">Home</a></h2></dev>
 <dev id="header-list">
+{% if user.is_authenticated %}
 <a href="/mine/profile" style="color:white;">{{ request.user }}</a> / 
 <a href="/accounts/logout" style="color:white;">ログアウト</a>
-
+{% else %}
+<a href="/mine/profile" style="color:white;">ログイン</a> / 
+<a href="/accounts/logout" style="color:white;">ログアウト</a>
+{% endif %}
 </div>
 <div id="content">
     <h1 id="djnagominecraftrcon">DjnagoMinecraftRcon</h1>
@@ -34,19 +38,7 @@
     <p> サーバーの設定を保存します。</p>
     <h1>Licence</h1>
     <p>Created by <a href="https://github.com/ocean0801" style="color:white;">ocean0801</a></p>
-    <p>Contribution by MoonsApps,Google.com</p>
+    <p>Use MoonsApps,Google.com</p>
 </div>
-<div id="sidebar">
-    <h2>リンク</h2>
-    {{ debug }}
-    <ul>
-    <li><a href="/mine/help"><p>Help</p></a></li>
-    <li><a href="/mine/query"><p>Query </p></a></li>
-    <li><a href="/accounts/login"><p>ログイン</p></a></li>
-    <li><a href="/accounts/logout"><p>ログアウト</p></a></li>
-    <li><a href="/mine/script"><p>スクリプトの実行</p></a></li>
-    <li><a href="/mine/config"><p>設定</p></a></li>
-    <li><a href="/mine/console"><p>コンソールクライアント</p></a></li>
-    </ul>
-</div>
+{% include "sidebar.html" %}
 </body>

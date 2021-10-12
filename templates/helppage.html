@@ -6,24 +6,21 @@
     <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
-<div id="header">
-    <h2>HelpPage</h2>
-</div>
+    <dev id="header-list">
+        {% if user.is_authenticated %}
+        <a href="/mine/profile" style="color:white;">{{ request.user }}</a> / 
+        <a href="/accounts/logout" style="color:white;">ログアウト</a>
+        {% else %}
+        <a href="/mine/profile" style="color:white;">ログイン</a> / 
+        <a href="/accounts/logout" style="color:white;">ログアウト</a>
+        {% endif %}
+        </div>
 <div id="content">
     <h3>へるぷぺぇじ</h3>
     
 {{ debug }}
 </div>
-<div id="sidebar">
-    <h2>リンク</h2>
-    <a href="/mine/help"><p>Help</p></a>
-    <a href="/mine/query"><p>Query </p></a>
-    <a href="/accounts/login"><p>ログイン</p></a>
-    <a href="/accounts/logout"><p>ログアウト</p></a>
-    <a href="/mine/script"><p>スクリプトの実行</p></a>
-    <a href="/mine/code"><p>コードの設定</p></a>
-    <a href="/mine/console"><p>コンソールクライアント</p></a>
-</div>
+{% include "sidebar.html" %}
 <script>
 document.getElementById("box1").focus();
 </script>

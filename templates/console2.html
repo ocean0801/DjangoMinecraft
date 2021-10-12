@@ -29,7 +29,7 @@
           {{ question }}<br>
         {% endfor %}
       {% else %}
-        <li>>>> {{ question.command_text }}</li>{{ question.return_text }}<br><br>-- {{ question.time }}<br><br>
+        <li>>>> {{ question.command_text }}</li>{{ question.return_text | safe }}<br><br>-- {{ question.time }}<br><br>
       {% endif %}
     {% endfor %}
     </ul>
@@ -38,20 +38,140 @@
 {% endif %}
 
 </div>
-<div id="sidebar">
-    <h2>リンク</h2>
-    {{ debug }}
-    <ul>
-    <li><a href="/mine/help"><p>Help</p></a></li>
-    <li><a href="/mine/query"><p>Query </p></a></li>
-    <li><a href="/accounts/login"><p>ログイン</p></a></li>
-    <li><a href="/accounts/logout"><p>ログアウト</p></a></li>
-    <li><a href="/mine/script"><p>スクリプトの実行</p></a></li>
-    <li><a href="/mine/config"><p>設定</p></a></li>
-    <li><a href="/mine/console"><p>コンソールクライアント</p></a></li>
-    </ul>
-</div>
+{% include "sidebar.html" %}
 <script>
 document.getElementById("box").focus();
+document.onkeydown = function(e) {
+    var keyCode = false;
+ 
+    if (e) event = e;
+ 
+    if (event) {
+        if (event.keyCode == 9) {
+          if(document.getElementById("box").value.indexOf("/ad") === 0){
+            document.getElementById("box").value = "/advancement"
+          } else if(document.getElementById("box").value.indexOf("/at") === 0){
+            document.getElementById("box").value = "/attribute"
+          } else if(document.getElementById("box").value.indexOf("/ex") === 0){
+            document.getElementById("box").value = "/execute"
+          } else if(document.getElementById("box").value.indexOf("/bo") === 0){
+            document.getElementById("box").value = "/bossbar"
+          } else if(document.getElementById("box").value.indexOf("/cle") === 0){
+            document.getElementById("box").value = "/clear"
+          } else if(document.getElementById("box").value.indexOf("/clo") === 0){
+            document.getElementById("box").value = "/clone"
+          } else if(document.getElementById("box").value.indexOf("/datap") === 0){
+            document.getElementById("box").value = "/datapack"
+          } else if(document.getElementById("box").value.indexOf("/def") === 0){
+            document.getElementById("box").value = "/defaultgamemode"
+          } else if(document.getElementById("box").value.indexOf("/di") === 0){
+            document.getElementById("box").value = "/difficulty"
+          } else if(document.getElementById("box").value.indexOf("/en") === 0){
+            document.getElementById("box").value = "/enchant"
+          } else if(document.getElementById("box").value.indexOf("/ex") === 0){
+            document.getElementById("box").value = "/experience"
+          } else if(document.getElementById("box").value.indexOf("/x") === 0){
+            document.getElementById("box").value = "/xp"
+          } else if(document.getElementById("box").value.indexOf("/fi") === 0){
+            document.getElementById("box").value = "/fill"
+          } else if(document.getElementById("box").value.indexOf("/fo") === 0){
+            document.getElementById("box").value = "/forceload"
+          } else if(document.getElementById("box").value.indexOf("/fu") === 0){
+            document.getElementById("box").value = "/function"
+          } else if(document.getElementById("box").value.indexOf("/gamem") === 0){
+            document.getElementById("box").value = "/gamemode"
+          } else if(document.getElementById("box").value.indexOf("/gamer") === 0){
+            document.getElementById("box").value = "/gamerule"
+          } else if(document.getElementById("box").value.indexOf("/g") === 0){
+            document.getElementById("box").value = "/give"
+          } else if(document.getElementById("box").value.indexOf("/he") === 0){
+            document.getElementById("box").value = "/help"
+          } else if(document.getElementById("box").value.indexOf("/i") === 0){
+            document.getElementById("box").value = "/item"
+          } else if(document.getElementById("box").value.indexOf("/kic") === 0){
+            document.getElementById("box").value = "/kick"
+          } else if(document.getElementById("box").value.indexOf("/kil") === 0){
+            document.getElementById("box").value = "/kill"
+          } else if(document.getElementById("box").value.indexOf("/li") === 0){
+            document.getElementById("box").value = "/list"
+          } else if(document.getElementById("box").value.indexOf("/locateb") === 0){
+            document.getElementById("box").value = "/locatebiome"
+          } else if(document.getElementById("box").value.indexOf("/loo") === 0){
+            document.getElementById("box").value = "/loot"
+          } else if(document.getElementById("box").value.indexOf("/ms") === 0){
+            document.getElementById("box").value = "/msg"
+          } else if(document.getElementById("box").value.indexOf("/pa") === 0){
+            document.getElementById("box").value = "/particle"
+          } else if(document.getElementById("box").value.indexOf("/pl") === 0){
+            document.getElementById("box").value = "/playsound"
+          } else if(document.getElementById("box").value.indexOf("/he") === 0){
+            document.getElementById("box").value = "/help"
+          } else if(document.getElementById("box").value.indexOf("/rel") === 0){
+            document.getElementById("box").value = "/reload"
+          } else if(document.getElementById("box").value.indexOf("/rec") === 0){
+            document.getElementById("box").value = "/recipe"
+          } else if(document.getElementById("box").value.indexOf("/sa") === 0){
+            document.getElementById("box").value = "/say"
+          } else if(document.getElementById("box").value.indexOf("/sch") === 0){
+            document.getElementById("box").value = "/schedule"
+          } else if(document.getElementById("box").value.indexOf("/sco") === 0){
+            document.getElementById("box").value = "/scoreboard"
+          } else if(document.getElementById("box").value.indexOf("/see") === 0){
+            document.getElementById("box").value = "/seed"
+          } else if(document.getElementById("box").value.indexOf("/set") === 0){
+            document.getElementById("box").value = "/setblock"
+          } else if(document.getElementById("box").value.indexOf("/spa") === 0){
+            document.getElementById("box").value = "/spawnpoint"
+          } else if(document.getElementById("box").value.indexOf("/setw") === 0){
+            document.getElementById("box").value = "/setworldspawn"
+          } else if(document.getElementById("box").value.indexOf("/spe") === 0){
+            document.getElementById("box").value = "/spectate"
+          } else if(document.getElementById("box").value.indexOf("/spr") === 0){
+            document.getElementById("box").value = "/spreadplayers"
+          } else if(document.getElementById("box").value.indexOf("/stops") === 0){
+            document.getElementById("box").value = "/stopsound"
+          } else if(document.getElementById("box").value.indexOf("/su") === 0){
+            document.getElementById("box").value = "/summon"
+          } else if(document.getElementById("box").value.indexOf("/ta") === 0){
+            document.getElementById("box").value = "/tag"
+          } else if(document.getElementById("box").value.indexOf("/teamm") === 0){
+            document.getElementById("box").value = "/teammsg"
+          } else if(document.getElementById("box").value.indexOf("/tel") === 0){
+            document.getElementById("box").value = "/teleport"
+          } else if(document.getElementById("box").value.indexOf("/tp") === 0){
+            document.getElementById("box").value = "/teleport"
+          } else if(document.getElementById("box").value.indexOf("/tim") === 0){
+            document.getElementById("box").value = "/time"
+          } else if(document.getElementById("box").value.indexOf("/tit") === 0){
+            document.getElementById("box").value = "/title"
+          } else if(document.getElementById("box").value.indexOf("/tri") === 0){
+            document.getElementById("box").value = "/trigger"
+          } else if(document.getElementById("box").value.indexOf("/we") === 0){
+            document.getElementById("box").value = "/weather"
+          } else if(document.getElementById("box").value.indexOf("/wo") === 0){
+            document.getElementById("box").value = "/worldborder"
+          } else if(document.getElementById("box").value.indexOf("/ban-") === 0){
+            document.getElementById("box").value = "/ban-ip"
+          } else if(document.getElementById("box").value.indexOf("/banl") === 0){
+            document.getElementById("box").value = "/banlist"
+          } else if(document.getElementById("box").value.indexOf("/de") === 0){
+            document.getElementById("box").value = "/deop"
+          } else if(document.getElementById("box").value.indexOf("/pardon-") === 0){
+            document.getElementById("box").value = "/pardon-ip"
+          } else if(document.getElementById("box").value.indexOf("/pe") === 0){
+            document.getElementById("box").value = "/perf"
+          } else if(document.getElementById("box").value.indexOf("/save-a") === 0){
+            document.getElementById("box").value = "/save-all"
+          } else if(document.getElementById("box").value.indexOf("/save-o") === 0){
+            document.getElementById("box").value = "/save-off"
+          } else if(document.getElementById("box").value.indexOf("/seti") === 0){
+            document.getElementById("box").value = "/setidletimeout"
+          } else if(document.getElementById("box").value.indexOf("/wh") === 0){
+            document.getElementById("box").value = "/whitelist"
+          }
+          return false;
+        }
+    }
+};
 </script>
 </body>

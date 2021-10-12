@@ -39,5 +39,6 @@ class Command_log(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateTimeField(blank=True,null=True)
     q_flag = models.BooleanField(verbose_name="",default=False)
+    chat_flag = models.BooleanField(verbose_name="",default=False)
     def __str__(self):
         return self.command_text
