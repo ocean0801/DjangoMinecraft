@@ -26,10 +26,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install django
         pip install mcipc
-    - name: Run Server
-      run: |
-        python manage.py runserver
     - name: Migrate
       run: |
         python manage.py makemigrations
         python manage.py migrate
+    - name: Run Server
+      run: |
+        python manage.py runserver
+        python manage.py runserver
+    
