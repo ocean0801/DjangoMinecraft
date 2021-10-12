@@ -30,9 +30,3 @@ jobs:
       run: |
         python manage.py makemigrations
         python manage.py migrate
-    - name: "Test:views.py"
-      run: |
-        cd rconc
-        python views.py
-        cd ../
-    
