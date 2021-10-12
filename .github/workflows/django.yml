@@ -1,4 +1,4 @@
-name: Django CI
+name: Django Dev
 
 on:
   push:
@@ -30,6 +30,3 @@ jobs:
       run: |
         python manage.py makemigrations
         python manage.py migrate
-    - name: Run Server
-      run: |
-        python manage.py runserver
