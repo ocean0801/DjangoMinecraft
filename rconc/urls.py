@@ -5,9 +5,9 @@ from . import views
 
 urlpatterns = [
     path('query', views.query),
-    path('script/<int:ids>/', views.script, name='script'),
+    path('script/<int:ids>/', views.script, name='scripts'),
     path('script/', views.scriptindex, name='script'),
-    path('script/<int:id>/<str:type>', views.script_do, name='script'),
+    path('script/<int:id>/<str:type>', views.script_do, name='scriptss'),
     path('script/edit/<int:id>', views.script_edit, name='submit4'),
     path('script_c/', views.script_page,name='submit3'),
     path('profile/', views.profileac, name='script'), 
