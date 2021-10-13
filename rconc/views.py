@@ -382,7 +382,8 @@ def config_page(request):
             configs_list = Config.objects.all()
             for configs in configs_list:
                 if configs.user == request.user:
-                    break
+                    if configs.active:
+                        break
             configs.delete()
             config_data = Config(server_name=name,user=request.user,server_ip=ip,rcon_port=rport,query_port=qport,passw=passw)
             config_data.save()
