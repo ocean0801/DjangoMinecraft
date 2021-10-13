@@ -32,9 +32,6 @@ jobs:
     - name: "Test: URLのレスポンステスト"
       run: |
         python3 manage.py test rconc.tests.DjagoMinecraftUrlTest.ResponseTest
-    - name: "Test: URLのレスポンスチェック"
-      run: |
-        python3 manage.py test rconc.tests.DjagoMinecraftUrlTest.ResponseCheck
     - name: "Test: URLのユーザーのログインテスト"
       run: |
         python3 manage.py test rconc.tests.DjagoMinecraftUrlTest.UserLoginTest
