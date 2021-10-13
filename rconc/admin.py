@@ -1,16 +1,7 @@
 from django.contrib import admin
 
-from .models import Command_log, Script, Config, Profile
+from .models import Command_log, Script, Config
 
-class ProfileAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ("Configuration",{"fields":['profile_name','user']}),
-        ("ServerSettings",{"fields":['server_ip','rcon_port','query_port','passw']}),
-        ("Rcon/Query",{"fields":['rq','script']})
-    ]
-    list_display = ('id','profile_name','server_ip','rq')
-    search_fields = ('profile_name', 'script')
-    list_filter = ['rq']
 class ConfigAdmin(admin.ModelAdmin):
     fieldsets = [
         ("Configuration",{"fields":['server_name','user']}),
@@ -24,5 +15,4 @@ class ScriptAdmin(admin.ModelAdmin):
     search_fields = ('script_name', 'script')
 admin.site.register(Script,ScriptAdmin)
 admin.site.register(Config,ConfigAdmin)
-admin.site.register(Profile,ProfileAdmin)
 admin.site.register(Command_log)

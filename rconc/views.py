@@ -404,6 +404,7 @@ def index(request):
     context = {
         "user_name":request.user,"logined":request.user.is_authenticated
     }
+    
     template = loader.get_template('index.html')
     return HttpResponse(template.render(context,request))
 
