@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Command_log, Script, Config
+from .models import Command_log, Script, Config, Code
 
 class ConfigAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -16,3 +16,4 @@ class ScriptAdmin(admin.ModelAdmin):
 admin.site.register(Script,ScriptAdmin)
 admin.site.register(Config,ConfigAdmin)
 admin.site.register(Command_log)
+admin.site.register(Code)
