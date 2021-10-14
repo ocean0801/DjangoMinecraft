@@ -4,13 +4,16 @@ from mcipc.rcon.je import Client
 from mcipc.query import Client as Client_q
 from mcipc.rcon.errors import *
 
-from .models import Script, Config, Command_log
+from .models import Script, Config, Command_log, Code
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 
+import threading
+
+import time
 #Toolsの定義
 def logtext(req,text,st):
     "IPアドレスを記録しつつログの文字を作る。"
@@ -414,3 +417,19 @@ def test(request):
     }
     template = loader.get_template('testpage.html')
     return HttpResponse(template.render(context,request))
+def loop_code():
+    while True:
+        codes = Code.objects.all()
+        for code in codes:
+            text = code.code
+            print(text)
+            text = text.replace("/","")
+            print(text)
+            text = text.split(" ")
+            
+            print(text)
+            with Client("127.0.0.1", 25575, passwd="minecraft") as client:
+                print(client.run(*text))
+        time.sleep(5)
+thread2 = threading.Thread(target=loop_code)
+thread2.start()
