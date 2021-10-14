@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>スクリプト選択</title>
+    <link rel="stylesheet" href="/static/bootstrap.css">
     <link href="/static/style.css" rel="stylesheet">
     <style>
         #on {
@@ -12,11 +13,20 @@
     </style>
 </head>
 <body>
-<div id="header">
-    <h2>スクリプト選択</h2>
-</div>
-<div id="content">
-    <h2 id="on">スクリプトの一覧</h2>
+{% include "header.html" %}
+<div id="content" style="
+    font-family: 'Avenir Next';
+    float:left;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    position:absolute;
+    top:80px;
+    right:420px;
+    left:10px;
+    opacity: 0.9; 
+  ">
+    <h2 id="on" style="font-size:20px;">スクリプトの一覧</h2>
     {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
@@ -26,7 +36,7 @@
   {% else %}
     <p>ここには何もないようだ....</p>
 {% endif %}
-<h3><a href="/mine/script_c/" style="color:white;">スクリプトの追加...</a></h3>
+<h3 style="font-size:20px;"><a href="/mine/script_c/" style="color:white;">スクリプトの追加...</a></h3>
 {{ debug }}
 </div>
 {% include "sidebar.html" %}

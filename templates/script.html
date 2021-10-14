@@ -3,13 +3,23 @@
 <head>
     <meta charset="utf-8"/>
     <title>スクリプト実行</title>
+    <link rel="stylesheet" href="/static/bootstrap.css">
     <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
-<div id="header">
-    <h2>スクリプト実行</h2>
-</div>
-<div id="content">
+{% include "header.html" %}
+<div id="content" style="
+    font-family: 'Avenir Next';
+    float:left;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    position:absolute;
+    top:80px;
+    right:420px;
+    left:10px;
+    opacity: 0.9; 
+  ">
     <p>サイトに書かれているスクリプトを実行します</p>
     <h2>{{ script }}</h2>
     <p>>>> {{ script_field }}</p>

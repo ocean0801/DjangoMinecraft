@@ -4,55 +4,48 @@
 <head>  
     <meta charset="utf-8"/>
     <title>設定</title>
+    <link rel="stylesheet" href="/static/bootstrap.css">
     <link href="/static/style.css" rel="stylesheet">
     <style>
-        #box5{
-            border: 1px solid #333;
-            padding:10px;
-            background: #f2f2f2;
-            display: inline-block;
-            font-weight: bold;
-            transition: .10s;
-            margin: 10px;
-        }
-        #box5:hover{
-            background: #26D0C9;
-        }
         h3 {
         border-bottom: 2px solid #dee7ec;
         }
     </style>
 </head>
-<body>
-    <div id="header">
-        <dev id="header-logo"><h2><a href="/mine/" style="color:white;">Home</a></h2></dev>
-      <dev id="header-list">
-      <a href="/mine/profile" style="color:white;">{{ request.user }}</a> / 
-      <a href="/accounts/logout" style="color:white;">ログアウト</a>
-</div>
-<div id="content">
+{% include "header.html" %}
+<div id="content" style="
+font-family: 'Avenir Next';
+float:left;
+background-color: black;
+color: white;
+font-size: 12px;
+position:absolute;
+top:80px;
+right:420px;
+left:10px;
+opacity: 0.9; 
+">
     <form method="post" action="{% url 'submit2' %}">
     {% csrf_token %}
-    <h2>Server config</h2>
-    <h3>Server Overview</h3>
-    <p>Server Name:<input id="box1" type="text" value="{{ name }}" name="name"></p>
-    <h3>Server Data</h3>
-    <p>Server IP:<input id="box2" type="text" value="{{ ip }}" name="ip"></p>
-    <p>Server Query Port:<input id="box3" type="text" value="{{ qport }}" name="qport"></p>
-    <p>Server Rcon Port:<input id="box4" type="text" value="{{ rport }}" name="rport"></p>
-    <p>Server Rcon Passward:<input id="box4" type="password" value="{{ passw }}" name="passw"></p>
-    <input style="width:200px;padding:20px;font-size:18px;border:1px solid #dee7ec;" id="box5" type="submit" value="Save">
+    <h2 style="font-size:25px;">Server config</h2>
+    <div class="input-group" style="width:300px;margin: 10px;"></div>
+    <h3 style="font-size:20px;">Server Overview</h3>
+    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server Name</span><input id="box1" type="text" value="{{ name }}" name="name"></div>
+    <h3 style="font-size:20px;">Server Data</h3>
+    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server IP:</span><input id="box2" type="text" value="{{ ip }}" name="ip"></div>
+    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server Query Port:</span><input id="box3" type="text" value="{{ qport }}" name="qport"></div>
+    
+    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server Rcon Port:</span><input id="box4" type="text" value="{{ rport }}" name="rport"></div>
+    
+    <div class="input-group" style="width:300px;margin: 10px;">
+    <span class="input-group-text" id="basic-addon1">Password</span><input id="box4" type="password" value="{{ passw }}" name="passw" class="form-control">
+    </div>
+    
+    <input class="btn btn-primary" type="submit" value="Save" style="margin: 10px;">
     </form>
 {{ debug }}
 </div>
-<div id="sidebar">
-  <h2>リンク</h2>
-  <a href="/mine/help"><p>Help</p></a>
-  <a href="/mine/query"><p>Query </p></a>
-  <a href="/mine/script"><p>スクリプトの実行</p></a>
-  <a href="/mine/config"><p>設定</p></a>
-  <a href="/mine/console"><p>コンソールクライアント</p></a>
-</div>
+{% include "sidebar.html" %}
 <script>
 document.getElementById("box1").focus();
 </script>
