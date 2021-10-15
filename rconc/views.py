@@ -391,7 +391,31 @@ def config_page(request):
     context = {'user_name':request.user,'name':name_c,"ip":ip_c,"qport":qport_c,"rport":rport_c,"passw":passw_c}
     template = loader.get_template('config_page.html')
     return HttpResponse(template.render(context,request))
-
+@login_required(login_url='/accounts/login/')
+def code_page(request):
+    codes = Code.objects.all()
+    for code in codes:
+        name_c = code.name
+        code_c = code.code
+        flag_c = code.flag
+        inter_c = code.code_interval
+    if request.method == "POST":
+        name = request.POST.get('name')
+        ip = request.POST.get('code')
+        qport = request.POST.get('flag')
+        rport = request.POST.get('code_interval')
+        if not name and not ip and not qport and not rport:
+            pass
+        else:
+            codes = Code.objects.all()
+            for code in codes:
+                pass
+            code.delete()
+            code_new = Code(server_name=name,user=request.user,server_ip=ip,rcon_port=rport,query_port=qport)
+            code_new.save()
+    context = {'user_name':request.user,'name':name_c,"code":code_c,"flag":flag_c,"inter":inter_c}
+    template = loader.get_template('code_page.html')
+    return HttpResponse(template.render(context,request))
 
 def help(request):
     context = {'user_name':request.user}
@@ -418,22 +442,19 @@ def test(request):
     template = loader.get_template('testpage.html')
     return HttpResponse(template.render(context,request))
 def loop_code():
+    print("[Server]thred started.")
     while True:
         codes = Code.objects.all()
         for code in codes:
             text = code.code
-            print(text)
             text = text.replace("/","")
-            print(text)
+
             text = text.split(" ")
             
-            print(text)
-            try:
-                with Client("127.0.0.1", 25575, passwd="minecraft") as client:
-                    print(client.run(*text))
-            except:
-                print("error")
-                pass
-        time.sleep(5)
-#backbround = threading.Thread(target=loop_code)
-#backbround.start()
+            with Client("127.0.0.1", 25575, passwd="minecraft") as client:
+                print("[Code]"+client.run(*text))
+
+            time.sleep(int(code.code_interval))
+backbround = threading.Thread(target=loop_code)
+
+backbround.start()
