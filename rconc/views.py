@@ -428,8 +428,12 @@ def loop_code():
             text = text.split(" ")
             
             print(text)
-            with Client("127.0.0.1", 25575, passwd="minecraft") as client:
-                print(client.run(*text))
+            try:
+                with Client("127.0.0.1", 25575, passwd="minecraft") as client:
+                    print(client.run(*text))
+            except:
+                print("error")
+                pass
         time.sleep(5)
-thread2 = threading.Thread(target=loop_code)
-thread2.start()
+#backbround = threading.Thread(target=loop_code)
+#backbround.start()
