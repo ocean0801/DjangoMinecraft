@@ -125,6 +125,10 @@ def script_do(request,id,type):
         scripts = Script.objects.get(id=id)
         scripts.delete()
     return redirect('/mine/script')
+def script_delete(request,id):
+    data = Config.objects.get(id=id)
+    data.delete()
+    return redirect('/mine/configs/')
 def script_edit(request,id):
     name = ""
     scripts = Script.objects.get(id=id)
@@ -155,7 +159,37 @@ def scriptindex(request):
         'latest_question_list': latest_question_list,"user_name":request.user
     }
     return HttpResponse(template.render(context, request))
-
+def configindex(request):
+    latest_question_list = Config.objects.all()
+    template = loader.get_template('configindex.html')
+    test = list()
+    for i in range(len(latest_question_list)):
+        if latest_question_list[i].user == request.user:
+            test.append(latest_question_list[i])
+    context = {
+        'latest_question_list': test,"user_name":request.user
+    }
+    return HttpResponse(template.render(context, request))
+def configedit(request,id):
+    name = ""
+    scripts = Config.objects.get(id=id)
+    if request.method == "POST":
+        name = request.POST.get('name')
+        command = request.POST.get('com')
+        if not name:
+            print("POSTできてねぇ")
+            pass
+        else:
+            print("POST")
+            config_data = Config.objects.get(id=id)
+            config_data.script_name = name
+            config_data.script = command
+            print(command)
+            config_data.save()
+            return redirect('/mine/configs/')
+    context = {'user_name':request.user,'id':scripts.id,'name':scripts.server_name,"ip":scripts.server_ip,"qport":scripts.query_port,"rport":scripts.rcon_port,"passw":scripts.passw}
+    template = loader.get_template('config_edit.html')
+    return HttpResponse(template.render(context,request))
 @login_required(login_url='/accounts/login/')
 def profileac(request):
     'アカウントのプロフィール'
@@ -379,11 +413,6 @@ def config_page(request):
         if not name and not ip and not qport and not rport and not passw:
             pass
         else:
-            configs_list = Config.objects.all()
-            for configs in configs_list:
-                if configs.user == request.user:
-                    break
-            configs.delete()
             config_data = Config(server_name=name,user=request.user,server_ip=ip,rcon_port=rport,query_port=qport,passw=passw)
             config_data.save()
     context = {'user_name':request.user,'name':name_c,"ip":ip_c,"qport":qport_c,"rport":rport_c,"passw":passw_c}

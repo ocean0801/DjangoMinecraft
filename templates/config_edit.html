@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>  
+    <meta charset="utf-8"/>
+    <title>設定</title>
+    <link href="/static/style.css" rel="stylesheet">
+    <style>
+        #box5{
+            border: 1px solid #333;
+            padding:10px;
+            background: #f2f2f2;
+            display: inline-block;
+            font-weight: bold;
+            transition: .10s;
+            margin: 10px;
+        }
+        #box5:hover{
+            background: #26D0C9;
+        }
+        h3 {
+        border-bottom: 2px solid #dee7ec;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <form method="post" action="{% url 'submit5' id %}">
+        {% csrf_token %}
+        <h2>Server config</h2>
+        <h3>Server Overview</h3>
+        <p>Server Name:<input id="box1" type="text" value="{{ name }}" name="name"></p>
+        <h3>Server Data</h3>
+        <p>Server IP:<input id="box2" type="text" value="{{ ip }}" name="ip"></p>
+        <p>Server Query Port:<input id="box3" type="text" value="{{ qport }}" name="qport"></p>
+        <p>Server Rcon Port:<input id="box4" type="text" value="{{ rport }}" name="rport"></p>
+        <p>Server Rcon Passward:<input id="box4" type="password" value="{{ passw }}" name="passw"></p>
+        <input style="width:200px;padding:20px;font-size:18px;border:1px solid #dee7ec;" id="box5" type="submit" value="Save">
+        </form>
+    {{ debug }}
+    </div>
+{% include "sidebar.html" %}
+<script>
+document.getElementById("box1").focus();
+</script>
+</body>

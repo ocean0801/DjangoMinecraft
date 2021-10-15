@@ -9,10 +9,13 @@ urlpatterns = [
     path('script/', views.scriptindex, name='script'),
     path('script/<int:id>/<str:type>', views.script_do, name='script'),
     path('script/edit/<int:id>', views.script_edit, name='submit4'),
+    path('configs/edit/<int:id>', views.configedit, name='submit5'),
+    path('config/<int:id>/delete', views.script_delete, name='submit4'),
     path('script_c/', views.script_page,name='submit3'),
     path('profile/', views.profileac, name='script'), 
     path('console/',views.console,name='submit'),
     path('config/',views.config_page,name='submit2'),
+    path('configs/',views.configindex),
     path('help/',views.help,name='help'),
     path('test/',views.test),
     path('',views.index)

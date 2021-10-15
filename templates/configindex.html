@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/>
+    <title>設定一覧</title>
+    <link href="/static/style.css" rel="stylesheet">
+    <style>
+        #on {
+        border-bottom: 2px solid #dee7ec;
+        }
+    </style>
+</head>
+<body>
+<div id="header">
+    <h2>設定一覧</h2>
+</div>
+<div id="content">
+    <h2 id="on">設定一覧</h2>
+    {% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="/mine/script/{{ question.id }}/" style="color:white;">{{ question.server_name }}</a>:<a href="/mine/config/{{ question.id }}/delete" style="color:red;">削除</a>/<a href="/mine/configs/edit/{{ question.id }}" style="color:greenyellow;">編集</a>
+            {% if question.active %}
+            ←アクティブ
+            {% endif %}
+        </li>
+        <br>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>ここには何もないようだ....</p>
+{% endif %}
+<h3><a href="/mine/config/" style="color:white;">設定の追加...</a></h3>
+{{ debug }}
+</div>
+{% include "sidebar.html" %}
+</body>
