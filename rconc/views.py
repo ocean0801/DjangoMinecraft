@@ -394,24 +394,32 @@ def config_page(request):
 @login_required(login_url='/accounts/login/')
 def code_page(request):
     codes = Code.objects.all()
+    name_c = ""
+    code_c = ""
+    flag_c = ""
+    inter_c = ""
     for code in codes:
+        
         name_c = code.name
         code_c = code.code
         flag_c = code.flag
         inter_c = code.code_interval
     if request.method == "POST":
         name = request.POST.get('name')
-        ip = request.POST.get('code')
-        qport = request.POST.get('flag')
-        rport = request.POST.get('code_interval')
-        if not name and not ip and not qport and not rport:
+        code = request.POST.get('code')
+        flag = request.POST.get('active')
+        inter = request.POST.get('inter')
+        if str(flag) == "2":
+            flag_bool = True
+        else:
+            flag_bool = False
+        if not name and not code and not inter:
             pass
         else:
             codes = Code.objects.all()
-            for code in codes:
-                pass
+            code = codes[0]
             code.delete()
-            code_new = Code(server_name=name,user=request.user,server_ip=ip,rcon_port=rport,query_port=qport)
+            code_new = Code(name=name,code=code,flag=flag_bool,code_interval=inter)
             code_new.save()
     context = {'user_name':request.user,'name':name_c,"code":code_c,"flag":flag_c,"inter":inter_c}
     template = loader.get_template('code_page.html')
@@ -450,11 +458,10 @@ def loop_code():
             text = text.replace("/","")
 
             text = text.split(" ")
-            
-            with Client("127.0.0.1", 25575, passwd="minecraft") as client:
-                print("[Code]"+client.run(*text))
+            if code.flag:
+                with Client("127.0.0.1", 25575, passwd="minecraft") as client:
+                    print("[Code]"+client.run(*text))
 
-            time.sleep(int(code.code_interval))
+                time.sleep(int(code.code_interval))
 backbround = threading.Thread(target=loop_code)
-
 backbround.start()
