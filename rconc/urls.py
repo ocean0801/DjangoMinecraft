@@ -16,5 +16,6 @@ urlpatterns = [
     path('code/',views.code_page,name='submit6'),
     path('help/',views.help,name='help'),
     path('test/',views.test),
+    path('debug/',views.debug),
     path('',views.index),
 ]
