@@ -29,6 +29,28 @@ def get_conf(request):
         if configs.user == request.user:
             break
     return configs
+def log(text: str, color = ""):
+    if color == "red":
+
+        print("\033[31m"+text+"\033[0m")
+    elif color == "green":
+        print("\033[32m"+text+"\033[0m")
+    elif color == "yellow":
+        print("\033[33m"+text+"\033[0m")
+    elif color == "blue":
+        print("\033[34m"+text+"\033[0m")
+    elif color == "purple":
+        print("\033[35m"+text+"\033[0m")
+    elif color == "skyblue":
+        print("\033[36m"+text+"\033[0m")
+    elif color == "blue":
+        print("\033[34m"+text+"\033[0m")
+    elif color == "purple":
+        print("\033[35m"+text+"\033[0m")
+    elif color == "skyblue":
+        print("\033[36m"+text+"\033[0m")
+    else:
+        print(text)
 #定義終了
 def index(request):
     return render(request, 'index.html')
@@ -43,7 +65,7 @@ def query(request):
             re = "状態を取得しています"
             come = "状態の取得に成功しました"
             error = ""
-        with Client(configs.server_ip, int(configs.rcon_port), passwd='minecraft') as client:
+        with Client(configs.server_ip, int(configs.rcon_port), passwd=configs.passw) as client:
             seed = client.seed
     except ConnectionRefusedError as e:
         re = "[Error] Server not found"
@@ -385,6 +407,7 @@ def config_page(request):
             configs.delete()
             config_data = Config(server_name=name,user=request.user,server_ip=ip,rcon_port=rport,query_port=qport,passw=passw)
             config_data.save()
+        return redirect("/mine/profile/")
     context = {'user_name':request.user,'name':name_c,"ip":ip_c,"qport":qport_c,"rport":rport_c,"passw":passw_c}
     template = loader.get_template('config_page.html')
     return HttpResponse(template.render(context,request))

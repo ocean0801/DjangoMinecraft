@@ -6,15 +6,7 @@
     <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
-    <dev id="header-list">
-        {% if user.is_authenticated %}
-        <a href="/mine/profile" style="color:white;">{{ request.user }}</a> / 
-        <a href="/accounts/logout" style="color:white;">ログアウト</a>
-        {% else %}
-        <a href="/mine/profile" style="color:white;">ログイン</a> / 
-        <a href="/accounts/logout" style="color:white;">ログアウト</a>
-        {% endif %}
-        </div>
+{% include "header.html" %}
 <div id="content" style="
     font-family: 'Avenir Next';
     float:left;
@@ -28,7 +20,7 @@
     opacity: 0.9; 
   ">
     <h3>へるぷぺぇじ</h3>
-    
+    <p>Readme読めよ。</p>
 {{ debug }}
 </div>
 {% include "sidebar.html" %}

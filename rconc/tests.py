@@ -3,6 +3,9 @@ from django.test import Client,TestCase
 from .models import Config
 from django.contrib.auth.models import UserManager , User
 from .urls import urlpatterns
+from mcipc.rcon.je import Client
+from mcipc.query import Client as Client_q
+from mcipc.rcon.errors import *
 class PageError(Exception):
   "ページのエラーってことだよ。"
 def list_print(list_type,data):
@@ -47,3 +50,6 @@ class DjagoMinecraftUrlTest(TestCase):
     client.login(username='testuser', password='awaji')
     conf = Config(server_name="test",user=user,server_ip="",rcon_port="25575",query_port="25565",passw="minecraft")
     print("Create conf successful!")
+  def ServerTest(self):
+    with Client("localhost","25575",passwd="minecraft") as client:
+      pass
