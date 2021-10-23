@@ -14,7 +14,7 @@
 </head>
 {% include "header.html" %}
 <div id="content" style="
-font-family: 'Avenir Next';
+font-family: 'YuGothB.ttc';
 float:left;
 background-color: black;
 color: white;
@@ -30,12 +30,12 @@ opacity: 0.9;
     <h2 style="font-size:25px;">Server config</h2>
     <div class="input-group" style="width:300px;margin: 10px;"></div>
     <h3 style="font-size:20px;">Server Overview</h3>
-    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server Name</span><input id="box1" type="text" value="{{ name }}" name="name"></div>
+    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server Name</span><input id="box1" type="text" value="{{ name }}" name="name" class="form-control"></div>
     <h3 style="font-size:20px;">Server Data</h3>
-    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server IP:</span><input id="box2" type="text" value="{{ ip }}" name="ip"></div>
-    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server Query Port:</span><input id="box3" type="text" value="{{ qport }}" name="qport"></div>
+    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server IP:</span><input id="box2" type="text" value="{{ ip }}" name="ip" class="form-control"></div>
+    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server Query Port:</span><input id="box3" type="text" value="{{ qport }}" name="qport" class="form-control"></div>
     
-    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server Rcon Port:</span><input id="box4" type="text" value="{{ rport }}" name="rport"></div>
+    <div class="input-group" style="width:300px;margin: 10px;"><span class="input-group-text" id="basic-addon1">Server Rcon Port:</span><input id="box4" type="text" value="{{ rport }}" name="rport" class="form-control"></div>
     
     <div class="input-group" style="width:300px;margin: 10px;">
     <span class="input-group-text" id="basic-addon1">Password</span><input id="box4" type="password" value="{{ passw }}" name="passw" class="form-control">

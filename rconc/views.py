@@ -520,5 +520,3 @@ def loop_code():
                 time.sleep(int(code.code_interval))
 #backbround = threading.Thread(target=loop_code)
 #backbround.start()
-
-
