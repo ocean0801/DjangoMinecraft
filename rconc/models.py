@@ -27,3 +27,11 @@ class Command_log(models.Model):
     chat_flag = models.BooleanField(verbose_name="",default=False)
     def __str__(self):
         return self.command_text
+
+class Code(models.Model):
+    name = models.CharField("名前",max_length=20,default=None)
+    code = models.TextField("コード",max_length=1000)
+    flag = models.BooleanField(verbose_name="",default=True)
+    code_interval = models.CharField("実行間隔",max_length=5,default=None)
+    def __str__(self):
+        return self.name

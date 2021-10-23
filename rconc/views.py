@@ -4,12 +4,17 @@ from mcipc.rcon.je import Client
 from mcipc.query import Client as Client_q
 from mcipc.rcon.errors import *
 
-from .models import Script, Config, Command_log
+from .models import Script, Config, Command_log, Code
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
+import threading
+
+import time
 
 #Toolsの定義
 def logtext(req,text,st):
@@ -77,11 +82,19 @@ def query(request):
         come = "状態の取得に失敗しました"
         error = str(e)
         seed =""
+        
+    except AttributeError as e:
+        re = "[Error] Conf not found"
+        come = "状態の取得に失敗しました"
+        error = str(e)
+        seed =""
     text = 'Query Full Stats'
     try:
-        context = {'seed':seed,'query':re,'command': text,'ip':configs.server_ip,'port':25565,'session':full_stats.session_id,"player":full_stats.players,"host":full_stats.host_name,"version":full_stats.version,"map":full_stats.map,"num":full_stats.num_players,"num_max":full_stats.max_players,"port":full_stats.host_port,"ip_host":full_stats.host_ip,"user_name":request.user}
+        context = {'seed':seed,'query':re,'command': text,'ip':configs.server_ip,'port':configs.query_port,'session':full_stats.session_id,"player":full_stats.players,"host":full_stats.host_name,"version":full_stats.version,"map":full_stats.map,"num":full_stats.num_players,"num_max":full_stats.max_players,"port":full_stats.host_port,"ip_host":full_stats.host_ip,"user_name":request.user}
     except UnboundLocalError:
         context = {'query':come,'command': text,'ip':configs.server_ip,'port':25565,'error':error,'error_t':"ConnectionRefusedError"}
+    except AttributeError:
+        context = {'query':come,'command': text,'error':re,'error_t':"AttributeError",'ip':'emply','port':'emply'}
     logging(text+come)
     return render(request,'query.html',context)
 
@@ -386,11 +399,26 @@ def query_full(req):
 def config_page(request):
     configs = get_conf(request)
     name = ""
-    name_c = configs.server_name
-    ip_c = configs.server_ip
-    qport_c = configs.query_port
-    rport_c = configs.rcon_port
-    passw_c = configs.passw
+    try:
+        name_c = configs.server_name
+    except:
+        name_c = ""
+    try:
+        ip_c = configs.server_ip
+    except:
+        ip_c = ""
+    try:
+        qport_c = configs.query_port
+    except:
+        qport_c = ""
+    try:
+        rport_c = configs.rcon_port
+    except:
+        rport_c = ""
+    try:
+        passw_c = configs.passw
+    except:
+        passw_c = ""
     if request.method == "POST":
         name = request.POST.get('name')
         ip = request.POST.get('ip')
@@ -411,7 +439,39 @@ def config_page(request):
     context = {'user_name':request.user,'name':name_c,"ip":ip_c,"qport":qport_c,"rport":rport_c,"passw":passw_c}
     template = loader.get_template('config_page.html')
     return HttpResponse(template.render(context,request))
-
+@login_required(login_url='/accounts/login/')
+def code_page(request):
+    codes = Code.objects.all()
+    name_c = ""
+    code_c = ""
+    flag_c = ""
+    inter_c = ""
+    for code in codes:
+        
+        name_c = code.name
+        code_c = code.code
+        flag_c = code.flag
+        inter_c = code.code_interval
+    if request.method == "POST":
+        name = request.POST.get('name')
+        code = request.POST.get('code')
+        flag = request.POST.get('active')
+        inter = request.POST.get('inter')
+        if str(flag) == "2":
+            flag_bool = True
+        else:
+            flag_bool = False
+        if not name and not code and not inter:
+            pass
+        else:
+            codes = Code.objects.all()
+            code = codes[0]
+            code.delete()
+            code_new = Code(name=name,code=code,flag=flag_bool,code_interval=inter)
+            code_new.save()
+    context = {'user_name':request.user,'name':name_c,"code":code_c,"flag":flag_c,"inter":inter_c}
+    template = loader.get_template('code_page.html')
+    return HttpResponse(template.render(context,request))
 
 def help(request):
     context = {'user_name':request.user}
@@ -437,3 +497,28 @@ def test(request):
     }
     template = loader.get_template('testpage.html')
     return HttpResponse(template.render(context,request))
+def debug(request):
+    context = {
+        "debug":User.objects.all()
+    }
+    template = loader.get_template('debug.html')
+    return HttpResponse(template.render(context,request))
+
+def loop_code():
+    print("[Server]thred started.")
+    while True:
+        codes = Code.objects.all()
+        for code in codes:
+            text = code.code
+            text = text.replace("/","")
+
+            text = text.split(" ")
+            if code.flag:
+                with Client("127.0.0.1", 25575, passwd="minecraft") as client:
+                    print("[Code]"+client.run(*text))
+
+                time.sleep(int(code.code_interval))
+#backbround = threading.Thread(target=loop_code)
+#backbround.start()
+
+
