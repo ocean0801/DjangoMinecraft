@@ -2,43 +2,46 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <link href="/static/style.css" rel="stylesheet">
     <meta charset="utf-8"/>
     <title>DjangoMicraft!</title>
     <style>
         h1 {
         border-bottom: 2px solid gray;
         }
+        
     </style>
+    <link rel="stylesheet" href="/static/bootstrap.css">
+    <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
-<div id="header">
-  <dev id="header-logo"><h2><a href="/mine/" style="color:white;">Home</a></h2></dev>
-<dev id="header-list">
-{% if user.is_authenticated %}
-<a href="/mine/profile" style="color:white;">{{ request.user }}</a> / 
-<a href="/accounts/logout" style="color:white;">ログアウト</a>
-{% else %}
-<a href="/mine/profile" style="color:white;">ログイン</a> / 
-<a href="/accounts/logout" style="color:white;">ログアウト</a>
-{% endif %}
-</div>
-<div id="content">
-    <h1 id="djnagominecraftrcon">DjnagoMinecraftRcon</h1>
+{% include "header.html" %}
+<div id="content" style="
+    font-family: 'YuGothB.ttc';
+    float:left;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    position:absolute;
+    top:80px;
+    right:420px;
+    left:10px;
+    opacity: 0.9; 
+  ">
+    <h1 id="djnagominecraftrcon" style="font-size:30px;">DjnagoMinecraftRcon</h1>
     <p> DjangoからMinecraftを制御します。</p>
-    <h1 id="機能">機能</h1>
-    <h2 id="コンソール--mineconsole">コンソール @ <a href="/mine/console" style="color:white;">/mine/console</a></h2>
+    <h1 id="機能" style="font-size:30px;">機能</h1>
+    <h2 id="コンソール--mineconsole" style="font-size:20px;">コンソール @ <a href="/mine/console" style="color:white;">/mine/console</a></h2>
     <p> /をつけて入力でコマンドを実行します。
      /をつけないとチャットになります。</p>
-    <h2 id="query--minequery">Query @ <a href="/mine/query" style="color:white;">/mine/query</a></h2>
+    <h2 id="query--minequery" style="font-size:20px;">Query @ <a href="/mine/query" style="color:white;">/mine/query</a></h2>
     <p> Queryを飛ばします。</p>
-    <h2 id="stats--minestats近日実装">Stats @ /mine/stats(近日実装)</h2>
+    <h2 id="stats--minestats近日実装" style="font-size:20px;">Stats @ /mine/stats(近日実装)</h2>
     <p> サーバーの統計を出します。</p>
-    <h2 id="config--mineconfig">Config @ <a href="/mine/config" style="color:white;">/mine/config</a></h2>
+    <h2 id="config--mineconfig" style="font-size:20px;">Config @ <a href="/mine/config" style="color:white;">/mine/config</a></h2>
     <p> サーバーの設定を保存します。</p>
-    <h1>Licence</h1>
+    <h1 style="font-size:30px;">Licence</h1>
     <p>Created by <a href="https://github.com/ocean0801" style="color:white;">ocean0801</a></p>
-    <p>Use MoonsApps,Google.com</p>
+    <p>Use MoonsApps,Google.com,Bootstrap</p>
 </div>
 {% include "sidebar.html" %}
 </body>

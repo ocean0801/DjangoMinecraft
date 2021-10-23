@@ -3,14 +3,24 @@
 <head>
     <meta charset="utf-8"/>
     <title>Query</title>
+    <link rel="stylesheet" href="/static/bootstrap.css">
     <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
-<div id="header">
-    <h2>サーバーの情報取得</h2>
-</div>
-<div id="content">
-    <h2>概要</h2>
+{% include "header.html" %}
+<div id="content" style="
+    font-family: 'YuGothB.ttc';
+    float:left;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    position:absolute;
+    top:80px;
+    right:420px;
+    left:10px;
+    opacity: 0.9; 
+  ">
+    <h2 style="font-size:25px;">概要</h2>
       <p>IP:{{ ip }},Port:{{ port }}のMinecraftサーバーで</p>
       <p>{{ query }}</p>
       <div style="color: red;">
@@ -18,8 +28,8 @@
       </div>
       <div style="background-color: black;color: white;">
       </div>
-      <h3>結果</h3>
-      <table border="1">
+      <h3 style="font-size:20px;">結果</h3>
+      <table border="1" class="table" style="color:white;width:500px;height:100px;">
         <tr style="background-color:gray;">
           <th>名前</th>
           <th>項目</th>

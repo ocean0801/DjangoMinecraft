@@ -1,0 +1,28 @@
+<div id="header" style="
+    font-family: 'YuGothB.ttc';
+    height:70px;
+    width:100%;
+    padding:10px 20px 10px 20px;
+    position: fixed;
+    background-color: #26d0c9;
+    z-index: 10;
+    top:0px;
+    right:0px;
+    left:0px;
+    float: left;
+    padding:15px;">
+  <dev id="header-logo" style="
+    font-family: 'YuGothB.ttc';
+    float: left;
+    text-align: center;
+">
+<h2><a href="/mine/" style="color:white;font-size:30px;">Home</a></h2></dev>
+<dev id="header-list">
+{% if user.is_authenticated %}
+<a href="/mine/profile" style="color:white;">{{ request.user }}</a> / 
+<a href="/accounts/logout" style="color:white;">ログアウト</a>
+{% else %}
+<a href="/mine/profile" style="color:white;">ログイン</a> / 
+<a href="/accounts/logout" style="color:white;">ログアウト</a>
+{% endif %}
+</div>

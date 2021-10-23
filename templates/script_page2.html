@@ -4,6 +4,7 @@
 <head>  
     <meta charset="utf-8"/>
     <title>設定</title>
+    <link rel="stylesheet" href="/static/bootstrap.css">
     <link href="/static/style.css" rel="stylesheet">
     <style>
         #box5{
@@ -23,14 +24,19 @@
         }
     </style>
 </head>
-<body>
-    <div id="header">
-        <dev id="header-logo"><h2><a href="/mine/" style="color:white;">Home</a></h2></dev>
-      <dev id="header-list">
-      <a href="/mine/profile" style="color:white;">{{ request.user }}</a> / 
-      <a href="/accounts/logout" style="color:white;">ログアウト</a>
-</div>
-<div id="content">
+{% include "header.html" %}
+<div id="content" style="
+    font-family: 'YuGothB.ttc';
+    float:left;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    position:absolute;
+    top:80px;
+    right:420px;
+    left:10px;
+    opacity: 0.9; 
+  ">
     <form method="post" action="{% url 'submit4' id %}">
     {% csrf_token %}
     <h2>Create script</h2>
