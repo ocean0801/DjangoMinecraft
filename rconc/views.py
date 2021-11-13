@@ -36,7 +36,6 @@ def get_conf(request):
     return configs
 def log(text: str, color = ""):
     if color == "red":
-
         print("\033[31m"+text+"\033[0m")
     elif color == "green":
         print("\033[32m"+text+"\033[0m")
@@ -497,6 +496,7 @@ def test(request):
     }
     template = loader.get_template('testpage.html')
     return HttpResponse(template.render(context,request))
+
 def debug(request):
     context = {
         "debug":User.objects.all()
@@ -511,7 +511,6 @@ def loop_code():
         for code in codes:
             text = code.code
             text = text.replace("/","")
-
             text = text.split(" ")
             if code.flag:
                 with Client("127.0.0.1", 25575, passwd="minecraft") as client:
