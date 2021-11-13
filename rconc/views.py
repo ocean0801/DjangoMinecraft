@@ -307,7 +307,8 @@ def console(request):
                         except LocationNotFound:
                             text2 = logtext(request,text,"失敗")
                             re = re + 'Location could not be found. / '
-                        re = re+" / "
+                        else:
+                            re = re+" / "
                         text2 = logtext(request,text,"失敗")
                     return_text = re
                 elif list_flag:
@@ -441,34 +442,25 @@ def config_page(request):
 @login_required(login_url='/accounts/login/')
 def code_page(request):
     codes = Code.objects.all()
+    code = codes[0]
     name_c = ""
     code_c = ""
-    flag_c = ""
     inter_c = ""
-    for code in codes:
-        
-        name_c = code.name
-        code_c = code.code
-        flag_c = code.flag
-        inter_c = code.code_interval
+
+    name_c = code.name
+    code_c = code.code
+    inter_c = code.code_interval
     if request.method == "POST":
         name = request.POST.get('name')
-        code = request.POST.get('code')
-        flag = request.POST.get('active')
+        script = request.POST.get('code')
         inter = request.POST.get('inter')
-        if str(flag) == "2":
-            flag_bool = True
-        else:
-            flag_bool = False
-        if not name and not code and not inter:
+        if not name and not script and not inter:
             pass
         else:
-            codes = Code.objects.all()
-            code = codes[0]
             code.delete()
-            code_new = Code(name=name,code=code,flag=flag_bool,code_interval=inter)
+            code_new = Code(name=name,code=script,code_interval=inter)
             code_new.save()
-    context = {'user_name':request.user,'name':name_c,"code":code_c,"flag":flag_c,"inter":inter_c}
+    context = {'user_name':request.user,'name':name_c,"code":code_c,"inter":inter_c}
     template = loader.get_template('code_page.html')
     return HttpResponse(template.render(context,request))
 
@@ -512,10 +504,18 @@ def loop_code():
             text = code.code
             text = text.replace("/","")
             text = text.split(" ")
-            if code.flag:
+                
+            with open("flag.txt","r") as f:
+                test = f.readlines()
+                if '0' == test[0]:
+                    end_flag = False
+                else:
+                    end_flag = True
+            if end_flag:
                 with Client("127.0.0.1", 25575, passwd="minecraft") as client:
                     print("[Code]"+client.run(*text))
-
                 time.sleep(int(code.code_interval))
-#backbround = threading.Thread(target=loop_code)
-#backbround.start()
+            else:
+                pass
+backbround = threading.Thread(target=loop_code)
+backbround.start()
