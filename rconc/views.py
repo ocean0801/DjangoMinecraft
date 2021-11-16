@@ -495,9 +495,12 @@ def debug(request):
     }
     template = loader.get_template('debug.html')
     return HttpResponse(template.render(context,request))
-
+#フラグ類
+end_flag = False
+exit_flag = False
 def loop_code():
-    print("[Server]thred started.")
+    global exit_flag, end_flag
+    print("[Server]Thread started.")
     while True:
         codes = Code.objects.all()
         for code in codes:
@@ -517,5 +520,28 @@ def loop_code():
                 time.sleep(int(code.code_interval))
             else:
                 pass
+            if exit_flag:
+                return
+            else:
+                pass
+
+def p():
+    global exit_flag
+    while True:
+        text = input("")
+        texts = text.split(" ")
+        if texts[0] == "flag":
+            with open("flag.txt","w") as f:
+                f.write(texts[1])
+                
+        if texts[0] == "stop":
+            exit_flag = True
+            return
+        if texts[0] == "flags":
+            print(exit_flag)
+            print(end_flag)
+
 backbround = threading.Thread(target=loop_code)
 backbround.start()
+cline = threading.Thread(target=p)
+cline.start()
