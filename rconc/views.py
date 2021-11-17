@@ -217,8 +217,12 @@ def console(request):
         query_flag = False #クエリであるかのフラグ
         config_flag = False #クエリであるかのフラグ
         kai_flag = False #改行を行う表であるかのフラグ
+        mark_flag = False
         script_falg = False
         list_flag = False
+        if text == "/markup":
+            mark_flag = True
+            kai_flag = True
         if text == "/query":
             query_flag = True
             kai_flag = True
@@ -273,6 +277,26 @@ def console(request):
                     list_print('host',str(configs.server_ip))
                     list_print('rcon',str(configs.server_ip)+"@"+str(configs.rcon_port))
                     list_print('query',str(configs.server_ip)+"@"+str(configs.query_port))
+                    return_text = test_list
+                elif mark_flag:
+                    list_print('element','data')
+                    test_list = test_list + '-'* spaces + "%kai"
+                    list_print('§0',"<span style='color:#000000;'>text</span>")
+                    list_print('§1',"<span style='color:#0000AA;'>text</span>")
+                    list_print('§2',"<span style='color:#00AA00;'>text</span>")
+                    list_print('§3',"<span style='color:#00AAAA;'>text</span>")
+                    list_print('§4',"<span style='color:#AA0000;'>text</span>")
+                    list_print('§5',"<span style='color:#AA00AA;'>text</span>")
+                    list_print('§6',"<span style='color:#FFAA00;'>text</span>")
+                    list_print('§7',"<span style='color:#AAAAAA;'>text</span>")
+                    list_print('§8',"<span style='color:#555555;'>text</span>")
+                    list_print('§9',"<span style='color:#5555FF;'>text</span>")
+                    list_print('§a',"<span style='color:#55FFFF;'>text</span>")
+                    list_print('§b',"<span style='color:#FFAA00;'>text</span>")
+                    list_print('§c',"<span style='color:#FF5555;'>text</span>")
+                    list_print('§d',"<span style='color:#FF55FF;'>text</span>")
+                    list_print('§e',"<span style='color:#FFFF55;'>text</span>")
+                    list_print('§f',"<span style='color:#FFFFFF;'>text</span>")
                     return_text = test_list
                 elif script_falg:
                     configs = get_conf(request)
@@ -540,8 +564,10 @@ def p():
         if texts[0] == "flags":
             print(exit_flag)
             print(end_flag)
+def tasks():
+    backbround = threading.Thread(target=loop_code)
+    backbround.start()
+    cline = threading.Thread(target=p)
+    cline.start()
 
-backbround = threading.Thread(target=loop_code)
-backbround.start()
-cline = threading.Thread(target=p)
-cline.start()
+#tasks()

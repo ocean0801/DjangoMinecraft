@@ -33,7 +33,7 @@
       {% if question.q_flag %}
         <li>>>> {{ question.command_text }}</li>
         {% for question in question.return_text %}
-          {{ question }}<br>
+          {{ question | safe}}<br>
         {% endfor %}
       {% else %}
         <li>>>> {{ question.command_text }}</li>{{ question.return_text | safe }}<br><br>-- {{ question.time }}<br><br>
