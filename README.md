@@ -4,11 +4,11 @@
  pip3 install mcipc
  ~~~~
  インストールしてください。<br>
- [公式サイト](https://pypi.org/project/mcipc/) 
+ [pypi](https://pypi.org/project/mcipc/) 
  [公式ドキュメント](https://mcipc.readthedocs.io/en/latest/)
 # 使い方
  ## 環境構築
- kankyou.batでできます。
+ [ここ](https://github.com/ocean0801/DjangoMinecraft/wiki/Start)を参照
  ## RunServer
  ~~~~
  py manage.py runserver
@@ -40,6 +40,12 @@
  /mine/configで設定ができます。
  ## スクリプト @ /mine/script
  たくさんのコマンドを一気に実行する機能。
+# リンク
+ ### mcipc
+ [pypi](https://pypi.org/project/mcipc/) 
+ [公式ドキュメント](https://mcipc.readthedocs.io/en/latest/)
+ ### django
+ [公式サイト](https://docs.djangoproject.com/ja/3.2/)
 # 終わりに
  非常にバグが多いです。そして自分のサーバーを動かすためにつくったりしたので、これとMinecraftサーバーを実行するPCを同じにすることを推奨します。<br>
  あと非常に遠回りな実装方法を採用しているため、コードがとても汚いです。<br>

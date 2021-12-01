@@ -38,22 +38,22 @@
     opacity: 0.9; 
   ">
     <form method="post" action="{% url 'submit3' %}">
-    {% csrf_token %}
-    <h2>Create script</h2>
-    <h3>Setting</h3>
-    <div class="input-group" style="width:300px;margin: 10px;">
-        <span class="input-group-text" id="basic-addon1">Name</span><input id="box2" type="text" value="{{ name }}" name="name" class="form-control">
-    </div>
-    <div class="form-group" style="width:300px;margin: 10px;">
-        <span class="input-group-text" id="basic-addon1" style="width:600px;">Script</span>
-        <textarea name="com" style="height: 200px;width:600px;" value="{{ scripts }}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>
-  <input class="btn btn-primary" type="submit" value="Save" style="margin: 10px;">
-</form>
+        {% csrf_token %}
+        <h2>Create script</h2>
+        <h3>Setting</h3>
+        <div class="input-group" style="width:300px;margin: 10px;">
+            <span class="input-group-text" id="basic-addon1">Name</span><input id="box2" type="text" value="{{ name }}" name="name" class="form-control">
+        </div>
+        <div class="form-group" style="width:300px;margin: 10px;">
+            <span class="input-group-text" id="basic-addon1" style="width:600px;">Script</span>
+            <textarea name="com" style="height: 200px;width:600px;" value="{{ scripts }}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Save" style="margin: 10px;">
+    </form>
 {{ debug }}
 </div>
 {% include "sidebar.html" %}
 <script>
-document.getElementById("box1").focus();
+    document.getElementById("box1").focus();
 </script>
 </body>

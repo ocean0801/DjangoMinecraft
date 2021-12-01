@@ -4,7 +4,7 @@ from mcipc.rcon.je import Client
 from mcipc.query import Client as Client_q
 from mcipc.rcon.errors import *
 
-from .models import Script, Config, Command_log, Code
+from .models import *
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
