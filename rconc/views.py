@@ -387,10 +387,10 @@ def console(request):
     #装飾文字のデコード
     for i in latest_question_list:
         if i.chat_flag:
-            print(i.return_text)
-            print("return")
+            #print(i.return_text)
+            #print("return")
             #i.return_text = i.return_text[0]
-            print(i.return_text)
+            #print(i.return_text)
             num = i.return_text.count("§")
             i.return_text = i.return_text.replace("§0","<br><span style='color:#000000;'>")
             i.return_text = i.return_text.replace("§1","<br><span style='color:#0000AA;'>")
@@ -467,7 +467,10 @@ def config_page(request):
             for configs in configs_list:
                 if configs.user == request.user:
                     break
-            configs.delete()
+            if configs == None:
+                pass
+            else:
+                configs.delete()
             config_data = Config(server_name=name,user=request.user,server_ip=ip,rcon_port=rport,query_port=qport,passw=passw)
             config_data.save()
         return redirect("/mine/profile/")
