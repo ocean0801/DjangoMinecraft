@@ -3,31 +3,50 @@
 <head>
     <meta charset="utf-8"/>
     <title>プロフィール</title>
-    <link rel="stylesheet" href="/static/bootstrap.css">
     <link href="/static/style.css" rel="stylesheet">
 </head>
 {% include "header.html" %}
-<div id="content" style="
-    font-family: 'YuGothB.ttc';
-    float:left;
-    background-color: black;
-    color: white;
-    font-size: 12px;
-    position:absolute;
-    top:80px;
-    right:420px;
-    left:10px;
-    opacity: 1.0;
-    padding:10px;
-  ">
-    <p>サーバーへようこそ！{{ user_name }}。</p>
-    <p>紐付けされているConfig:</p>
-    <h2>{{ config_name }}</h2>
-    <p>サーバーのIP:{{ ip }}</p>
-    <p>RCONクライアントのポート番号:{{ rcon_port }}</p>
-    <p>QUERYクライアントのポート番号:{{ query_port }}</p>
-    <span onmouseover="this.innerText='{{ passw }}'" onmouseout="this.innerText='マウスを載せてパスワードを表示'">マウスを載せてパスワードを表示</span>
+<div id="content" style="padding:10px;">
+    <div class="text-center mb-5">
+        <h1 class="display-5 mb-5">サーバーへようこそ！{{ user_name }}。</h1>
+    </div>
+    <h3>保存されている設定</h3>
+    <table class="table" style="width:800px;">
+        <thead class="table-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">名前</th>
+            <th scope="col">値</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Name</td>
+            <td>{{ config_name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>IP</td>
+            <td>{{ ip }}</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>RCON-Port</td>
+            <td>{{ rcon_port }}</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>Query-port</td>
+            <td>{{ query_port }}</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>passw</td>
+            <td>{{ passw }}</td>
+          </tr>
+        </table>
+        <button class="btn btn-outline-success" type="submit" onclick="location.href='/mine/config/'">編集</button>
 
-</div>
-{% include "sidebar.html" %}
+      </div>
 </body>

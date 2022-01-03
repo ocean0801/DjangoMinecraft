@@ -3,89 +3,73 @@
 <head>
     <meta charset="utf-8"/>
     <title>Query</title>
-    <link rel="stylesheet" href="/static/bootstrap.css">
     <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
 {% include "header.html" %}
-<div id="content" style="
-    font-family: 'YuGothB.ttc';
-    float:left;
-    background-color: black;
-    font-size: 12px;
-    position:absolute;
-    top:80px;
-    right:420px;
-    left:10px;
-    opacity: 0.9; 
-  ">
-    <h2 style="font-size:25px;">概要</h2>
-      <p>IP:{{ ip }},Port:{{ port }}のMinecraftサーバーで</p>
-      <p>{{ query }}</p>
-      <div style="color: red;">
-      <p>{{ error }}</p>
-      </div>
-      <div style="background-color: black;color: white;">
-      </div>
-      <h3 style="font-size:20px;">結果</h3>
-      <table border="1" class="table" style="color:white;width:500px;height:100px;">
-        <tr style="background-color:gray;">
-          <th>名前</th>
-          <th>項目</th>
-        </tr>
-        <tr>
-          <th>IPアドレス</th>
-          <th>{{ ip }}</th>
-        </tr>
-        <tr>
-          <th>ポート番号</th>
-          <th>{{ port }}</th>
-        </tr>
-        <tr>
-          <th>プレイヤー</th>
-          <th>{{ player }}</th>
-        </tr>
-        <tr>
-          <th>セッションID</th>
-          <th>{{ session }}</th>
-        </tr>
-        <tr>
-          <th>説明</th>
-          <th>{{ host }}</th>
-        </tr>
-        <tr>
-          <th>バージョン</th>
-          <th>{{ version }}</th>
-        </tr>
-        <tr>
-          <th>マップ</th>
-          <th>{{ map }}</th>
-        </tr>
-        <tr>
-          <th>シード値</th>
-          <th>{{ seed }}</th>
-        </tr>
-        <tr>
-          <th>プレイヤーの人数</th>
-          <th>{{ num }}</th>
-        </tr>
-        <tr>
-          <th>プレーヤー最大人数</th>
-          <th>{{ num_max }}</th>
-        </tr>
-        <tr>
-          <th>ポート</th>
-          <th>{{ port }}</th>
-        </tr>
-        <tr>
-          <th>ホストのIP</th>
-          <th>{{ ip_host }}</th>
-        </tr>
-        <tr>
-          <th>Error</th>
-          <th style="color: red;">{{ error_t }}</th>
-        </tr>
+<div id="content" style="padding:10px;">
+      <h2 style="font-size:20px;">結果</h2>
+      <table class="table">
+        <thead class="table-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">名前</th>
+            <th scope="col">値</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>IP</td>
+            <td>{{ ip }}</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Port</td>
+            <td>{{ port }}</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Players</td>
+            <td>{{ player }}  ({{ num }}/{{ num_max }})</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>Session-id</td>
+            <td>{{ session }}</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>motd</td>
+            <td>{{ host }}</td>
+          </tr>
+          <tr>
+            <th scope="row">6</th>
+            <td>Ver.</td>
+            <td>{{ version }}</td>
+          </tr>
+          <tr>
+            <th scope="row">7</th>
+            <td>Map</td>
+            <td>{{ map }}</td>
+          </tr>
+          <tr>
+            <th scope="row">8</th>
+            <td>Seed</td>
+            <td>{{ seed }}</td>
+          </tr>
+          <tr>
+            <th scope="row">9</th>
+            <td>Server-port</td>
+            <td>{{ port }}</td>
+          </tr>
+          <tr>
+            <th scope="row">10</th>
+            <td>Server-ip</td>
+            <td>{{ ip_host }}</td>
+          </tr>
+        </tbody>
       </table>
+      <button class="btn btn-outline-primary" type="submit" onclick="window.location.reload()">再送信</button>
 </div>
-{% include "sidebar.html" %}
 </body>

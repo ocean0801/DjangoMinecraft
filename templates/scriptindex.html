@@ -14,30 +14,18 @@
 </head>
 <body>
 {% include "header.html" %}
-<div id="content" style="
-    font-family: 'YuGothB.ttc';
-    float:left;
-    background-color: black;
-    color: white;
-    font-size: 12px;
-    position:absolute;
-    top:80px;
-    right:420px;
-    left:10px;
-    opacity: 0.9; 
-  ">
-    <h2 id="on" style="font-size:20px;">スクリプトの一覧</h2>
+<div id="content" style="padding:10px;">
+    <h2 id="on">スクリプトの一覧</h2>
     {% if latest_question_list %}
     <ul>
-    {% for question in latest_question_list %}
-        <li><a href="/mine/script/{{ question.id }}/" style="color:white;">{{ question.script_name }}</a>:<a href="/mine/script/{{ question.id }}/delete" style="color:red;">削除</a>/<a href="/mine/script/edit/{{ question.id }}" style="color:greenyellow;">編集</a><p>{{ question.script }}</p></li>
-    {% endfor %}
+        {% for question in latest_question_list %}
+            <li><a href="/mine/script/{{ question.id }}/" style="color:black;">{{ question.script_name }}</a>:<a href="/mine/script/{{ question.id }}/delete" style="color:red;">削除</a>/<a href="/mine/script/edit/{{ question.id }}" style="color:green;">編集</a><p>{{ question.script }}</p></li>
+        {% endfor %}
     </ul>
-  {% else %}
+    {% else %}
     <p>ここには何もないようだ....</p>
-{% endif %}
-<h3 style="font-size:20px;"><a href="/mine/script_c/" style="color:white;">スクリプトの追加...</a></h3>
-{{ debug }}
+    {% endif %}
+    <button class="btn btn-outline-success" type="submit" onclick="location.href='/mine/script_c/'">スクリプトの追加....</button>
+    {{ debug }}
 </div>
-{% include "sidebar.html" %}
 </body>

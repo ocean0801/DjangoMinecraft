@@ -220,7 +220,7 @@ def console(request):
         mark_flag = False
         script_falg = False
         list_flag = False
-        if text == "/markup":
+        if text == "\markup":
             mark_flag = True
             kai_flag = True
         if text == "/query":
@@ -231,9 +231,13 @@ def console(request):
             func_du.append(text)
             return_text = "/say "+text
             chat_flag = True
-        elif text == "/config":
+        elif text == "\config":
             config_flag = True
             kai_flag = True
+        elif text == "\claer":
+            log_list = Command_log.objects.all()
+            for i in list:
+                i.delete()
         elif text == "/help":
             kai_flag = True
         elif text[0:7] == "/script":
@@ -549,25 +553,8 @@ def loop_code():
             else:
                 pass
 
-def p():
-    global exit_flag
-    while True:
-        text = input("")
-        texts = text.split(" ")
-        if texts[0] == "flag":
-            with open("flag.txt","w") as f:
-                f.write(texts[1])
-                
-        if texts[0] == "stop":
-            exit_flag = True
-            return
-        if texts[0] == "flags":
-            print(exit_flag)
-            print(end_flag)
 def tasks():
     backbround = threading.Thread(target=loop_code)
     backbround.start()
-    cline = threading.Thread(target=p)
-    cline.start()
 
 #tasks()

@@ -10,23 +10,11 @@
 </head>
 <body>
 {% include "header.html" %}
-<div id="content" style="
-    font-family: 'Press Start 2P';
-    float:left;
-    background-color: black;
-    color: white;
-    font-size: 12px;
-    position:absolute;
-    top:80px;
-    right:420px;
-    left:10px;
-    opacity: 0.9; 
-    padding:10px;
-  ">
+<div id="content">
     <ul>
     <form method="post" action="{% url 'submit' %}">
     {% csrf_token %}
-    <p>Command:<input id="box" type="text" value="" name="command" style="background-color: black;color:white;font-family: 'Press Start 2P';"></p>
+    <p>Command:<input id="box" type="text" value="" name="command" style="color:white;font-family: 'Press Start 2P';"></p>
     </form>
     {% if latest_question_list %}
     {% for question in latest_question_list %}
@@ -45,7 +33,6 @@
 {% endif %}
 
 </div>
-{% include "sidebar.html" %}
 <script>
 document.getElementById("box").focus();
 document.onkeydown = function(e) {

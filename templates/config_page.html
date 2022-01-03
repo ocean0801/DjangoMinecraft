@@ -13,18 +13,7 @@
     </style>
 </head>
 {% include "header.html" %}
-<div id="content" style="
-font-family: 'YuGothB.ttc';
-float:left;
-background-color: black;
-color: white;
-font-size: 12px;
-position:absolute;
-top:80px;
-right:420px;
-left:10px;
-opacity: 0.9; 
-">
+<div id="content" style="padding:10px;" class="container mt-3">
     <form method="post" action="{% url 'submit2' %}">
     {% csrf_token %}
     <h2 style="font-size:25px;">Server config</h2>
@@ -45,7 +34,6 @@ opacity: 0.9;
     </form>
 {{ debug }}
 </div>
-{% include "sidebar.html" %}
 <script>
 document.getElementById("box1").focus();
 </script>

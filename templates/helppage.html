@@ -3,30 +3,12 @@
 <head>  
     <meta charset="utf-8"/>
     <title>HelpPage</title>
-    <link rel="stylesheet" href="/static/bootstrap.css">
     <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
 {% include "header.html" %}
-<div id="content" style="
-    font-family: 'YuGothB.ttc';
-    float:left;
-    background-color: black;
-    color: white;
-    font-size: 12px;
-    position:absolute;
-    top:80px;
-    right:420px;
-    left:10px;
-    opacity: 0.9; 
-    padding:10px;
-  ">
+<div id="content" style="padding:10px;">
     <h3>へるぷぺぇじ</h3>
     <p>Readme読めよ。</p>
-{{ debug }}
 </div>
-{% include "sidebar.html" %}
-<script>
-document.getElementById("box1").focus();
-</script>
 </body>
