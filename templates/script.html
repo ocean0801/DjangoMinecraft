@@ -8,19 +8,7 @@
 </head>
 <body>
 {% include "header.html" %}
-<div id="content" style="
-    font-family: 'YuGothB.ttc';
-    float:left;
-    background-color: black;
-    color: white;
-    font-size: 12px;
-    position:absolute;
-    top:80px;
-    right:420px;
-    left:10px;
-    opacity: 0.9; 
-  ">
-    <p>サイトに書かれているスクリプトを実行します</p>
+<div id="content" style="padding:10px;">
     <h2>{{ script }}</h2>
     <p>>>> {{ script_field }}</p>
     <p>{{ re }}</p>

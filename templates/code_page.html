@@ -25,19 +25,7 @@
 </head>
 <body>
 {% include "header.html" %}
-<div id="content" style="
-    font-family: 'YuGothB.ttc';
-    float:left;
-    background-color: black;
-    color: white;
-    font-size: 12px;
-    position:absolute;
-    top:80px;
-    right:420px;
-    left:10px;
-    opacity: 0.9; 
-    padding:10px;
-    ">
+<div id="content" style="padding:10px;">
     <form method="post" action="{% url 'submit6' %}">
     {% csrf_token %}
     <h3>Code config</h3>
@@ -48,7 +36,6 @@
     </form>
 {{ debug }}
 </div>
-{% include "sidebar.html" %}
 <script>
 document.getElementById("box1").focus();
 </script>

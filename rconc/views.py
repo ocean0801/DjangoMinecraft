@@ -237,6 +237,7 @@ def console(request):
             kai_flag = True
         elif text == "/help":
             kai_flag = True
+            chat_flag = True
         elif text[0:7] == "/script":
             script_falg = True
             try:
@@ -383,31 +384,40 @@ def console(request):
         i.time = str(i.time).replace("日","")
         i.time = str(i.time).replace("+"," ")
         i.time = str(i.time).replace("00:00","")
+    #装飾文字のデコード
+    for i in latest_question_list:
+        if i.chat_flag:
+            print(i.return_text)
+            print("return")
+            #i.return_text = i.return_text[0]
+            print(i.return_text)
+            num = i.return_text.count("§")
+            i.return_text = i.return_text.replace("§0","<br><span style='color:#000000;'>")
+            i.return_text = i.return_text.replace("§1","<br><span style='color:#0000AA;'>")
+            i.return_text = i.return_text.replace("§2","<br><span style='color:#00AA00;'>")
+            i.return_text = i.return_text.replace("§3","<br><span style='color:#00AAAA;'>")
+            i.return_text = i.return_text.replace("§4","<br><span style='color:#AA0000;'>")
+            i.return_text = i.return_text.replace("§5","<br><span style='color:#AA00AA;'>")
+            i.return_text = i.return_text.replace("§6","<br><span style='color:#FFAA00;'>")
+            i.return_text = i.return_text.replace("§7","<br><span style='color:#AAAAAA;'>")
+            i.return_text = i.return_text.replace("§8","<br><span style='color:#555555;'>")
+            i.return_text = i.return_text.replace("§9","<br><span style='color:#5555FF;'>")
+            i.return_text = i.return_text.replace("§a","<br><span style='color:#55FF55;'>")
+            i.return_text = i.return_text.replace("§b","<br><span style='color:#55FFFF;'>")
+            i.return_text = i.return_text.replace("§c","<br><span style='color:#FF5555;'>")
+            i.return_text = i.return_text.replace("§d","<br><span style='color:#FF55FF;'>")
+            i.return_text = i.return_text.replace("§e","<br><span style='color:#FFFF55;'>")
+            i.return_text = i.return_text.replace("§f","<br><span style='color:#FFFFFF;'>")
+            
+            for i2 in range(num):
+                i.return_text = i.return_text + "</span>"
+            #print(i.return_text)
+
     #%kaiでの改行処理
     for i in latest_question_list:
         if i.q_flag:
             text = i.return_text 
             i.return_text = text.split("%kai")
-    for i in latest_question_list:
-        if i.chat_flag:
-            print(i.return_text)
-            i.return_text = i.return_text.replace("§0","</span><span style='color:#000000;'>")
-            i.return_text = i.return_text.replace("§1","</span><span style='color:#0000AA;'>")
-            i.return_text = i.return_text.replace("§2","</span><span style='color:#00AA00;'>")
-            i.return_text = i.return_text.replace("§3","</span><span style='color:#00AAAA;'>")
-            i.return_text = i.return_text.replace("§4","</span><span style='color:#AA0000;'>")
-            i.return_text = i.return_text.replace("§5","</span><span style='color:#AA00AA;'>")
-            i.return_text = i.return_text.replace("§6","</span><span style='color:#FFAA00;'>")
-            i.return_text = i.return_text.replace("§7","</span><span style='color:#AAAAAA;'>")
-            i.return_text = i.return_text.replace("§8","</span><span style='color:#555555;'>")
-            i.return_text = i.return_text.replace("§9","</span><span style='color:#5555FF;'>")
-            i.return_text = i.return_text.replace("§a","</span><span style='color:#55FF55;'>")
-            i.return_text = i.return_text.replace("§b","</span><span style='color:#55FFFF;'>")
-            i.return_text = i.return_text.replace("§c","</span><span style='color:#FF5555;'>")
-            i.return_text = i.return_text.replace("§d","</span><span style='color:#FF55FF;'>")
-            i.return_text = i.return_text.replace("§e","</span><span style='color:#FFFF55;'>")
-            i.return_text = i.return_text.replace("§f","</span><span style='color:#FFFFFF;'>")
-            i.return_text = i.return_text+"</span></span>"
     context = {
         'latest_question_list': test[0:5],"user_name":request.user,"debug":"","logined":request.user.is_authenticated
     }
@@ -532,26 +542,17 @@ def loop_code():
             text = code.code
             text = text.replace("/","")
             text = text.split(" ")
-                
-            with open("flag.txt","r") as f:
-                test = f.readlines()
-                if '0' == test[0]:
-                    end_flag = False
-                else:
-                    end_flag = True
-            if end_flag:
+            #print(code.code_interval)
+            if int(code.code_interval) <= 0:
+                #print("[Code]if")
+                pass
+            else:
                 with Client("127.0.0.1", 25575, passwd="minecraft") as client:
                     print("[Code]"+client.run(*text))
                 time.sleep(int(code.code_interval))
-            else:
-                pass
-            if exit_flag:
-                return
-            else:
-                pass
 
 def tasks():
     backbround = threading.Thread(target=loop_code)
     backbround.start()
 
-#tasks()
+tasks()
