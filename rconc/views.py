@@ -220,7 +220,8 @@ def console(request):
         mark_flag = False
         script_falg = False
         list_flag = False
-        if text == "\markup":
+        test_list = ""
+        if text == "/markup":
             mark_flag = True
             kai_flag = True
         if text == "/query":
@@ -231,13 +232,9 @@ def console(request):
             func_du.append(text)
             return_text = "/say "+text
             chat_flag = True
-        elif text == "\config":
+        elif text == "/config":
             config_flag = True
             kai_flag = True
-        elif text == "\claer":
-            log_list = Command_log.objects.all()
-            for i in list:
-                i.delete()
         elif text == "/help":
             kai_flag = True
         elif text[0:7] == "/script":
@@ -393,8 +390,8 @@ def console(request):
             i.return_text = text.split("%kai")
     for i in latest_question_list:
         if i.chat_flag:
-            text = i.return_text
-            i.return_text = text.replace("§0","</span><span style='color:#000000;'>")
+            print(i.return_text)
+            i.return_text = i.return_text.replace("§0","</span><span style='color:#000000;'>")
             i.return_text = i.return_text.replace("§1","</span><span style='color:#0000AA;'>")
             i.return_text = i.return_text.replace("§2","</span><span style='color:#00AA00;'>")
             i.return_text = i.return_text.replace("§3","</span><span style='color:#00AAAA;'>")

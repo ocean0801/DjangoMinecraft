@@ -8,13 +8,13 @@
     <meta charset="utf-8"/>
     <title>コンソールクライアント</title>
 </head>
-<body>
+<body style="background-color:black;">
 {% include "header.html" %}
-<div id="content">
+<div id="content" style="font-family: 'Press Start 2P';color:white;">
     <ul>
     <form method="post" action="{% url 'submit' %}">
     {% csrf_token %}
-    <p>Command:<input id="box" type="text" value="" name="command" style="color:white;font-family: 'Press Start 2P';"></p>
+    <p>Command:<input id="box" type="text" value="" name="command" style="background-color:black;color:white;font-family: 'Press Start 2P';"></p>
     </form>
     {% if latest_question_list %}
     {% for question in latest_question_list %}
